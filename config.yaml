@@ -18,6 +18,9 @@ params:
     highlight: true
     lineNumbers: false
     theme: "monokai"
+  # Disable search in navbar
+  navbar:
+    search: false
 
 menu:
   main:
