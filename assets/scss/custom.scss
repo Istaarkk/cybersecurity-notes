@@ -54,4 +54,31 @@ pre code .line-numbers {
 .highlight .nt { color: #f92672; } // Tags
 .highlight .nv { color: #f92672; } // Variables
 .highlight .w { color: #f92672; } // Whitespace
+
+// Fix navbar to bottom of page
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+    padding-bottom: 60px; /* Add padding to prevent content from being hidden behind the navbar */
+}
+
+.navbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: var(--card-background);
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
+}
+
+/* Adjust footer to not overlap with fixed navbar */
+.footer {
+    margin-bottom: 60px;
 } 
