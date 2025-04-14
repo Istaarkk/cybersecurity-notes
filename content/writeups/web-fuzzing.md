@@ -10,7 +10,7 @@ tags: ["web", "fuzzing", "pentest", "htb"]
 These writeups cover the **Web Fuzzing** course on HTB.
 
 ## Overview
-These notes cover the **Web Fuzzing** course on HTB.
+These writeups cover the **Web Fuzzing** course on HTB.
 
 ## First Flag
 - To find the first flag, we need to fuzz the site `http://address/FUZZ` using **Feroxbuster**, an open-source tool.
