@@ -102,4 +102,26 @@ header, .header {
 /* Ensure content doesn't get hidden behind navbar */
 article, .article {
     margin-bottom: 20px;
+}
+
+/* Reduce size of overviews */
+.article-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.article-list .article-list-item {
+    margin-bottom: 1rem;
+}
+
+/* Remove shadow from copy button */
+.copy-button {
+    box-shadow: none !important;
+    background-color: transparent !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+.copy-button:hover {
+    background-color: var(--card-background) !important;
 } 
