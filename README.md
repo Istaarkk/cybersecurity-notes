@@ -1,2 +1,0 @@
-# cybersecurity-notes
-Notes
