@@ -1,0 +1,18 @@
+name = "CyberNotes"
+license = "MIT"
+licenselink = "https://github.com/synapse/cybersecurity-notes/blob/main/LICENSE"
+description = "Un thème Hugo pour les notes de cybersécurité"
+homepage = "https://github.com/synapse/cybersecurity-notes"
+tags = ["cybersecurity", "dark", "code", "documentation"]
+features = ["blog", "notes", "code-highlighting"]
+min_version = "0.80.0"
+
+[author]
+  name = "Synapse"
+  homepage = "https://github.com/synapse"
+
+# Configuration du thème
+[params]
+  # Paramètres du thème
+  mainSections = ["notes", "recherches", "veille", "outils"]
+  # Autres paramètres spécifiques au thème 

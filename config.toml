@@ -1,0 +1,71 @@
+baseURL = "https://synapse.github.io/cybersecurity-notes/"
+languageCode = "fr-fr"
+title = "Notes & Recherches Cybersécurité"
+theme = "cybernotes"
+
+# Paramètres du site
+[params]
+  author = "Synapse"
+  description = "Notes techniques, recherches et ressources en cybersécurité"
+  github = "https://github.com/synapse"
+  linkedin = "https://linkedin.com/in/synapse"
+  mastodon = "https://mastodon.social/@synapse"
+
+# Configuration du menu
+[menu]
+  [[menu.main]]
+    identifier = "notes"
+    name = "Notes"
+    url = "/notes/"
+    weight = 10
+  [[menu.main]]
+    identifier = "recherches"
+    name = "Recherches"
+    url = "/recherches/"
+    weight = 20
+  [[menu.main]]
+    identifier = "veille"
+    name = "Veille"
+    url = "/veille/"
+    weight = 30
+  [[menu.main]]
+    identifier = "outils"
+    name = "Outils"
+    url = "/outils/"
+    weight = 40
+  [[menu.main]]
+    identifier = "tags"
+    name = "Tags"
+    url = "/tags/"
+    weight = 50
+  [[menu.main]]
+    identifier = "recherche"
+    name = "Recherche"
+    url = "/recherche/"
+    weight = 55
+  [[menu.main]]
+    identifier = "about"
+    name = "À propos"
+    url = "/about/"
+    weight = 60
+
+# Configuration de la syntaxe
+[markup]
+  [markup.highlight]
+    style = "monokai"
+    lineNos = true
+    lineNumbersInTable = true
+    tabWidth = 4
+    guessSyntax = true
+
+# Configuration des taxonomies
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+
+# Configuration des pages
+[permalinks]
+  notes = "/notes/:filename/"
+  recherches = "/recherches/:filename/"
+  veille = "/veille/:filename/"
+  outils = "/outils/:filename/" 

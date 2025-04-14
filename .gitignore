@@ -1,0 +1,23 @@
+# Hugo default output directory
+/public/
+
+# Hugo cache directory
+/resources/_gen/
+/assets/jsconfig.json
+hugo_stats.json
+
+# Temporary files
+.DS_Store
+Thumbs.db
+*.log
+*.swp
+*~
+
+# Editor directories and files
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw? 

@@ -1,0 +1,15 @@
+<script>
+  window.searchIndex = [
+    {{ range $index, $page := where .Site.RegularPages "Type" "in" .Site.Params.mainSections }}
+    {{- if $index }}, {{ end }}
+    {
+      "title": {{ .Title | jsonify }},
+      "content": {{ .Plain | jsonify }},
+      "url": {{ .Permalink | jsonify }},
+      "tags": {{ .Params.tags | jsonify }},
+      "section": {{ .Section | jsonify }},
+      "date": {{ .Date.Format "2006-01-02" | jsonify }}
+    }
+    {{- end }}
+  ];
+</script> 

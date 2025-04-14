@@ -1,0 +1,18 @@
+{{ $name := .Get "name" }}
+{{ $link := .Get "link" }}
+<div class="tool-reference">
+    <div class="tool-header">
+        <i class="fas fa-tools"></i>
+        <span>{{ $name }}</span>
+    </div>
+    <div class="tool-content">
+        {{ .Inner | markdownify }}
+        {{ if $link }}
+        <div class="tool-link">
+            <a href="{{ $link }}" target="_blank" rel="noopener">
+                <i class="fas fa-external-link-alt"></i> Documentation
+            </a>
+        </div>
+        {{ end }}
+    </div>
+</div> 
