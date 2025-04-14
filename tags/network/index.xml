@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Network on Notes &amp; Recherches Cybersécurité</title><link>https://Istaarkk.github.io/cybersecurity-notes/tags/network/</link><description>Recent content in Network on Notes &amp; Recherches Cybersécurité</description><generator>Hugo</generator><language>fr-fr</language><lastBuildDate>Sun, 14 Apr 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://Istaarkk.github.io/cybersecurity-notes/tags/network/index.xml" rel="self" type="application/rss+xml"/><item><title>Pentesting SNMP - Notes rapides</title><link>https://Istaarkk.github.io/cybersecurity-notes/notes/2024-04-14-pentest-snmp/</link><pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate><guid>https://Istaarkk.github.io/cybersecurity-notes/notes/2024-04-14-pentest-snmp/</guid><description>&lt;h1 id="pentesting-snmp---notes-rapides">Pentesting SNMP - Notes rapides&lt;/h1>
+&lt;div class="note">
+ &lt;div class="note-header">
+ &lt;i class="fas fa-info-circle">&lt;/i>
+ &lt;span>Note&lt;/span>
+ &lt;/div>
+ &lt;div class="note-content">
+ SNMP (Simple Network Management Protocol) est souvent négligé dans les tests de sécurité mais peut révéler des informations sensibles sur les systèmes.
+ &lt;/div>
+&lt;/div> 
+&lt;h2 id="commandes-utiles">Commandes utiles&lt;/h2>
+&lt;h3 id="énumération-snmp">Énumération SNMP&lt;/h3>
+&lt;div class="highlight">&lt;div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Découverte SNMP&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>snmpwalk -v2c -c public 192.168.1.1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Avec communauté privée&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>snmpwalk -v2c -c private 192.168.1.1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># Énumération des utilisateurs Windows&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>snmpwalk -v2c -c public 192.168.1.1 1.3.6.1.4.1.77.1.2.25
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="outils-recommandés">Outils recommandés&lt;/h3>
+
+
+&lt;div class="tool-reference">
+ &lt;div class="tool-header">
+ &lt;i class="fas fa-tools">&lt;/i>
+ &lt;span>onesixtyone&lt;/span>
+ &lt;/div>
+ &lt;div class="tool-content">
+ Scanner SNMP rapide pour tester différentes communautés.
+ 
+ &lt;div class="tool-link">
+ &lt;a href="https://github.com/trailofbits/onesixtyone" target="_blank" rel="noopener">
+ &lt;i class="fas fa-external-link-alt">&lt;/i> Documentation
+ &lt;/a>
+ &lt;/div>
+ 
+ &lt;/div>
+&lt;/div> 
+&lt;h2 id="points-dattention">Points d&amp;rsquo;attention&lt;/h2>
+&lt;div class="warning">
+ &lt;div class="warning-header">
+ &lt;i class="fas fa-exclamation-triangle">&lt;/i>
+ &lt;span>Attention&lt;/span>
+ &lt;/div>
+ &lt;div class="warning-content">
+ Les communautés par défaut (public/private) sont souvent laissées inchangées dans les environnements de production.
+ &lt;/div>
+&lt;/div> 
+&lt;h2 id="bonnes-pratiques">Bonnes pratiques&lt;/h2>
+&lt;ol>
+&lt;li>Désactiver SNMP si non utilisé&lt;/li>
+&lt;li>Utiliser SNMPv3 avec authentification&lt;/li>
+&lt;li>Limiter l&amp;rsquo;accès aux adresses IP spécifiques&lt;/li>
+&lt;li>Changer les communautés par défaut&lt;/li>
+&lt;/ol></description></item></channel></rss>
