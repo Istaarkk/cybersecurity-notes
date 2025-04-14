@@ -1,0 +1,34 @@
+baseURL: "https://istaarkk.github.io/"
+languageCode: "fr-fr"
+title: "Notes & Recherches Cybersécurité"
+theme: "hugo-theme-stack"
+
+params:
+  mainSections:
+    - notes
+    - recherches
+    - veille
+    - outils
+
+menu:
+  main:
+    - identifier: notes
+      name: Notes
+      url: /notes/
+      weight: 10
+    - identifier: recherches
+      name: Recherches
+      url: /recherches/
+      weight: 20
+    - identifier: veille
+      name: Veille
+      url: /veille/
+      weight: 30
+    - identifier: outils
+      name: Outils
+      url: /outils/
+      weight: 40
+
+module:
+  imports:
+    - path: github.com/CaiJimmy/hugo-theme-stack/v3 
