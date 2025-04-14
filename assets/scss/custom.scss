@@ -115,13 +115,46 @@ article, .article {
     margin-bottom: 1rem;
 }
 
-/* Remove shadow from copy button */
-.copy-button {
+/* Remove all shadows and highlights from code blocks */
+.copy-button, 
+.copy-button:hover,
+.copy-button:focus,
+.copy-button:active {
     box-shadow: none !important;
     background-color: transparent !important;
     border: 1px solid var(--border-color) !important;
+    outline: none !important;
 }
 
-.copy-button:hover {
-    background-color: var(--card-background) !important;
+/* Remove selection highlight */
+pre code ::selection,
+pre code ::-moz-selection {
+    background-color: transparent !important;
+    color: inherit !important;
+}
+
+/* Remove line number highlighting */
+pre code .line-numbers span {
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Remove any other highlights or shadows */
+pre code * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+}
+
+/* Ensure code blocks have no selection highlight */
+pre code {
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+}
+
+/* Remove any focus outlines */
+pre code:focus,
+pre code *:focus {
+    outline: none !important;
 } 
