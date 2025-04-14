@@ -1,9 +1,13 @@
 ---
-title: "GDB and NASM Assembly Guide"
+title: "GDB and NASM Assembly Guide - WriteUp"
 date: 2024-04-14
 draft: false
 tags: ["assembly", "gdb", "nasm", "debugging", "reverse-engineering"]
 ---
+
+# GDB and NASM Assembly Guide
+
+This writeup provides a comprehensive guide to using GDB for debugging NASM assembly code, with practical examples and explanations.
 
 ## Instructions and Code for GDB and NASM
 

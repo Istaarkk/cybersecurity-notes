@@ -14,5 +14,5 @@ min_version = "0.80.0"
 # Configuration du thème
 [params]
   # Paramètres du thème
-  mainSections = ["Writeup", "recherches", "veille", "outils"]
+  mainSections = ["writeups", "veille", "outils"]
   # Autres paramètres spécifiques au thème 

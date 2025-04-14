@@ -7,102 +7,87 @@ tags: ["web", "fuzzing", "pentest", "htb"]
 
 # Web Fuzzing
 
-These writeups cover the **Web Fuzzing** course on HTB.
+Ce writeup couvre le cours **Web Fuzzing** sur HTB.
 
-## Overview
-These writeups cover the **Web Fuzzing** course on HTB.
+## Vue d'ensemble
+Le fuzzing web est une technique essentielle en pentesting qui consiste à tester systématiquement les entrées d'une application web pour découvrir des vulnérabilités, des fichiers cachés ou des fonctionnalités non documentées.
 
-## First Flag
-- To find the first flag, we need to fuzz the site `http://address/FUZZ` using **Feroxbuster**, an open-source tool.
+## Premier Flag - Fuzzing de base
+Pour trouver le premier flag, nous devons fuzzer le site en utilisant **Feroxbuster**, un outil open-source.
   
-    ```bash
-    feroxbuster -u http://94.237.61.202:58637/FUZZ -w /root/SecLists/Discovery/Web-Content/directory-list-2.3-medium.txt -x php,html,txt
-    ```
+```bash
+feroxbuster -u http://[TARGET]/FUZZ -w /usr/share/wordlists/dirb/common.txt -x php,html,txt
+```
 
-## Recursive Fuzzing (Second Flag)
-- For recursive fuzzing (to get the second flag), use the following command:
+## Fuzzing récursif (Deuxième Flag)
+Pour le fuzzing récursif (pour obtenir le deuxième flag), utilisez la commande suivante :
 
-    ```bash
-    feroxbuster -u http://94.237.61.202:58637/recursive_fuzz -w /root/SecLists/Discovery/Web-Content/directory-list-2.3-medium.txt -x php,html,txt
-    ```
+```bash
+feroxbuster -u http://[TARGET]/recursive_fuzz -w /usr/share/wordlists/dirb/common.txt -x php,html,txt
+```
 
-## Third Flag - Gobuster or FFUF
-- HTB asks us to use **Gobuster** for this flag, but we can also use **ffuf**:
+## Troisième Flag - Gobuster ou FFUF
+HTB nous demande d'utiliser **Gobuster** pour ce flag, mais nous pouvons aussi utiliser **ffuf** :
 
-    ```bash
-    ffuf -c -ic -t 200 -u http://83.136.251.168:55827/get.php?x=FUZZ -w /root/SecLists/Discovery/Web-Content/common.txt -mc 200
-    ```
+```bash
+ffuf -c -ic -t 200 -u http://[TARGET]/get.php?x=FUZZ -w /usr/share/wordlists/dirb/common.txt -mc 200
+```
 
-## Vhost Fuzzing
-- For virtual host fuzzing, add the host like this:
+## Fuzzing de Virtual Host
+Pour le fuzzing de virtual host, ajoutez l'hôte comme ceci :
 
-    ```bash
-    echo '94.237.61.202:39228\tinlanefreight.htb' | sudo tee -a /etc/hosts
-    ```
+```bash
+echo '[TARGET]\tvhost.htb' | sudo tee -a /etc/hosts
+```
 
-- Then, try the following command:
+Puis, essayez la commande suivante :
 
-    ```bash
-    ffuf -c -ic -t 200 -u http://94.237.61.202:39228 -H "Host: FUZZ.inlanefreight.htb" -w /root/SecLists/Discovery/Web-Content/common.txt
-    ```
+```bash
+ffuf -c -ic -t 200 -u http://[TARGET] -H "Host: FUZZ.vhost.htb" -w /usr/share/wordlists/dirb/common.txt
+```
 
-- Results:
+## Fuzzing d'un autre hôte
+Pour fuzzer un autre hôte, utilisez :
 
-    ```bash
-    ADMIN [Status: 200, Size: 100, Words: 4, Lines: 2, Duration: 31ms]
-    Admin [Status: 200, Size: 100, Words: 4, Lines: 2, Duration: 34ms]
-    admin [Status: 200, Size: 100, Words: 4, Lines: 2, Duration: 19ms]
-    awmdata [Status: 200, Size: 104, Words: 4, Lines: 2, Duration: 22ms]
-    ipdata [Status: 200, Size: 102, Words: 4, Lines: 2, Duration: 15ms]
-    web-beans [Status: 200, Size: 108, Words: 4, Lines: 2, Duration: 15ms]
-    ```
+```bash
+ffuf -c -ic -t 200 -u http://FUZZ.vhost.com -w /usr/share/wordlists/dns/deepmagic.com-prefixes-top50000.txt
+```
 
-## Fuzzing another host
-- To fuzz another host, use:
+## Répertoire caché (Content-Length)
+Pour fuzzer un répertoire caché basé sur la longueur du contenu :
 
-    ```bash
-    ffuf -c -ic -t 200 -u http://FUZZ.inlanefreight.com -w /root/SecLists/Discovery/DNS/subdomains-top1million-5000.txt
-    ```
+```bash
+feroxbuster -u http://[TARGET] -w /usr/share/wordlists/dirb/common.txt -x .php .html .gz -t 300
+```
 
-## Hidden Directory (Content-Length)
-- To fuzz for a hidden directory based on content length:
+Une fois que vous trouvez un fichier `.gz`, utilisez :
 
-    ```bash
-    feroxbuster -u http://83.136.254.23:31915 -w /root/SecLists/Discovery/Web-Content/directory-list-2.3-medium.txt -x .php .html .gz -t 300
-    ```
+```bash
+curl -I http://[TARGET]/hidden/backup.tar.gz
+```
 
-- Once you find a `.gz` file, use:
+## Fuzzing d'API
+Utilisez **ffuf** pour le fuzzing d'API :
 
-    ```bash
-    curl -I http://83.136.254.23:31915/ur-hiddenmember/backup.tar.gz
-    ```
+```bash
+ffuf -c -ic -t 200 -w /usr/share/wordlists/dirb/common.txt -u http://[TARGET]/FUZZ -mc 200
+```
 
-- This will give you the correct content length (22/28).
+Puis utilisez **curl** :
 
-## API Fuzzing
-- Use **ffuf** for API fuzzing:
+```bash
+curl http://[TARGET]/endpoint
+```
 
-    ```bash
-    ffuf -c -ic -t 200 -w /root/SecLists/Discovery/Web-Content/common.txt -u http://94.237.51.84:37078/FUZZ -mc 200
-    ```
+## Étape finale (Trouver le Panel)
+Pour l'étape finale, utilisez :
 
-- Then use **curl**:
+```bash
+feroxbuster -u http://[TARGET] -w /usr/share/wordlists/dirb/common.txt -x .php .html -t 300
+```
 
-    ```bash
-    curl http://94.237.51.84:37078/czcmdcvt
-    ```
+Une fois que vous trouvez un panel, utilisez **ffuf** :
 
-## Final Step (Finding the Panel)
-- For the final step, use:
-
-    ```bash
-    feroxbuster -u http://83.136.254.23:50543 -w /root/SecLists/Discovery/Web-Content/directory-list-2.3-medium.txt -x .php .html -t 300
-    ```
-
-- Once you find a panel, use **ffuf**:
-
-    ```bash
-    ffuf -c -ic -t 200 -w /root/SecLists/Discovery/Web-Content/common.txt -u http://83.136.254.23:50543/admin/panel.php?accessID=FUZZ -mc 200 -fs 58
-    ```
-
-- You will find `getaccess`, which gives you a new host to fuzz. 
+```bash
+ffuf -c -ic -t 200 -w /usr/share/wordlists/dirb/common.txt -u http://[TARGET]/admin/panel.php?accessID=FUZZ -mc 200 -fs 58
+``` 
