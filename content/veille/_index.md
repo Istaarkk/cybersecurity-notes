@@ -4,6 +4,6 @@ date: 2024-04-14
 draft: false
 ---
 
-# Veille Technologique en Cybersécurité
+# Veille Technologique
 
-Cette section contient mes notes de veille sur les dernières vulnérabilités, outils et tendances en cybersécurité. 
+Cette section contient mes writeups de veille sur les dernières vulnérabilités, outils et tendances en cybersécurité. 

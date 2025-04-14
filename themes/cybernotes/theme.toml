@@ -8,11 +8,11 @@ features = ["blog", "notes", "code-highlighting"]
 min_version = "0.80.0"
 
 [author]
-  name = "Synapse"
-  homepage = "https://github.com/synapse"
+  name = "Istark"
+  homepage = "https://github.com/Istaarkk"
 
 # Configuration du thème
 [params]
   # Paramètres du thème
-  mainSections = ["notes", "recherches", "veille", "outils"]
+  mainSections = ["Writeup", "recherches", "veille", "outils"]
   # Autres paramètres spécifiques au thème 

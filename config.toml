@@ -38,10 +38,6 @@ theme = "cybernotes"
     name = "Tags"
     url = "/tags/"
     weight = 50
-  [[menu.main]]
-    identifier = "recherche"
-    name = "Recherche"
-    url = "/recherche/"
     weight = 55
   [[menu.main]]
     identifier = "about"

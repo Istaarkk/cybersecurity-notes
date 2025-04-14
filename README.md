@@ -1,11 +1,11 @@
-# Notes & Recherches Cybersécurité
+# WriteUps & Recherches Cybersécurité
 
-Site statique Hugo pour organiser et partager des notes techniques, recherches et ressources en cybersécurité.
+Site statique Hugo pour organiser et partager des writeups techniques, recherches et ressources en cybersécurité.
 
 ## 🚀 Fonctionnalités
 
 - Thème sombre optimisé pour la lecture de code
-- Shortcodes personnalisés pour les notes, avertissements et références d'outils
+- Shortcodes personnalisés pour les writeups, avertissements et références d'outils
 - Coloration syntaxique avec highlight.js
 - Boutons de copie pour les blocs de code
 - Navigation intuitive avec breadcrumbs
@@ -15,19 +15,15 @@ Site statique Hugo pour organiser et partager des notes techniques, recherches e
 
 ```
 .
-├── content/               # Contenu du site
-│   ├── notes/            # Notes rapides et commandes
-│   ├── recherches/       # Recherches approfondies
-│   ├── veille/          # Résumés de veille
-│   └── outils/          # Documentation d'outils
-├── layouts/              # Templates Hugo
-│   ├── _default/        # Layouts par défaut
-│   ├── partials/        # Composants réutilisables
-│   └── shortcodes/      # Shortcodes personnalisés
-└── static/              # Assets statiques
-    ├── css/             # Styles CSS
-    ├── js/              # Scripts JavaScript
-    └── images/          # Images
+├── archetypes/        # Templates pour les nouveaux contenus
+├── assets/           # Fichiers statiques (CSS, JS, images)
+├── content/          # Contenu du site
+│   ├── writeups/     # Writeups détaillés et commandes
+│   ├── recherches/   # Analyses approfondies
+│   ├── veille/       # Veille technologique
+│   └── outils/       # Scripts et outils
+├── layouts/          # Templates Hugo personnalisés
+└── static/           # Fichiers statiques
 ```
 
 ## 🛠️ Installation
@@ -41,9 +37,9 @@ Site statique Hugo pour organiser et partager des notes techniques, recherches e
 
 ## 📝 Création de contenu
 
-### Notes rapides
+### Writeups rapides
 ```bash
-hugo new notes/YYYY-MM-DD-titre-note.md
+hugo new writeups/YYYY-MM-DD-titre-writeup.md
 ```
 
 ### Recherches

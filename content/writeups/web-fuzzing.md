@@ -1,9 +1,13 @@
 ---
-title: "Web Fuzzing - HTB Course Notes"
+title: "Web Fuzzing - HTB Course WriteUp"
 date: 2024-04-14
 draft: false
 tags: ["web", "fuzzing", "pentest", "htb"]
 ---
+
+# Web Fuzzing
+
+These writeups cover the **Web Fuzzing** course on HTB.
 
 ## Overview
 These notes cover the **Web Fuzzing** course on HTB.

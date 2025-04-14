@@ -1,12 +1,11 @@
-baseURL: "https://istaarkk.github.io/"
+baseURL: "https://Istaarkk.github.io/cybersecurity-notes/"
 languageCode: "fr-fr"
-title: "Notes & Recherches Cybersécurité"
+title: "WriteUps & Recherches Cybersécurité"
 theme: "hugo-theme-stack"
 
 params:
   mainSections:
-    - notes
-    - recherches
+    - writeups
     - veille
     - outils
   # Disable search
@@ -24,9 +23,9 @@ params:
 
 menu:
   main:
-    - identifier: notes
-      name: Notes
-      url: /notes/
+    - identifier: writeups
+      name: WriteUps
+      url: /writeups/
       weight: 10
     - identifier: veille
       name: Veille
