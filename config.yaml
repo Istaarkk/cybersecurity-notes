@@ -28,18 +28,14 @@ menu:
       name: Notes
       url: /notes/
       weight: 10
-    - identifier: recherches
-      name: Recherches
-      url: /recherches/
-      weight: 20
     - identifier: veille
       name: Veille
       url: /veille/
-      weight: 30
+      weight: 20
     - identifier: outils
       name: Outils
       url: /outils/
-      weight: 40
+      weight: 30
 
 module:
   imports:
