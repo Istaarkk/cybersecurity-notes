@@ -1,0 +1,57 @@
+// Custom styles for code blocks
+pre {
+    background-color: #1a1a1a !important;
+    border-radius: 8px;
+    padding: 1.5em !important;
+    margin: 1.5em 0;
+    overflow-x: auto;
+    position: relative;
+}
+
+pre code {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9em;
+    line-height: 1.5;
+    color: #e6e6e6;
+}
+
+// Hide line numbers
+pre code .line-numbers {
+    display: none;
+}
+
+// Hide search bar
+.search-container {
+    display: none !important;
+}
+
+// Improve code block readability
+.highlight {
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    padding: 1.5em;
+    margin: 1.5em 0;
+}
+
+// Better syntax highlighting colors
+.highlight .n { color: #e6e6e6; } // Names
+.highlight .s { color: #a6e22e; } // Strings
+.highlight .k { color: #f92672; } // Keywords
+.highlight .c { color: #75715e; } // Comments
+.highlight .o { color: #f92672; } // Operators
+.highlight .p { color: #f92672; } // Punctuation
+.highlight .nb { color: #66d9ef; } // Built-in
+.highlight .nc { color: #a6e22e; } // Class names
+.highlight .no { color: #f92672; } // Constants
+.highlight .nd { color: #a6e22e; } // Decorators
+.highlight .ni { color: #f92672; } // Entities
+.highlight .ne { color: #f92672; } // Exceptions
+.highlight .nf { color: #a6e22e; } // Functions
+.highlight .nl { color: #f92672; } // Labels
+.highlight .nn { color: #f92672; } // Namespaces
+.highlight .nx { color: #a6e22e; } // Other
+.highlight .py { color: #e6e6e6; } // Property
+.highlight .nt { color: #f92672; } // Tags
+.highlight .nv { color: #f92672; } // Variables
+.highlight .w { color: #f92672; } // Whitespace
+} 

@@ -9,6 +9,15 @@ params:
     - recherches
     - veille
     - outils
+  # Disable search
+  search:
+    enable: false
+  # Code highlighting
+  code:
+    copy: true
+    highlight: true
+    lineNumbers: false
+    theme: "monokai"
 
 menu:
   main:
