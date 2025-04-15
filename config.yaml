@@ -27,6 +27,11 @@ menu:
       name: WriteUps
       url: /writeups/
       weight: 10
+      children:
+        - identifier: pwnme-junior
+          name: PwnMe Junior
+          url: /writeups/pwnme-junior/
+          weight: 10
     - identifier: veille
       name: Veille
       url: /veille/
