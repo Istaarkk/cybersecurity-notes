@@ -6,7 +6,7 @@ draft: false
 
 # À propos
 
-Welcome
+Welcome here you will be able to find some of my works.
 ## À propos de moi
 
 
