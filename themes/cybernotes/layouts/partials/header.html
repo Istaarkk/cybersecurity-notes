@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+    <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ with .Summary }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}{{ end }}">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
+    <meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{ with .Summary }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}{{ end }}">
+    <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+    <meta property="og:url" content="{{ .Permalink }}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/cybersecurity-notes/images/favicon.png">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+    <!-- Highlight.js -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/monokai.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/cybersecurity-notes/css/main.css">
+    <link rel="stylesheet" href="/cybersecurity-notes/css/custom.css">
+    <link rel="stylesheet" href="/cybersecurity-notes/css/dropdown.css">
+    
+    <!-- Highlight.js Script -->
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/lib/highlight.min.js"></script>
+    
+    <!-- Copy Code Script -->
+    <script src="/cybersecurity-notes/js/copy-code.js" defer></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="{{ .Site.BaseURL }}" class="nav-brand">{{ .Site.Title }}</a>
+            <div class="nav-links">
+                {{ range .Site.Menus.main }}
+                {{ if .HasChildren }}
+                <div class="dropdown">
+                    <a href="{{ .URL | absURL }}" class="nav-link">{{ .Name }}</a>
+                    <div class="dropdown-content">
+                        {{ range .Children }}
+                        <a href="{{ .URL | absURL }}" class="dropdown-item">{{ .Name }}</a>
+                        {{ end }}
+                    </div>
+                </div>
+                {{ else }}
+                <a href="{{ .URL | absURL }}" class="nav-link">{{ .Name }}</a>
+                {{ end }}
+                {{ end }}
+            </div>
+        </div>
+    </nav>
+</body>
+</html> 
