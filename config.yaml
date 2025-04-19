@@ -45,6 +45,10 @@ menu:
           name: Reverse Engineering
           url: /writeups/reverse/
           weight: 13
+        - identifier: network
+          name: Network Security
+          url: /writeups/network/
+          weight: 14
     - identifier: veille
       name: Veille
       url: /veille/
