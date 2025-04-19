@@ -11,10 +11,10 @@ Cette section est dédiée aux challenges du Cyber Apocalypse CTF 2024 organisé
 ## Catégories de challenges
 
 ### Reverse Engineering
-- [ImpossibleMaze](/writeups/cyber-apocalypse/2024-04-14-impossiblemaze/) - Un labyrinthe qui semble impossible à résoudre
-- [EndlessCycle](/writeups/cyber-apocalypse/2024-04-14-endlesscycle/) - Une boucle infinie à décrypter
-- [SealedRune](/writeups/cyber-apocalypse/2024-04-14-sealedrune/) - Un défi de décodage d'une rune scellée
-- [EncryptedScroll](/writeups/cyber-apocalypse/2024-04-14-encryptedscroll/) - Un parchemin avec un message crypté
+- [ImpossibleMaze](/writeups/cyber-apocalypse/2024-04-14-impossiblemaze) - Un labyrinthe qui semble impossible à résoudre
+- [EndlessCycle](/writeups/cyber-apocalypse/2024-04-14-endlesscycle) - Une boucle infinie à décrypter
+- [SealedRune](/writeups/cyber-apocalypse/2024-04-14-sealedrune) - Un défi de décodage d'une rune scellée
+- [EncryptedScroll](/writeups/cyber-apocalypse/2024-04-14-encryptedscroll) - Un parchemin avec un message crypté
 
 ## Informations sur le CTF
 

