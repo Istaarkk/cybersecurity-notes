@@ -52,6 +52,10 @@ menu:
           name: Breizh CTF 2025
           url: /writeups/breizh-ctf/
           weight: 16
+        - identifier: cyber-apocalypse
+          name: Cyber Apocalypse 2024
+          url: /writeups/cyber-apocalypse/
+          weight: 17
     - identifier: veille
       name: Veille
       url: /veille/
