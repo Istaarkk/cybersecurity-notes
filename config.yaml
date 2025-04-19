@@ -48,6 +48,10 @@ menu:
           name: PwnMe Junior 2025
           url: /writeups/pwnme-junior/
           weight: 15
+        - identifier: breizh-ctf
+          name: Breizh CTF 2025
+          url: /writeups/breizh-ctf/
+          weight: 16
     - identifier: veille
       name: Veille
       url: /veille/
