@@ -188,12 +188,12 @@ Output from program:
 |   |       |          F|
 +---+---+---+---+---+---+
 
-Congratulations! Flag: HTB{t3rm1n4l_m4z3_m4st3r!}
+Congratulations! Flag: HTB{th3_curs3_is_brok3n!}
 ```
 
 ## Flag
 
-Le flag de ce challenge est : `HTB{t3rm1n4l_m4z3_m4st3r!}`
+Le flag de ce challenge est : `HTB{th3_curs3_is_brok3n!}`
 
 ## Conclusion
 

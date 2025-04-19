@@ -171,11 +171,11 @@ En exécutant notre outil d'analyse, nous avons pu récupérer le flag :
 ```
 $ ./extract_flag
 ...
-Offset 0x008c: HTB{3ndl355_cycl3_0f_x0r_d3c0d}
+Offset 0x008c: HTB{l00k_b3y0nd_th3_w0rld}
 ...
 ```
 
-Le flag de ce challenge est : `HTB{3ndl355_cycl3_0f_x0r_d3c0d}`
+Le flag de ce challenge est : `HTB{l00k_b3y0nd_th3_w0rld}`
 
 ## Conclusion
 
