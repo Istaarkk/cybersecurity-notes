@@ -49,6 +49,10 @@ menu:
           name: Network Security
           url: /writeups/network/
           weight: 14
+        - identifier: pwnme-junior
+          name: PwnMe Junior 2025
+          url: /writeups/pwnme-junior/
+          weight: 15
     - identifier: veille
       name: Veille
       url: /veille/
