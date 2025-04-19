@@ -28,10 +28,22 @@ menu:
       url: /writeups/
       weight: 10
       children:
+        - identifier: web
+          name: Web Hacking
+          url: /writeups/web/
+          weight: 11
+        - identifier: pwn
+          name: Pwn & Exploitation
+          url: /writeups/pwn/
+          weight: 12
+        - identifier: reverse
+          name: Reverse Engineering
+          url: /writeups/reverse/
+          weight: 13
         - identifier: pwnme-junior
           name: PwnMe Junior
           url: /writeups/pwnme-junior/
-          weight: 10
+          weight: 14
     - identifier: veille
       name: Veille
       url: /veille/

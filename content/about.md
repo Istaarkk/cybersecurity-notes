@@ -8,12 +8,6 @@ draft: false
 
 Welcome here you will be able to find some of my works.
 
-## À propos de moi
-
-
-
-## Le site
-
 ## Contact
 
 Vous pouvez me contacter via :
