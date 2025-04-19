@@ -36,11 +36,6 @@ menu:
           name: Pwn & Exploitation
           url: /writeups/pwn/
           weight: 12
-          children:
-            - identifier: pwnme-junior-pwn
-              name: PwnMe Junior
-              url: /writeups/pwn/pwnme-junior/
-              weight: 121
         - identifier: reverse
           name: Reverse Engineering
           url: /writeups/reverse/
