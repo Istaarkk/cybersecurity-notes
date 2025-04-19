@@ -1,7 +1,9 @@
 ---
 title: "Breizh CTF 2025 - Otis"
 date: 2024-04-14
-tags: ["breizh ctf", "pwn", "use-after-free", "heap exploitation"]
+tags: ["use-after-free", "heap-exploitation"]
+categories: ["pwn"]
+ctfs: ["breizh-ctf"]
 ---
 
 # Otis - Breizh CTF 2025

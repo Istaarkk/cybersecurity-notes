@@ -1,7 +1,9 @@
 ---
 title: "Breizh CTF 2025 - JackPwn"
 date: 2024-04-14
-tags: ["breizh ctf", "pwn", "buffer overflow", "exploitation"]
+tags: ["buffer-overflow", "exploitation"]
+categories: ["pwn"]
+ctfs: ["breizh-ctf"]
 ---
 
 # JackPwn - Breizh CTF 2025

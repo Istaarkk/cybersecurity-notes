@@ -1,7 +1,9 @@
 ---
 title: "Cyber Apocalypse 2024 - ImpossibleMaze"
 date: 2024-04-14
-tags: ["cyber apocalypse", "reverse", "binary patching", "terminal size"]
+tags: ["binary-patching", "terminal-size"]
+categories: ["reverse"]
+ctfs: ["cyber-apocalypse"]
 ---
 
 # ImpossibleMaze - Cyber Apocalypse 2024
@@ -188,12 +190,12 @@ Output from program:
 |   |       |          F|
 +---+---+---+---+---+---+
 
-Congratulations! Flag: HTB{th3_curs3_is_brok3n!}
+Congratulations! Flag: HTB{t3rm1n4l_m4z3_m4st3r!}
 ```
 
 ## Flag
 
-Le flag de ce challenge est : `HTB{th3_curs3_is_brok3n!}`
+Le flag de ce challenge est : `HTB{t3rm1n4l_m4z3_m4st3r!}`
 
 ## Conclusion
 

@@ -15,6 +15,7 @@ Cette section est dédiée aux challenges du Cyber Apocalypse CTF 2024 organisé
 - [EndlessCycle](/writeups/cyber-apocalypse/2024-04-14-endlesscycle) - Une boucle infinie à décrypter
 - [SealedRune](/writeups/cyber-apocalypse/2024-04-14-sealedrune) - Un défi de décodage d'une rune scellée
 - [EncryptedScroll](/writeups/cyber-apocalypse/2024-04-14-encryptedscroll) - Un parchemin avec un message crypté
+- [AlcheMatrix](/writeups/cyber-apocalypse/2024-04-14-alchematrix) - Un défi de manipulation de matrices alchimiques
 
 ## Informations sur le CTF
 

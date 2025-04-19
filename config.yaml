@@ -3,6 +3,12 @@ languageCode: "fr-fr"
 title: "WriteUps & Recherches Cybersécurité"
 theme: "cybernotes"
 
+# Configuration des taxonomies
+taxonomies:
+  tag: "tags"
+  category: "categories"
+  ctf: "ctfs"
+
 params:
   mainSections:
     - writeups

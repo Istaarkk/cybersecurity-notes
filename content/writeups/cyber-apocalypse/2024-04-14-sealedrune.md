@@ -1,7 +1,9 @@
 ---
 title: "Cyber Apocalypse 2024 - SealedRune"
 date: 2024-04-14
-tags: ["cyber apocalypse", "reverse", "base64", "string manipulation"]
+tags: ["binary-analysis", "decompilation"]
+categories: ["reverse"]
+ctfs: ["cyber-apocalypse"]
 ---
 
 # SealedRune - Cyber Apocalypse 2024
