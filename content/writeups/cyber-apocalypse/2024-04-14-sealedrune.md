@@ -109,10 +109,10 @@ En entrant le mot de passe correct, le programme nous révèle le flag :
 ```
 $ ./challenge
 Entrez le mot de passe pour desceller la rune : VaelGnuffrraz
-Rune descellée ! Le flag est : HTB{VaelGnuffrraz}
+Rune descellée ! Le flag est : HTB{run3_m4g1c_r3v34l3d}
 ```
 
-Le flag de ce challenge est donc : `HTB{VaelGnuffrraz}`
+Le flag de ce challenge est donc : `HTB{run3_m4g1c_r3v34l3d}`
 
 ## Conclusion
 
