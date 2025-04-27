@@ -13,18 +13,21 @@
     <meta property="og:url" content="{{ .Permalink }}">
     
     <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/cybersecurity-notes/images/favicon.svg">
     <link rel="icon" type="image/png" href="/cybersecurity-notes/images/favicon.png">
     
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Highlight.js -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/monokai.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css">
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/cybersecurity-notes/css/main.css">
     <link rel="stylesheet" href="/cybersecurity-notes/css/custom.css">
     <link rel="stylesheet" href="/cybersecurity-notes/css/dropdown.css">
+    <link rel="stylesheet" href="/cybersecurity-notes/css/enhanced.css">
+    
     {{ if .IsHome }}
     <link rel="stylesheet" href="/cybersecurity-notes/css/homepage.css">
     {{ end }}
@@ -32,18 +35,32 @@
     <!-- Highlight.js Script -->
     <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/lib/highlight.min.js"></script>
     
-    <!-- Copy Code Script -->
+    <!-- Custom Scripts -->
     <script src="/cybersecurity-notes/js/copy-code.js" defer></script>
+    <script src="/cybersecurity-notes/js/enhanced.js" defer></script>
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-content">
-            <a href="{{ .Site.BaseURL }}" class="nav-brand">{{ .Site.Title }}</a>
+            <a href="{{ .Site.BaseURL }}" class="nav-brand">
+                <i class="fas fa-shield-alt"></i> {{ .Site.Title }}
+            </a>
             <div class="nav-links">
                 {{ range .Site.Menus.main }}
                 {{ if .HasChildren }}
                 <div class="dropdown">
-                    <a href="{{ .URL | absURL }}" class="nav-link">{{ .Name }}</a>
+                    <a href="{{ .URL | absURL }}" class="nav-link">
+                        {{ if eq .Name "WriteUps" }}
+                            <i class="fas fa-flag"></i>
+                        {{ else if eq .Name "Veille" }}
+                            <i class="fas fa-rss"></i>
+                        {{ else if eq .Name "Outils" }}
+                            <i class="fas fa-tools"></i>
+                        {{ else }}
+                            <i class="fas fa-folder"></i>
+                        {{ end }}
+                        {{ .Name }}
+                    </a>
                     <div class="dropdown-content">
                         {{ range .Children }}
                         <a href="{{ .URL | absURL }}" class="dropdown-item">{{ .Name }}</a>
@@ -51,7 +68,18 @@
                     </div>
                 </div>
                 {{ else }}
-                <a href="{{ .URL | absURL }}" class="nav-link">{{ .Name }}</a>
+                <a href="{{ .URL | absURL }}" class="nav-link">
+                    {{ if eq .Name "WriteUps" }}
+                        <i class="fas fa-flag"></i>
+                    {{ else if eq .Name "Veille" }}
+                        <i class="fas fa-rss"></i>
+                    {{ else if eq .Name "Outils" }}
+                        <i class="fas fa-tools"></i>
+                    {{ else }}
+                        <i class="fas fa-folder"></i>
+                    {{ end }}
+                    {{ .Name }}
+                </a>
                 {{ end }}
                 {{ end }}
             </div>

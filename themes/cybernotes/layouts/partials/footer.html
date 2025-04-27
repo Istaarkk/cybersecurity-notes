@@ -1,16 +1,64 @@
     <footer class="footer">
         <div class="footer-content">
-            <p>&copy; {{ now.Format "2006" }} {{ .Site.Title }}</p>
-            <div class="social-links">
-                <a href="https://github.com/Istaarkk" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
-                <a href="https://twitter.com/Istaarkk" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
-                <a href="https://linkedin.com/in/synapse" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i></a>
+            <div class="footer-left">
+                <p>&copy; {{ now.Format "2006" }} {{ .Site.Title }}</p>
             </div>
+            <div class="footer-right">
+                <div class="social-links">
+                    <a href="https://github.com/Istaarkk" target="_blank" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" target="_blank" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" target="_blank" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Site propulsé par <a href="https://gohugo.io/" target="_blank">Hugo</a> | Thème <span class="theme-name">CyberNotes</span></p>
         </div>
     </footer>
 
     <!-- Scripts -->
-    <script>hljs.highlightAll();</script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialiser highlight.js
+        hljs.highlightAll();
+        
+        // Ajouter des boutons de copie aux blocs de code
+        document.querySelectorAll('pre code').forEach((block) => {
+            const button = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copier';
+            
+            const pre = block.parentNode;
+            pre.style.position = 'relative';
+            pre.insertBefore(button, pre.firstChild);
+            
+            button.addEventListener('click', () => {
+                navigator.clipboard.writeText(block.textContent);
+                button.textContent = 'Copié !';
+                setTimeout(() => {
+                    button.textContent = 'Copier';
+                }, 2000);
+            });
+        });
+        
+        // Améliorer les liens internes avec une animation de défilement
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    });
+    </script>
     
     <!-- Add analytics or other scripts here -->
 </body>

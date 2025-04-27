@@ -1,0 +1,23 @@
+{{ $related := .Site.RegularPages.Related .Page | first 3 }}
+{{ with $related }}
+<div class="related-posts">
+    <h3><i class="fas fa-link"></i> Articles connexes</h3>
+    <div class="related-grid">
+        {{ range . }}
+        <a href="{{ .RelPermalink }}" class="related-item">
+            <h4>{{ .Title }}</h4>
+            <div class="related-meta">
+                <span class="related-date">{{ .Date.Format "02/01/2006" }}</span>
+                {{ with .Params.tags }}
+                <span class="related-tags">
+                    {{ range first 1 . }}
+                    <span class="tag">{{ . }}</span>
+                    {{ end }}
+                </span>
+                {{ end }}
+            </div>
+        </a>
+        {{ end }}
+    </div>
+</div>
+{{ end }}

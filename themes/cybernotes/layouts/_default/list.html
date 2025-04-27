@@ -2,35 +2,108 @@
 <div class="list-page">
     <header class="page-header">
         <h1>{{ .Title }}</h1>
-        {{ with .Description }}
-        <p class="description">{{ . }}</p>
+        {{ if .Description }}
+        <div class="description">{{ .Description }}</div>
         {{ end }}
     </header>
-
+    
+    <div class="category-filter">
+        <div class="filter-label"><i class="fas fa-filter"></i> Filtrer par :</div>
+        <div class="filter-buttons">
+            <button class="filter-button active" data-filter="all">Tous</button>
+            {{ range $key, $value := .Site.Taxonomies.categories }}
+            <button class="filter-button" data-filter="{{ $key | urlize }}">{{ $key }}</button>
+            {{ end }}
+        </div>
+    </div>
+    
     <div class="content-list">
-        {{ range .Pages.ByDate.Reverse }}
-        <article class="content-item">
-            <header>
-                <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
-                <div class="meta">
-                    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "02/01/2006" }}</time>
-                    {{ with .Params.tags }}
-                    <div class="tags">
-                        {{ range . }}
-                        <a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}" class="tag">{{ . }}</a>
+        {{ range .Pages.GroupByDate "2006" }}
+        <div class="year-group">
+            <h2 class="year-title">{{ .Key }}</h2>
+            <div class="year-content">
+                {{ range .Pages }}
+                <div class="content-item" data-categories="{{ with .Params.categories }}{{ delimit . " " }}{{ end }}">
+                    <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+                    <div class="meta">
+                        <div class="meta-item">
+                            <i class="far fa-calendar-alt"></i>
+                            <span>{{ .Date.Format "02/01/2006" }}</span>
+                        </div>
+                        
+                        {{ with .Params.categories }}
+                        <div class="meta-item">
+                            <i class="fas fa-folder"></i>
+                            <div class="tags">
+                                {{ range . }}
+                                <a href="{{ "/categories/" | relLangURL }}{{ . | urlize }}" class="tag">{{ . }}</a>
+                                {{ end }}
+                            </div>
+                        </div>
                         {{ end }}
+                        
+                        <div class="meta-item reading-time">
+                            <i class="far fa-clock"></i>
+                            <span>{{ .ReadingTime }} min</span>
+                        </div>
+                    </div>
+                    
+                    <div class="summary">
+                        {{ .Summary }}
+                    </div>
+                    
+                    {{ with .Params.tags }}
+                    <div class="tags-group">
+                        <i class="fas fa-tags"></i>
+                        <div class="tags">
+                            {{ range . }}
+                            <a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}" class="tag">{{ . }}</a>
+                            {{ end }}
+                        </div>
                     </div>
                     {{ end }}
+                    
+                    <a href="{{ .Permalink }}" class="read-more">
+                        Lire la suite <i class="fas fa-arrow-right"></i>
+                    </a>
                 </div>
-            </header>
-            {{ with .Summary }}
-            <div class="summary">
-                {{ . }}
+                {{ end }}
             </div>
-            {{ end }}
-            <a href="{{ .Permalink }}" class="read-more">Lire la suite <i class="fas fa-arrow-right"></i></a>
-        </article>
+        </div>
         {{ end }}
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.filter-button');
+    const contentItems = document.querySelectorAll('.content-item');
+    
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Retirer la classe active de tous les boutons
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // Ajouter la classe active au bouton cliqué
+            button.classList.add('active');
+            
+            const filter = button.getAttribute('data-filter');
+            
+            // Filtrer les éléments
+            contentItems.forEach(item => {
+                if (filter === 'all') {
+                    item.style.display = 'block';
+                } else {
+                    const categories = item.getAttribute('data-categories').split(' ');
+                    if (categories.includes(filter)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                }
+            });
+        });
+    });
+});
+</script>
 {{ end }} 
