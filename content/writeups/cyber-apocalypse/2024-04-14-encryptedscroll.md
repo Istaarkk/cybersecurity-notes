@@ -87,7 +87,7 @@ $ python3 exploit.py
 >>> HTB{s1mpl3_fl1p_fl0p_r3v3r1d}
 ```
 
-## Étapes de l'exploitation manuelle
+## Étapes de l'exploitation manuelle 
 
 Si vous souhaitez résoudre ce challenge manuellement sans utiliser de script, voici les étapes à suivre :
 
