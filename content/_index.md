@@ -4,6 +4,19 @@ date: 2024-04-14
 draft: false
 ---
 
+## Bienvenue sur mon Blog de Cybersécurité
+
+Explorez mes WriteUps détaillés de challenges CTF, recherches en sécurité informatique et ressources pour les professionnels et passionnés de cybersécurité.
+
+### Catégories Principales
+
+- [Web Hacking](/writeups/web/) - XSS, CSRF, SQLi, et autres vulnérabilités web
+- [Pwn & Exploitation](/writeups/pwn/) - Buffer overflow, ROP, format string
+- [Reverse Engineering](/writeups/reverse/) - Analyse avec Ghidra, IDA Pro et radare2
+- [Network Security](/writeups/network/) - Exploitation de services réseau
+- [PwnMe Junior 2025](/writeups/pwnme-junior/) - WriteUps complets des challenges
+- [Veille Technologique](/veille/) - Actualités et analyses de vulnérabilités
+
 <div class="hero-section">
   <div class="hero-content">
     <h1 class="hero-title">Bienvenue sur mon Blog de Cybersécurité</h1>

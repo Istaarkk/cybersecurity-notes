@@ -39,12 +39,11 @@ params:
     showAuthor: true
     showBreadcrumbs: true
     showTableOfContents: true
-  # Configuration de la page d'accueil
+  # Affichage des articles récents sur la page d'accueil
   homepage:
-    layout: "profile"  # ou "hero", "card", "background", selon ton choix
+    layout: "profile"
     showRecent: true
-    showRecentItems: 5
-    cardView: true
+    showRecentItems: 6
 
 menu:
   main:
@@ -52,7 +51,6 @@ menu:
       name: WriteUps
       url: /writeups/
       weight: 10
-      # Garde les menus enfants comme avant
     - identifier: veille
       name: Veille
       url: /veille/

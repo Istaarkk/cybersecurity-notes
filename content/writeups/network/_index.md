@@ -1,18 +1,26 @@
 ---
-title: "Network Security"
+title: "WriteUps"
 date: 2024-04-14
-description: "WriteUps de sécurité réseau - énumération, exploitation et pentesting de services réseau"
+description: "Collection de writeups détaillés pour différents challenges et CTFs"
 ---
 
-# Network Security
+# WriteUps de Cybersécurité
 
-Cette section est dédiée aux WriteUps concernant la sécurité des réseaux et des protocoles réseau. J'y aborde des sujets tels que :
+Cette section contient des writeups détaillés de challenges, CTFs et machines que j'ai résolus. Les articles sont organisés par catégorie pour faciliter la navigation.
 
-- Énumération et scanning de réseaux
-- Exploitation de services réseau (FTP, SSH, SMB, etc.)
-- Analyse de protocoles
-- Tests d'intrusion sur des infrastructures réseau
-- Configuration sécurisée de services
-- Détection et exploitation de vulnérabilités réseau
+## Catégories
 
-Ces articles présentent des méthodologies pratiques, des commandes utiles et des techniques de pentesting réseau efficaces. 
+### [Web Hacking](/writeups/web/)
+WriteUps de challenges de sécurité Web - XSS, CSRF, SQLi, etc.
+
+### [Pwn & Exploitation Binaire](/writeups/pwn/)
+WriteUps d'exploitation binaire - Buffer Overflow, ROP, heap exploitation, etc.
+
+### [Reverse Engineering](/writeups/reverse/)
+WriteUps de reverse engineering - analyse statique/dynamique, déobfuscation, etc.
+
+### [Network Security](/writeups/network/)
+WriteUps de sécurité réseau - énumération, exploitation et pentesting de services réseau
+
+### [PwnMe Junior 2025](/writeups/pwnme-junior/)
+WriteUps complets des challenges du CTF PwnMe Junior 2025 

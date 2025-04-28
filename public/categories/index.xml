@@ -2,29 +2,29 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on WriteUps &amp; Recherches Cybersécurité</title>
-    <link>https://Istaarkk.github.io/cybersecurity-notes/categories/</link>
+    <link>http://localhost:1313/cybersecurity-notes/categories/</link>
     <description>Recent content in Categories on WriteUps &amp; Recherches Cybersécurité</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>fr-fr</language>
     <copyright>© 2025 </copyright>
-    <lastBuildDate>Sat, 27 Apr 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://Istaarkk.github.io/cybersecurity-notes/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 27 Apr 2024 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/cybersecurity-notes/categories/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Reverse</title>
-      <link>https://Istaarkk.github.io/cybersecurity-notes/categories/reverse/</link>
+      <link>http://localhost:1313/cybersecurity-notes/categories/reverse/</link>
       <pubDate>Sat, 27 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>https://Istaarkk.github.io/cybersecurity-notes/categories/reverse/</guid>
+      <guid>http://localhost:1313/cybersecurity-notes/categories/reverse/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Pwn</title>
-      <link>https://Istaarkk.github.io/cybersecurity-notes/categories/pwn/</link>
+      <link>http://localhost:1313/cybersecurity-notes/categories/pwn/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>https://Istaarkk.github.io/cybersecurity-notes/categories/pwn/</guid>
+      <guid>http://localhost:1313/cybersecurity-notes/categories/pwn/</guid>
       <description></description>
       
     </item>
