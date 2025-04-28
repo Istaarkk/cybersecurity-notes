@@ -10,7 +10,6 @@ summaryLength = 0
 # pluralizeListTitles = "true" # hugo function useful for non-english languages, find out more in  https://gohugo.io/getting-started/configuration/#pluralizelisttitles
 
 enableRobotsTXT = true
-summaryLength = 30
 hasCJKLanguage = true
 
 buildDrafts = false
@@ -69,3 +68,43 @@ googleAnalytics = "G-PEDMYR1V0K"
       name = 'fragmentrefs'
       type = 'fragments'
       weight = 10
+
+# -- Main Menu --
+# The main menu is displayed in the header at the top of the page.
+# Acceptable parameters are name, pageRef, page, url, title, weight.
+#
+# The simplest menu configuration is to provide:
+#   name = The name to be displayed for this menu link
+#   pageRef = The identifier of the page or section to link to
+#
+# By default the menu is ordered alphabetically. This can be
+# overridden by providing a weight value. The menu will then be
+# ordered by weight from lowest to highest.
+
+[[main]]
+  name = "WriteUps"
+  pageRef = "writeups"
+  weight = 10
+
+[[main]]
+  name = "Veille"
+  pageRef = "veille"
+  weight = 20
+
+[[main]]
+  name = "Outils"
+  pageRef = "outils"
+  weight = 30
+
+# -- Sub Menu --
+[[main.children]]
+  name = "Web Hacking"
+  pageRef = "writeups/web"
+  weight = 11
+
+[[main.children]]
+  name = "Pwn & Exploitation"
+  pageRef = "writeups/pwn"
+  weight = 12
+
+# Ajoute les autres sous-menus selon ton config.yaml
