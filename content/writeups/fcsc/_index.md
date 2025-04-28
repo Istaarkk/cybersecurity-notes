@@ -27,4 +27,4 @@ La compétition couvre plusieurs domaines de la cybersécurité :
 
 ## Writeups disponibles
 
-{{< list-pages section="fcsc" >}} 
+Les writeups sont organisés par date de publication. Cliquez sur un titre pour accéder au writeup complet. 
