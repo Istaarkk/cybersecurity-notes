@@ -6,28 +6,38 @@
     <description>Recent content in Buffer-Overflow on WriteUps &amp; Recherches Cybersécurité</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>fr-fr</language>
-    <lastBuildDate>Sun, 14 Apr 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://Istaarkk.github.io/cybersecurity-notes/tags/buffer-overflow/index.xml" rel="self" type="application/rss+xml" />
+    <copyright>© 2025 </copyright>
+    <lastBuildDate>Sun, 14 Apr 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://Istaarkk.github.io/cybersecurity-notes/tags/buffer-overflow/index.xml" rel="self" type="application/rss+xml" />
+    
     <item>
       <title>Breizh CTF 2025 - JackPwn</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/breizh-ctf/2024-04-14-breizh-jackpwn/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
+      
       <guid>https://Istaarkk.github.io/cybersecurity-notes/writeups/breizh-ctf/2024-04-14-breizh-jackpwn/</guid>
-      <description>JackPwn - Breizh CTF 2025 Description du challenge JackPwn est un challenge de la catégorie Pwn du Breizh CTF 2025. Il simule un jeu de roulette avec une vulnérabilité de buffer overflow.&#xA;Analyse du binaire Voici le code source du binaire :&#xA;#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;string.h&amp;gt; #include &amp;lt;time.h&amp;gt; #define MISE 2 const char roulette[] = &amp;#34;xRNRNRNRNRNNRNRNRNRRNRNRNRNRNNRNRNRNR&amp;#34;; void read_input(char *buf) { char c; while (1) { c = getchar(); if (c == &amp;#39;\n&amp;#39;) { *(buf++) = 0; break; } else if (c == EOF) { exit(0); } *(buf++) = c; } } int get_random_number() { return 1 + (random() % 36); } int main() { int bille; char gagne; char valide, rouge, noir, pair, impair; struct { char mise[32]; int solde; } ctx; ctx.</description>
+      <description>JackPwn - Breizh CTF 2025 # Description du challenge # JackPwn est un challenge de la catégorie Pwn du Breizh CTF 2025.</description>
+      
     </item>
+    
     <item>
       <title>PwnMe Junior 2025 - Overflowme</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/pwnme-junior/2024-04-14-pwnme-overflowme/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
+      
       <guid>https://Istaarkk.github.io/cybersecurity-notes/writeups/pwnme-junior/2024-04-14-pwnme-overflowme/</guid>
-      <description>Write-up: Overflowme - PwnMe Junior 2025 Description Overflowme est un challenge de type &amp;ldquo;buffer overflow&amp;rdquo; classique, parfait pour s&amp;rsquo;initier aux techniques d&amp;rsquo;exploitation basiques.&#xA;Analyse du binaire Le programme est un binaire ELF 64 bits qui demande un nom d&amp;rsquo;utilisateur, puis vérifie si l&amp;rsquo;utilisateur est &amp;ldquo;admin&amp;rdquo;. Si ce n&amp;rsquo;est pas le cas, il affiche un message d&amp;rsquo;erreur.&#xA;Voici un extrait du code source :&#xA;#include &amp;lt;stdio.h&amp;gt; #include &amp;lt;string.h&amp;gt; int main() { char username[32]; int is_admin = 0; printf(&amp;#34;Username: &amp;#34;); gets(username); // Vulnérabilité: utilisation de gets() if (is_admin) { printf(&amp;#34;Welcome, admin!</description>
+      <description>Write-up: Overflowme - PwnMe Junior 2025 # Description # Overflowme est un challenge de type &amp;ldquo;buffer overflow&amp;rdquo; classique, parfait pour s&amp;rsquo;initier aux techniques d&amp;rsquo;exploitation basiques.</description>
+      
     </item>
+    
     <item>
       <title>PwnMe Junior 2025 - overflowme WriteUp</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/pwn/pwnme-junior/2024-04-14-pwnme-overflowme/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
+      
       <guid>https://Istaarkk.github.io/cybersecurity-notes/writeups/pwn/pwnme-junior/2024-04-14-pwnme-overflowme/</guid>
-      <description>PwnMe Junior 2025 - overflowme WriteUp Description du challenge Le challenge overflowme est un exercice de buffer overflow sur un binaire 64 bits. Le programme attend une entrée utilisateur et contient une vulnérabilité qui permet d&amp;rsquo;écraser l&amp;rsquo;adresse de retour.&#xA;Analyse du binaire Vérification des protections $ checksec overflowme [*] &amp;#39;/home/synapse/pwnme-junior-2025/pwn/overflowme/overflowme&amp;#39; Arch: amd64-64-little RELRO: Partial RELRO Stack: No canary found NX: NX enabled PIE: No PIE (0x400000) Exploitation Plan d&amp;rsquo;attaque Envoyer &amp;ldquo;5&amp;rdquo; comme première entrée Overflow du buffer avec un offset de 72 bytes Écraser l&amp;rsquo;adresse de retour avec l&amp;rsquo;adresse de la fonction win (0x401417) Script d&amp;rsquo;exploitation from pwn import * context.</description>
+      <description>PwnMe Junior 2025 - overflowme WriteUp # Description du challenge # Le challenge overflowme est un exercice de buffer overflow sur un binaire 64 bits.</description>
+      
     </item>
+    
   </channel>
 </rss>

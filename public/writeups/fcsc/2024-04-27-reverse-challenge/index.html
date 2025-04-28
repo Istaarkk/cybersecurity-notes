@@ -1,148 +1,568 @@
 <!DOCTYPE html>
-<html lang="fr-fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FCSC 2024 - Challenge de Reverse Engineering | WriteUps &amp; Recherches Cybersécurité</title>
-    <meta name="description" content="Write-up: Challenge de Reverse Engineering Introduction Ce write-up présente la résolution d&rsquo;un challenge de reverse engineering où nous devions analyser du code assembleur pour trouver un flag au format FCSC{&hellip;}.
-Analyse du code Le code fourni est une représentation désassemblée d&rsquo;un programme binaire. En analysant les fonctions principales, nous avons pu comprendre le fonctionnement général du programme:
-main() initialise le programme et déchiffre trois chaînes de caractères en effectuant un XOR avec des constantes (0x42, 0x13, 0x37) Le programme obtient une entrée utilisateur via VsvYbpipYYgRoCeFtoxhtAmdFuNu3WvV() Cette entrée est transformée par wKtyPoT4WdyrkVzhvYUfvqo3M9iPVMd3() Le résultat est comparé avec une valeur cible (jMunhwoW4bRqeCdJfXvfNrRm) dans VakkEeHbtHMpNqXPMkadR4v7K() Le mécanisme de chiffrement La fonction clé est wKtyPoT4WdyrkVzhvYUfvqo3M9iPVMd3() qui transforme l&rsquo;entrée utilisateur comme suit:">
+<html lang="fr-fr" dir="ltr" class="scroll-smooth" data-default-appearance="light"
+  data-auto-appearance="true"><head>
+  <meta charset="utf-8" />
+  
+  <meta http-equiv="content-language" content="fr-fr" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  
+  <title>FCSC 2024 - Challenge de Reverse Engineering &middot; WriteUps & Recherches Cybersécurité</title>
+  <meta name="title" content="FCSC 2024 - Challenge de Reverse Engineering &middot; WriteUps & Recherches Cybersécurité" />
+  
+  
+  <meta name="keywords" content="reverse-engineering, assembly, cryptography, " />
+  
+  
+  <link rel="canonical" href="https://Istaarkk.github.io/cybersecurity-notes/writeups/fcsc/2024-04-27-reverse-challenge/" />
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <link type="text/css" rel="stylesheet" href="/cybersecurity-notes/css/main.bundle.min.446a8b9c076e66da0e80c76714e26dd9ec36f07c75a6f91f2ed5b9140c8f48bf53e431c5e426df98e3e593b9b3c6266a60d611aa69cce9f4811297f4d5772c6d.css"
+    integrity="sha512-RGqLnAduZtoOgMdnFOJt2ew28Hx1pvkfLtW5FAyPSL9T5DHF5CbfmOPlk7mzxiZqYNYRqmnM6fSBEpf01XcsbQ==" />
+  
+  
+  <script type="text/javascript" src="/cybersecurity-notes/js/appearance.min.516a16745bea5a9bd011138d254cc0fd3973cd55ce6e15f3dec763e7c7c2c7448f8fe7b54cca811cb821b0c7e12cd161caace1dd794ac3d34d40937cbcc9ee12.js"
+    integrity="sha512-UWoWdFvqWpvQERONJUzA/TlzzVXObhXz3sdj58fCx0SPj&#43;e1TMqBHLghsMfhLNFhyqzh3XlKw9NNQJN8vMnuEg=="></script>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script defer type="text/javascript" id="script-bundle" src="/cybersecurity-notes/js/main.bundle.min.3e799af2f1a7f8e544f5e726c96685341c479ea0ce5b92b89e40960414531c692357fad2f4a4d166a22fc3751d13b5b5b29b2432cbae402e868182f90e15ad00.js"
+    integrity="sha512-Pnma8vGn&#43;OVE9ecmyWaFNBxHnqDOW5K4nkCWBBRTHGkjV/rS9KTRZqIvw3UdE7W1spskMsuuQC6GgYL5DhWtAA==" data-copy="" data-copied=""></script>
+  
+  
+  
+  <script src="/cybersecurity-notes/lib/zoom/zoom.min.f592a181a15d2a5b042daa7f746c3721acf9063f8b6acd175d989129865a37d400ae0e85b640f9ad42cd98d1f8ad30931718cf8811abdcc5fcb264400d1a2b0c.js" integrity="sha512-9ZKhgaFdKlsELap/dGw3Iaz5Bj&#43;Las0XXZiRKYZaN9QArg6FtkD5rULNmNH4rTCTFxjPiBGr3MX8smRADRorDA=="></script>
+  
+  
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/cybersecurity-notes/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/cybersecurity-notes/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/cybersecurity-notes/favicon-16x16.png" />
+  <link rel="manifest" href="/cybersecurity-notes/site.webmanifest" />
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:title" content="FCSC 2024 - Challenge de Reverse Engineering" />
+<meta property="og:description" content="Write-up: Challenge de Reverse Engineering # Introduction # Ce write-up présente la résolution d&rsquo;un challenge de reverse engineering où nous devions analyser du code assembleur pour trouver un flag au format FCSC{&hellip;}." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Istaarkk.github.io/cybersecurity-notes/writeups/fcsc/2024-04-27-reverse-challenge/" /><meta property="article:section" content="writeups" />
+<meta property="article:published_time" content="2024-04-27T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-04-27T00:00:00+00:00" />
+
+
+  <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="FCSC 2024 - Challenge de Reverse Engineering"/>
+<meta name="twitter:description" content="Write-up: Challenge de Reverse Engineering # Introduction # Ce write-up présente la résolution d&rsquo;un challenge de reverse engineering où nous devions analyser du code assembleur pour trouver un flag au format FCSC{&hellip;}."/>
+
+  
+  <script type="application/ld+json">
+  [{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "WriteUps",
+    "name": "FCSC 2024 - Challenge de Reverse Engineering",
+    "headline": "FCSC 2024 - Challenge de Reverse Engineering",
     
+    "abstract": "Write-up: Challenge de Reverse Engineering # Introduction # Ce write-up présente la résolution d\u0026rsquo;un challenge de reverse engineering où nous devions analyser du code assembleur pour trouver un flag au format FCSC{\u0026hellip;}.",
+    "inLanguage": "fr-fr",
+    "url" : "https:\/\/Istaarkk.github.io\/cybersecurity-notes\/writeups\/fcsc\/2024-04-27-reverse-challenge\/",
+    "author" : {
+      "@type": "Person",
+      "name": ""
+    },
+    "copyrightYear": "2024",
+    "dateCreated": "2024-04-27T00:00:00\u002b00:00",
+    "datePublished": "2024-04-27T00:00:00\u002b00:00",
     
-    <meta property="og:title" content="FCSC 2024 - Challenge de Reverse Engineering">
-    <meta property="og:description" content="Write-up: Challenge de Reverse Engineering Introduction Ce write-up présente la résolution d&rsquo;un challenge de reverse engineering où nous devions analyser du code assembleur pour trouver un flag au format FCSC{&hellip;}.
-Analyse du code Le code fourni est une représentation désassemblée d&rsquo;un programme binaire. En analysant les fonctions principales, nous avons pu comprendre le fonctionnement général du programme:
-main() initialise le programme et déchiffre trois chaînes de caractères en effectuant un XOR avec des constantes (0x42, 0x13, 0x37) Le programme obtient une entrée utilisateur via VsvYbpipYYgRoCeFtoxhtAmdFuNu3WvV() Cette entrée est transformée par wKtyPoT4WdyrkVzhvYUfvqo3M9iPVMd3() Le résultat est comparé avec une valeur cible (jMunhwoW4bRqeCdJfXvfNrRm) dans VakkEeHbtHMpNqXPMkadR4v7K() Le mécanisme de chiffrement La fonction clé est wKtyPoT4WdyrkVzhvYUfvqo3M9iPVMd3() qui transforme l&rsquo;entrée utilisateur comme suit:">
-    <meta property="og:type" content="article">
-    <meta property="og:url" content="https://Istaarkk.github.io/cybersecurity-notes/writeups/fcsc/2024-04-27-reverse-challenge/">
+    "dateModified": "2024-04-27T00:00:00\u002b00:00",
     
+    "keywords": ["reverse-engineering","assembly","cryptography"],
     
-    <link rel="icon" type="image/svg+xml" href="/cybersecurity-notes/images/favicon.svg">
-    <link rel="icon" type="image/png" href="/cybersecurity-notes/images/favicon.png">
-    
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css">
-    
-    
-    <link rel="stylesheet" href="/cybersecurity-notes/css/main.css">
-    <link rel="stylesheet" href="/cybersecurity-notes/css/custom.css">
-    <link rel="stylesheet" href="/cybersecurity-notes/css/dropdown.css">
-    <link rel="stylesheet" href="/cybersecurity-notes/css/enhanced.css">
-    
-    
-    
-    
-    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/lib/highlight.min.js"></script>
-    
-    
-    <script src="/cybersecurity-notes/js/copy-code.js" defer></script>
-    <script src="/cybersecurity-notes/js/enhanced.js" defer></script>
+    "mainEntityOfPage": "true",
+    "wordCount": "546"
+  }]
+  </script>
+
+
+  
+  
+  
+  
+  
+
+<script src="/cybersecurity-notes/lib/jquery/jquery.slim.min.b0dca576e87d7eaa5850ae4e61759c065786cdb6489d68fcc82240539eebd5da522bdb4fda085ffd245808c8fe2acb2516408eb774ef26b5f6015fc6737c0ea8.js" integrity="sha512-sNylduh9fqpYUK5OYXWcBleGzbZInWj8yCJAU57r1dpSK9tP2ghf/SRYCMj&#43;KsslFkCOt3TvJrX2AV/Gc3wOqA=="></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  <meta name="theme-color"/>
+  
+  
 </head>
-<body>
-    <nav class="navbar">
-        <div class="nav-content">
-            <a href="https://Istaarkk.github.io/cybersecurity-notes/" class="nav-brand">
-                <i class="fas fa-shield-alt"></i> WriteUps &amp; Recherches Cybersécurité
-            </a>
-            <div class="nav-links">
-                
-                
-                <a href="https://Istaarkk.github.io/cybersecurity-notes/writeups/" class="nav-link">
-                    
-                        <i class="fas fa-flag"></i>
-                    
-                    WriteUps
-                </a>
-                
-                
-                
-                <a href="https://Istaarkk.github.io/cybersecurity-notes/veille/" class="nav-link">
-                    
-                        <i class="fas fa-rss"></i>
-                    
-                    Veille
-                </a>
-                
-                
-                
-                <a href="https://Istaarkk.github.io/cybersecurity-notes/outils/" class="nav-link">
-                    
-                        <i class="fas fa-tools"></i>
-                    
-                    Outils
-                </a>
-                
-                
-            </div>
-        </div>
-    </nav>
-</body>
-</html> 
-<main class="content">
+<body
+  class="flex flex-col h-screen px-6 m-auto text-lg leading-7 max-w-7xl bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32 scrollbar-thin scrollbar-track-neutral-200 scrollbar-thumb-neutral-400 dark:scrollbar-track-neutral-800 dark:scrollbar-thumb-neutral-600">
+  <div id="the-top" class="absolute flex self-center">
+    <a class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600"
+      href="#main-content"><span
+        class="font-bold text-primary-600 ltr:pr-2 rtl:pl-2 dark:text-primary-400">&darr;</span>Skip to main content</a>
+  </div>
+  
+  
+  <div style="padding-left:0;padding-right:0;padding-top:2px;padding-bottom:3px"
+    class="main-menu flex items-center justify-between px-4 py-6 sm:px-6 md:justify-start gap-x-3">
     
-<article class="single-page">
-    <header class="page-header">
-        <div class="breadcrumbs">
-            <a href="https://Istaarkk.github.io/cybersecurity-notes/">Accueil</a> &gt;
+    <div class="flex flex-1 items-center justify-between">
+        <nav class="flex space-x-3">
+
+            
+            <a href="/cybersecurity-notes/" class="text-base font-medium text-gray-500 hover:text-gray-900">WriteUps &amp; Recherches Cybersécurité</a>
+            
+
+        </nav>
+        <nav class="hidden md:flex items-center gap-x-5 md:ml-12 h-12">
+
             
             
-            <a href="/categories/reverse">reverse</a> &gt;
+            
+  <a href="/cybersecurity-notes/writeups/"  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+    
+    <p class="text-base font-medium" title="">
+        WriteUps
+    </p>
+</a>
+
+
+
             
             
-            <span>FCSC 2024 - Challenge de Reverse Engineering</span>
-        </div>
-        
-        <h1>FCSC 2024 - Challenge de Reverse Engineering</h1>
-        
-        <div class="meta">
-            <div class="meta-item">
-                <i class="far fa-calendar-alt"></i>
-                <span>27/04/2024</span>
+  <a href="/cybersecurity-notes/veille/"  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+    
+    <p class="text-base font-medium" title="">
+        Veille
+    </p>
+</a>
+
+
+
+            
+            
+  <a href="/cybersecurity-notes/outils/"  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+    
+    <p class="text-base font-medium" title="">
+        Outils
+    </p>
+</a>
+
+
+
+            
+            
+
+            
+
+
+            
+            <button id="search-button" aria-label="Search" class="text-base hover:text-primary-600 dark:hover:text-primary-400"
+                title="">
+                
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+            </button>
+            
+
+
+            
+            
+            <div
+                class=" flex items-center">
+                <button id="appearance-switcher" aria-label="Dark mode switcher" type="button" class="text-base hover:text-primary-600 dark:hover:text-primary-400">
+                    <div class="flex items-center justify-center dark:hidden">
+                        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+
+  </span>
+
+
+                    </div>
+                    <div class="items-center justify-center hidden dark:flex">
+                        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+
+  </span>
+
+
+                    </div>
+                </button>
             </div>
             
+
+        </nav>
+        <div class="flex md:hidden items-center gap-x-5 md:ml-12 h-12">
+
+            <span></span>
+
             
-            <div class="meta-item">
-                <i class="fas fa-tags"></i>
-                <div class="tags">
+
+
+            
+            <button id="search-button-mobile" aria-label="Search" class="text-base hover:text-primary-600 dark:hover:text-primary-400"
+                title="">
+                
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+            </button>
+            
+
+            
+            
+            <button id="appearance-switcher-mobile" aria-label="Dark mode switcher" type="button" class="text-base hover:text-primary-600 dark:hover:text-primary-400 ltr:mr-1 rtl:ml-1">
+                <div class="flex items-center justify-center dark:hidden">
                     
-                    <a href="/tags/reverse-engineering" class="tag">reverse-engineering</a>
-                    
-                    <a href="/tags/assembly" class="tag">assembly</a>
-                    
-                    <a href="/tags/cryptography" class="tag">cryptography</a>
-                    
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+
+  </span>
+
+
                 </div>
-            </div>
-            
-            
-            
-            <div class="meta-item">
-                <i class="fas fa-flag"></i>
-                <div class="tags">
+                <div class="items-center justify-center hidden dark:flex">
                     
-                    <a href="/ctfs/fcsc" class="tag">fcsc</a>
-                    
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+
+  </span>
+
+
                 </div>
-            </div>
+            </button>
             
-            
-            <div class="meta-item reading-time">
-                <i class="far fa-clock"></i>
-                <span>3 min</span>
-            </div>
+
         </div>
-    </header>
+    </div>
+    <div class="-my-2 md:hidden">
+
+        <label id="menu-button" class="block">
+            
+            <div class="cursor-pointer hover:text-primary-600 dark:hover:text-primary-400">
+                
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"/></svg>
+
+  </span>
+
+
+            </div>
+            <div id="menu-wrapper" style="padding-top:5px;"
+                class="fixed inset-0 z-30 invisible w-screen h-screen m-0 overflow-auto transition-opacity opacity-0 cursor-default bg-neutral-100/50 backdrop-blur-sm dark:bg-neutral-900/50">
+                <ul
+                    class="flex space-y-2 mt-3 flex-col items-end w-full px-6 py-6 mx-auto overflow-visible list-none ltr:text-right rtl:text-left max-w-7xl">
+
+                    <li id="menu-close-button">
+                        <span
+                            class="cursor-pointer inline-block align-text-bottom hover:text-primary-600 dark:hover:text-primary-400">
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+
+  </span>
+
+</span>
+                    </li>
+
+                    
+
+                    
+  <li class="mt-1">
+    <a href="/cybersecurity-notes/writeups/"  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+        
+        <p class="text-bg font-bg" title="">
+            WriteUps
+        </p>
+    </a>
+</li>
+
+
+
+
+                    
+
+                    
+  <li class="mt-1">
+    <a href="/cybersecurity-notes/veille/"  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+        
+        <p class="text-bg font-bg" title="">
+            Veille
+        </p>
+    </a>
+</li>
+
+
+
+
+                    
+
+                    
+  <li class="mt-1">
+    <a href="/cybersecurity-notes/outils/"  class="flex items-center text-gray-500 hover:text-primary-600 dark:hover:text-primary-400">
+        
+        <p class="text-bg font-bg" title="">
+            Outils
+        </p>
+    </a>
+</li>
+
+
+
+
+                    
+
+                </ul>
+                
+                
+
+            </div>
+        </label>
+    </div>
+</div>
+
+
+
+
+
+  
+  <div class="relative flex flex-col grow">
+    <main id="main-content" class="grow">
+      
+
+
+<article>
+  
+
+  <header id="single_header" class="mt-5 max-w-prose">
+    
+    <ol class="text-sm text-neutral-500 dark:text-neutral-400 print:hidden">
+  
+  
+    
+  
+    
+  
+    
+  
+  <li class="hidden">
+    <a
+      class="hover:underline decoration-neutral-300 dark:underline-neutral-600"
+      href="/cybersecurity-notes/"
+      >WriteUps &amp; Recherches Cybersécurité</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+  
+  <li class="inline">
+    <a
+      class="hover:underline decoration-neutral-300 dark:underline-neutral-600"
+      href="/cybersecurity-notes/writeups/"
+      >WriteUps</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+  
+  <li class="inline">
+    <a
+      class="hover:underline decoration-neutral-300 dark:underline-neutral-600"
+      href="/cybersecurity-notes/writeups/fcsc/"
+      >FCSC Writeups</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+  
+  <li class="hidden">
+    <a
+      class="hover:underline decoration-neutral-300 dark:underline-neutral-600"
+      href="/cybersecurity-notes/writeups/fcsc/2024-04-27-reverse-challenge/"
+      >FCSC 2024 - Challenge de Reverse Engineering</a
+    ><span class="px-1 text-primary-500">/</span>
+  </li>
+
+</ol>
+
+
+    
+    <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+      FCSC 2024 - Challenge de Reverse Engineering
+    </h1>
+    <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+      
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="flex flex-row flex-wrap items-center">
+  
+  
+  <time datetime="2024-04-27T00:00:00&#43;00:00">April 27, 2024</time><span class="px-2 text-primary-500">&middot;</span><span>546 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">3 mins</span>
+  
+
+  
+  
+</div>
+
+
+
+
+
+
+
+
+    </div>
+
     
     
-    <div class="toc-container">
-        <div class="toc-header">
-            <i class="fas fa-list"></i> Table des matières
-        </div>
-        <div class="toc-content">
-            <nav id="TableOfContents">
+    
+    
+    
+
+    
+
+    
+      
+      
+        
+        
+<div class="flex author">
+  
+  <div class="place-self-center">
+    
+    
+    <div class="text-2xl sm:text-lg">
+</div>
+  </div>
+</div>
+
+      
+
+      
+
+      
+      <div class="mb-5"></div>
+      
+
+    
+
+  </header>
+  
+  <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
+    
+     <div
+      class="order-first lg:ml-auto px-0 lg:order-last ltr:lg:pl-8 rtl:lg:pr-8">
+      <div class="toc ltr:pl-5 rtl:pr-5 print:hidden lg:sticky lg:top-10">
+
+         <details open id="TOCView"
+  class="toc-right mt-0 overflow-y-scroll overscroll-contain scrollbar-thin scrollbar-track-neutral-200 scrollbar-thumb-neutral-400 dark:scrollbar-track-neutral-800 dark:scrollbar-thumb-neutral-600 rounded-lg ltr:-ml-5 ltr:pl-5 rtl:-mr-5 rtl:pr-5 hidden lg:block">
+  <summary
+    class="block py-1 text-lg font-semibold cursor-pointer bg-neutral-100 text-neutral-800 ltr:-ml-5 ltr:pl-5 rtl:-mr-5 rtl:pr-5 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden">
+    Table of Contents
+  </summary>
+  <div
+    class="min-w-[220px] py-2 border-dotted ltr:-ml-5 ltr:border-l ltr:pl-5 rtl:-mr-5 rtl:border-r rtl:pr-5 dark:border-neutral-600">
+    <nav id="TableOfContents">
   <ul>
     <li><a href="#introduction">Introduction</a></li>
     <li><a href="#analyse-du-code">Analyse du code</a></li>
@@ -153,15 +573,104 @@ main() initialise le programme et déchiffre trois chaînes de caractères en ef
     <li><a href="#conclusion">Conclusion</a></li>
   </ul>
 </nav>
-        </div>
-    </div>
+  </div>
+</details>
+<details class="toc-inside mt-0 overflow-hidden rounded-lg ltr:-ml-5 ltr:pl-5 rtl:-mr-5 rtl:pr-5 lg:hidden">
+  <summary
+    class="py-1 text-lg font-semibold cursor-pointer bg-neutral-100 text-neutral-800 ltr:-ml-5 ltr:pl-5 rtl:-mr-5 rtl:pr-5 dark:bg-neutral-700 dark:text-neutral-100 lg:hidden">
+    Table of Contents
+  </summary>
+  <div
+    class="py-2 border-dotted border-neutral-300 ltr:-ml-5 ltr:border-l ltr:pl-5 rtl:-mr-5 rtl:border-r rtl:pr-5 dark:border-neutral-600">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#analyse-du-code">Analyse du code</a></li>
+    <li><a href="#le-mécanisme-de-chiffrement">Le mécanisme de chiffrement</a></li>
+    <li><a href="#données-importantes">Données importantes</a></li>
+    <li><a href="#solution-reverse-engineering-de-lalgorithme">Solution: Reverse engineering de l&rsquo;algorithme</a></li>
+    <li><a href="#résultat">Résultat</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+  </div>
+</details>
+
+<script>
+
+  var margin = 200;
+  var marginError = 50;
+
+  (function () {
+    var $window = $(window);
+    var $toc = $('#TOCView');
+    var tocHeight = $toc.height();
+
+    function onResize() {
+      var windowAndMarginHeight = $window.height() - margin;
+      if(tocHeight >= windowAndMarginHeight) {
+        $toc.css("overflow-y", "scroll")
+        $toc.css("max-height", (windowAndMarginHeight + marginError) + "px")
+      } else {
+        $toc.css("overflow-y", "hidden")
+        $toc.css("max-height", "9999999px")
+      }
+    }
+
+    $window.on('resize', onResize);
+    $(document).ready(onResize);
+  })();
+
+
+
+</script>
+   </div>
+      </div>
+      
+
+      <div class="min-w-0 min-h-0 max-w-fit">
+        
+        
+
+
+        <div class="article-content max-w-prose mb-20">
+          
+
+<h1 class="relative group">Write-up: Challenge de Reverse Engineering 
+    <div id="write-up-challenge-de-reverse-engineering" class="anchor"></div>
     
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#write-up-challenge-de-reverse-engineering" aria-label="Anchor">#</a>
+    </span>        
     
-    <div class="content">
-        <h1 id="write-up-challenge-de-reverse-engineering">Write-up: Challenge de Reverse Engineering</h1>
-<h2 id="introduction">Introduction</h2>
+</h1>
+
+
+<h2 class="relative group">Introduction 
+    <div id="introduction" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#introduction" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
 <p>Ce write-up présente la résolution d&rsquo;un challenge de reverse engineering où nous devions analyser du code assembleur pour trouver un flag au format FCSC{&hellip;}.</p>
-<h2 id="analyse-du-code">Analyse du code</h2>
+
+
+<h2 class="relative group">Analyse du code 
+    <div id="analyse-du-code" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#analyse-du-code" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
 <p>Le code fourni est une représentation désassemblée d&rsquo;un programme binaire. En analysant les fonctions principales, nous avons pu comprendre le fonctionnement général du programme:</p>
 <ol>
 <li><code>main()</code> initialise le programme et déchiffre trois chaînes de caractères en effectuant un XOR avec des constantes (0x42, 0x13, 0x37)</li>
@@ -169,7 +678,18 @@ main() initialise le programme et déchiffre trois chaînes de caractères en ef
 <li>Cette entrée est transformée par <code>wKtyPoT4WdyrkVzhvYUfvqo3M9iPVMd3()</code></li>
 <li>Le résultat est comparé avec une valeur cible (<code>jMunhwoW4bRqeCdJfXvfNrRm</code>) dans <code>VakkEeHbtHMpNqXPMkadR4v7K()</code></li>
 </ol>
-<h2 id="le-mécanisme-de-chiffrement">Le mécanisme de chiffrement</h2>
+
+
+<h2 class="relative group">Le mécanisme de chiffrement 
+    <div id="le-m%C3%A9canisme-de-chiffrement" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#le-m%C3%A9canisme-de-chiffrement" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
 <p>La fonction clé est <code>wKtyPoT4WdyrkVzhvYUfvqo3M9iPVMd3()</code> qui transforme l&rsquo;entrée utilisateur comme suit:</p>
 <pre tabindex="0"><code>char rax_3 = *(sx.q(i) + &amp;aixxj3qmUvFTqgqLodmuaEap)
 *(sx.q(i) + &amp;U94y77bvL3HfcnwcAc3UA9MJTvcwjP4j) = (i.b * 3 + 0x1f) ^ (rax_3 &lt;&lt; 3 | rax_3 s&gt;&gt; 5)
@@ -179,7 +699,18 @@ main() initialise le programme et déchiffre trois chaînes de caractères en ef
 <li>Le caractère est décalé (<code>(rax_3 &lt;&lt; 3 | rax_3 s&gt;&gt; 5)</code>)</li>
 <li>La clé et le caractère décalé sont combinés par XOR</li>
 </ol>
-<h2 id="données-importantes">Données importantes</h2>
+
+
+<h2 class="relative group">Données importantes 
+    <div id="donn%C3%A9es-importantes" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#donn%C3%A9es-importantes" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
 <p>Grâce aux données supplémentaires fournies, nous avons pu extraire:</p>
 <ul>
 <li>La valeur cible <code>jMunhwoW4bRqeCdJfXvfNrRm</code> à l&rsquo;adresse <code>0x4020</code></li>
@@ -189,7 +720,18 @@ main() initialise le programme et déchiffre trois chaînes de caractères en ef
 <pre tabindex="0"><code>2d 38 bf 32 f0 05 a8 b5 04 9b 8c 53 ca e7 f0 67 f6 59 c4 f1 50 e7 7a a5 
 74 ab dc d9 50 f7 5a bd b6 2b 9e 31 90 37 08 1d 3e a9 2c 69 0a 67 38 9f 
 0e 2b 24 93 72 1f 40 6d d4 7b ee 51 1a 4f ca 6d ec f1 24 cb 72 05 f1
-</code></pre><h2 id="solution-reverse-engineering-de-lalgorithme">Solution: Reverse engineering de l&rsquo;algorithme</h2>
+</code></pre>
+
+<h2 class="relative group">Solution: Reverse engineering de l&rsquo;algorithme 
+    <div id="solution-reverse-engineering-de-lalgorithme" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#solution-reverse-engineering-de-lalgorithme" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
 <p>Pour résoudre ce challenge, nous avons créé un script qui inverse l&rsquo;algorithme de chiffrement:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">decrypt_char</span>(encrypted_byte, index):
 </span></span><span style="display:flex;"><span>    key <span style="color:#f92672">=</span> (index <span style="color:#f92672">*</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">0x1f</span>) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0xFF</span>
@@ -220,10 +762,32 @@ main() initialise le programme et déchiffre trois chaînes de caractères en ef
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;Flag déchiffré:&#34;</span>, flag)
 </span></span></code></pre></div><p>Pour chaque octet chiffré, nous cherchons le caractère original qui, une fois transformé par l&rsquo;algorithme, produirait l&rsquo;octet chiffré.</p>
-<h2 id="résultat">Résultat</h2>
+
+
+<h2 class="relative group">Résultat 
+    <div id="r%C3%A9sultat" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#r%C3%A9sultat" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
 <p>L&rsquo;exécution du script nous a permis d&rsquo;obtenir le flag:</p>
 <pre tabindex="0"><code>FCSC{e30f46b147e7a25a7c8b865d0d895c7c7315f69582f432e9405b6d093b6fb8d3}
-</code></pre><h2 id="conclusion">Conclusion</h2>
+</code></pre>
+
+<h2 class="relative group">Conclusion 
+    <div id="conclusion" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#conclusion" aria-label="Anchor">#</a>
+    </span>        
+    
+</h2>
 <p>Ce challenge était un exemple typique de reverse engineering où il fallait:</p>
 <ol>
 <li>Comprendre le flux du programme</li>
@@ -233,111 +797,150 @@ main() initialise le programme et déchiffre trois chaînes de caractères en ef
 </ol>
 <p>La difficulté principale résidait dans la compréhension précise de l&rsquo;algorithme de transformation et dans l&rsquo;extraction correcte des données hexadécimales à partir du code désassemblé.</p>
 
-    </div>
+          
+          
+          
+        </div>
+        
+        
+
+        
+        
+
+          
+      </div>
+     
+      
+      
+        
+        
+          
+          
+        
+      <script>
+        var oid = "views_writeups\/fcsc\/2024-04-27-reverse-challenge.md"
+        var oid_likes = "likes_writeups\/fcsc\/2024-04-27-reverse-challenge.md"
+      </script>
+      
+      
+      <script type="text/javascript" src="/cybersecurity-notes/js/page.min.b06a29d42a4ed16787978e2eee1e8c797b7698db2bc14ccee78f5c80ac566fc996190a73ad80a5e987558474b20b96fa38f7d85b405f165ff72b7b163c5ad11b.js" integrity="sha512-sGop1CpO0WeHl44u7h6MeXt2mNsrwUzO549cgKxWb8mWGQpzrYCl6YdVhHSyC5b6OPfYW0BfFl/3K3sWPFrRGw=="></script>
+      
+  
+    </section>
+  <footer class="pt-8 max-w-prose print:hidden">
+
     
-    <div class="page-footer">
-        
-        
-        <div class="related-posts">
-            <h3><i class="fas fa-link"></i> Articles connexes</h3>
-            <div class="related-grid">
-                
-                <a href="/cybersecurity-notes/writeups/reverse/gdb-nasm/" class="related-item">
-                    <h4>GDB and NASM Assembly Guide - WriteUp</h4>
-                    <div class="related-meta">
-                        <span class="related-date">14/04/2024</span>
-                        
-                        <span class="related-tags">
-                            
-                            <span class="tag">assembly</span>
-                            
-                        </span>
-                        
-                    </div>
-                </a>
-                
-            </div>
-        </div>
-        
-        
-        <div class="share">
-            <span>Partager :</span>
-            <a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fIstaarkk.github.io%2fcybersecurity-notes%2fwriteups%2ffcsc%2f2024-04-27-reverse-challenge%2f&text=FCSC%202024%20-%20Challenge%20de%20Reverse%20Engineering" target="_blank" aria-label="Twitter">
-                <i class="fab fa-twitter"></i>
-            </a>
-            <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3a%2f%2fIstaarkk.github.io%2fcybersecurity-notes%2fwriteups%2ffcsc%2f2024-04-27-reverse-challenge%2f" target="_blank" aria-label="LinkedIn">
-                <i class="fab fa-linkedin"></i>
-            </a>
-            <a href="mailto:?subject=FCSC%202024%20-%20Challenge%20de%20Reverse%20Engineering&body=https%3a%2f%2fIstaarkk.github.io%2fcybersecurity-notes%2fwriteups%2ffcsc%2f2024-04-27-reverse-challenge%2f" aria-label="Email">
-                <i class="fas fa-envelope"></i>
-            </a>
-        </div>
-    </div>
+  
+
+
+    
+  </footer>
 </article>
 
-</main>
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-left">
-                <p>&copy; 2025 WriteUps &amp; Recherches Cybersécurité</p>
-            </div>
-            <div class="footer-right">
-                <div class="social-links">
-                    <a href="https://github.com/Istaarkk" target="_blank" aria-label="GitHub">
-                        <i class="fab fa-github"></i>
-                    </a>
-                    <a href="#" target="_blank" aria-label="Twitter">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#" target="_blank" aria-label="LinkedIn">
-                        <i class="fab fa-linkedin"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>Site propulsé par <a href="https://gohugo.io/" target="_blank">Hugo</a> | Thème <span class="theme-name">CyberNotes</span></p>
-        </div>
-    </footer>
+      <div id="top-scroller" class="pointer-events-none absolute top-[110vh] bottom-0 w-12 ltr:right-0 rtl:left-0">
+  <a href="#the-top"
+    class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 mb-16 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+    aria-label="Scroll to top" title="Scroll to top">
+    &uarr;
+  </a>
+</div>
+    </main><footer id="site-footer" class="py-10 print:hidden">
+  
+  
+    
+  
+  <div class="flex items-center justify-between">
 
     
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        
-        hljs.highlightAll();
-        
-        
-        document.querySelectorAll('pre code').forEach((block) => {
-            const button = document.createElement('button');
-            button.className = 'copy-button';
-            button.textContent = 'Copier';
-            
-            const pre = block.parentNode;
-            pre.style.position = 'relative';
-            pre.insertBefore(button, pre.firstChild);
-            
-            button.addEventListener('click', () => {
-                navigator.clipboard.writeText(block.textContent);
-                button.textContent = 'Copié !';
-                setTimeout(() => {
-                    button.textContent = 'Copier';
-                }, 2000);
-            });
-        });
-        
-        
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-    });
-    </script>
+    
+    <p class="text-sm text-neutral-500 dark:text-neutral-400">
+      &copy;
+      2025
+      
+    </p>
+    
+
     
     
+    <p class="text-xs text-neutral-500 dark:text-neutral-400">
+      
+      
+      Powered by <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+        href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+        href="https://blowfish.page/" target="_blank" rel="noopener noreferrer">Blowfish</a>
+    </p>
+    
+
+  </div>
+  <script>
+    
+    mediumZoom(document.querySelectorAll("img:not(.nozoom)"), {
+      margin: 24,
+      background: 'rgba(0,0,0,0.5)',
+      scrollOffset: 0,
+    })
+    
+  </script>
+  
+  
+  <script type="text/javascript" src="/cybersecurity-notes/js/process.min.62060bb247f4de2b6dde45903668fefb68d792f365587605177b1227c0cf43588701edaca0cb40e2c8e2789bd5ce67c1d2a215b9fb258c3496a7cd25e7cb5fdf.js" integrity="sha512-YgYLskf03itt3kWQNmj&#43;&#43;2jXkvNlWHYFF3sSJ8DPQ1iHAe2soMtA4sjieJvVzmfB0qIVufsljDSWp80l58tf3w=="></script>
+  
+  
+</footer>
+<div
+  id="search-wrapper"
+  class="invisible fixed inset-0 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh]"
+  data-url="https://Istaarkk.github.io/cybersecurity-notes/"
+  style="z-index:500"
+>
+  <div
+    id="search-modal"
+    class="flex flex-col w-full max-w-3xl min-h-0 mx-auto border rounded-md shadow-lg top-20 border-neutral-200 bg-neutral dark:border-neutral-700 dark:bg-neutral-800"
+  >
+    <header class="relative z-10 flex items-center justify-between flex-none px-2">
+      <form class="flex items-center flex-auto min-w-0">
+        <div class="flex items-center justify-center w-8 h-8 text-neutral-400">
+          
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+        </div>
+        <input
+          type="search"
+          id="search-query"
+          class="flex flex-auto h-12 mx-1 bg-transparent appearance-none focus:outline-dotted focus:outline-2 focus:outline-transparent"
+          placeholder="Search"
+          tabindex="0"
+        />
+      </form>
+      <button
+        id="close-search-button"
+        class="flex items-center justify-center w-8 h-8 text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        title="Close (Esc)"
+      >
+        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+
+  </span>
+
+
+      </button>
+    </header>
+    <section class="flex-auto px-2 overflow-auto">
+      <ul id="search-results">
+        
+      </ul>
+    </section>
+  </div>
+</div>
+
+  </div>
 </body>
-</html>  
+
+</html>

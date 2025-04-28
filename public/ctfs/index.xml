@@ -6,35 +6,48 @@
     <description>Recent content in Ctfs on WriteUps &amp; Recherches Cybersécurité</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>fr-fr</language>
-    <lastBuildDate>Sat, 27 Apr 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://Istaarkk.github.io/cybersecurity-notes/ctfs/index.xml" rel="self" type="application/rss+xml" />
+    <copyright>© 2025 </copyright>
+    <lastBuildDate>Sat, 27 Apr 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://Istaarkk.github.io/cybersecurity-notes/ctfs/index.xml" rel="self" type="application/rss+xml" />
+    
     <item>
       <title>Fcsc</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/ctfs/fcsc/</link>
       <pubDate>Sat, 27 Apr 2024 00:00:00 +0000</pubDate>
+      
       <guid>https://Istaarkk.github.io/cybersecurity-notes/ctfs/fcsc/</guid>
       <description></description>
+      
     </item>
+    
     <item>
       <title>Breizh-Ctf</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/ctfs/breizh-ctf/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
+      
       <guid>https://Istaarkk.github.io/cybersecurity-notes/ctfs/breizh-ctf/</guid>
       <description></description>
+      
     </item>
+    
     <item>
       <title>Cyber-Apocalypse</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/ctfs/cyber-apocalypse/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
+      
       <guid>https://Istaarkk.github.io/cybersecurity-notes/ctfs/cyber-apocalypse/</guid>
       <description></description>
+      
     </item>
+    
     <item>
       <title>Pwnme-Junior</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/ctfs/pwnme-junior/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
+      
       <guid>https://Istaarkk.github.io/cybersecurity-notes/ctfs/pwnme-junior/</guid>
       <description></description>
+      
     </item>
+    
   </channel>
 </rss>

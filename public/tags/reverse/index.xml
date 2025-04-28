@@ -6,14 +6,18 @@
     <description>Recent content in Reverse on WriteUps &amp; Recherches Cybersécurité</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>fr-fr</language>
-    <lastBuildDate>Sun, 14 Apr 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://Istaarkk.github.io/cybersecurity-notes/tags/reverse/index.xml" rel="self" type="application/rss+xml" />
+    <copyright>© 2025 </copyright>
+    <lastBuildDate>Sun, 14 Apr 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://Istaarkk.github.io/cybersecurity-notes/tags/reverse/index.xml" rel="self" type="application/rss+xml" />
+    
     <item>
       <title>Cyber Apocalypse 2024 - EncryptedScroll</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-encryptedscroll/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
+      
       <guid>https://Istaarkk.github.io/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-encryptedscroll/</guid>
-      <description>EncryptedScroll - Cyber Apocalypse 2024 Description du challenge EncryptedScroll est un challenge de reverse engineering du Cyber Apocalypse CTF 2024. Le programme simule un parchemin magique qui ne révèle son contenu qu&amp;rsquo;après avoir déchiffré une incantation secrète.&#xA;Analyse du binaire Après avoir analysé le binaire avec un désassembleur, nous avons identifié que le programme utilise un algorithme simple de substitution pour masquer la chaîne de validation.&#xA;Voici le code désassemblé qui montre le mécanisme de vérification :</description>
+      <description>EncryptedScroll - Cyber Apocalypse 2024 # Description du challenge # EncryptedScroll est un challenge de reverse engineering du Cyber Apocalypse CTF 2024.</description>
+      
     </item>
+    
   </channel>
 </rss>

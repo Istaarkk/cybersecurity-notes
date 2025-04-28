@@ -24,7 +24,3 @@ WriteUps de sécurité réseau - énumération, exploitation et pentesting de se
 
 ### [PwnMe Junior 2025](/writeups/pwnme-junior/)
 WriteUps complets des challenges du CTF PwnMe Junior 2025
-
-## Derniers WriteUps
-
-{{< recent-posts section="writeups" limit="5" >}} 
