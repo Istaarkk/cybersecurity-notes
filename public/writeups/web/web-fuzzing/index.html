@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="fr-fr">
+<head><script src="/cybersecurity-notes/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=cybersecurity-notes/livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Fuzzing - HTB Course WriteUp | WriteUps &amp; Recherches Cybersécurité</title>
+    <meta name="description" content="Web Fuzzing Ce writeup couvre le cours Web Fuzzing sur HTB.
+Vue d&rsquo;ensemble Le fuzzing web est une technique essentielle en pentesting qui consiste à tester systématiquement les entrées d&rsquo;une application web pour découvrir des vulnérabilités, des fichiers cachés ou des fonctionnalités non documentées.
+Premier Flag - Fuzzing de base Pour trouver le premier flag, nous devons fuzzer le site en utilisant Feroxbuster, un outil open-source.
+feroxbuster -u http://[TARGET]/FUZZ -w /usr/share/wordlists/dirb/common.">
+    
+    
+    <meta property="og:title" content="Web Fuzzing - HTB Course WriteUp">
+    <meta property="og:description" content="Web Fuzzing Ce writeup couvre le cours Web Fuzzing sur HTB.
+Vue d&rsquo;ensemble Le fuzzing web est une technique essentielle en pentesting qui consiste à tester systématiquement les entrées d&rsquo;une application web pour découvrir des vulnérabilités, des fichiers cachés ou des fonctionnalités non documentées.
+Premier Flag - Fuzzing de base Pour trouver le premier flag, nous devons fuzzer le site en utilisant Feroxbuster, un outil open-source.
+feroxbuster -u http://[TARGET]/FUZZ -w /usr/share/wordlists/dirb/common.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="http://localhost:1313/cybersecurity-notes/writeups/web/web-fuzzing/">
+    
+    
+    <link rel="icon" type="image/svg+xml" href="/cybersecurity-notes/images/favicon.svg">
+    <link rel="icon" type="image/png" href="/cybersecurity-notes/images/favicon.png">
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css">
+    
+    
+    <link rel="stylesheet" href="/cybersecurity-notes/css/main.css">
+    <link rel="stylesheet" href="/cybersecurity-notes/css/custom.css">
+    <link rel="stylesheet" href="/cybersecurity-notes/css/dropdown.css">
+    <link rel="stylesheet" href="/cybersecurity-notes/css/enhanced.css">
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/lib/highlight.min.js"></script>
+    
+    
+    <script src="/cybersecurity-notes/js/copy-code.js" defer></script>
+    <script src="/cybersecurity-notes/js/enhanced.js" defer></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="http://localhost:1313/cybersecurity-notes/" class="nav-brand">
+                <i class="fas fa-shield-alt"></i> WriteUps &amp; Recherches Cybersécurité
+            </a>
+            <div class="nav-links">
+                
+                
+                <a href="http://localhost:1313/cybersecurity-notes/writeups/" class="nav-link">
+                    
+                        <i class="fas fa-flag"></i>
+                    
+                    WriteUps
+                </a>
+                
+                
+                
+                <a href="http://localhost:1313/cybersecurity-notes/veille/" class="nav-link">
+                    
+                        <i class="fas fa-rss"></i>
+                    
+                    Veille
+                </a>
+                
+                
+                
+                <a href="http://localhost:1313/cybersecurity-notes/outils/" class="nav-link">
+                    
+                        <i class="fas fa-tools"></i>
+                    
+                    Outils
+                </a>
+                
+                
+            </div>
+        </div>
+    </nav>
+</body>
+</html> 
+<main class="content">
+    
+<article class="single-page">
+    <header class="page-header">
+        <div class="breadcrumbs">
+            <a href="http://localhost:1313/cybersecurity-notes/">Accueil</a> &gt;
+            
+            <span>Web Fuzzing - HTB Course WriteUp</span>
+        </div>
+        
+        <h1>Web Fuzzing - HTB Course WriteUp</h1>
+        
+        <div class="meta">
+            <div class="meta-item">
+                <i class="far fa-calendar-alt"></i>
+                <span>14/04/2024</span>
+            </div>
+            
+            
+            <div class="meta-item">
+                <i class="fas fa-tags"></i>
+                <div class="tags">
+                    
+                    <a href="/tags/web" class="tag">web</a>
+                    
+                    <a href="/tags/fuzzing" class="tag">fuzzing</a>
+                    
+                    <a href="/tags/pentest" class="tag">pentest</a>
+                    
+                    <a href="/tags/htb" class="tag">htb</a>
+                    
+                </div>
+            </div>
+            
+            
+            
+            
+            <div class="meta-item reading-time">
+                <i class="far fa-clock"></i>
+                <span>2 min</span>
+            </div>
+        </div>
+    </header>
+    
+    
+    
+    <div class="content">
+        <h1 id="web-fuzzing">Web Fuzzing</h1>
+<p>Ce writeup couvre le cours <strong>Web Fuzzing</strong> sur HTB.</p>
+<h2 id="vue-densemble">Vue d&rsquo;ensemble</h2>
+<p>Le fuzzing web est une technique essentielle en pentesting qui consiste à tester systématiquement les entrées d&rsquo;une application web pour découvrir des vulnérabilités, des fichiers cachés ou des fonctionnalités non documentées.</p>
+<h2 id="premier-flag---fuzzing-de-base">Premier Flag - Fuzzing de base</h2>
+<p>Pour trouver le premier flag, nous devons fuzzer le site en utilisant <strong>Feroxbuster</strong>, un outil open-source.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>feroxbuster -u http://<span style="color:#f92672">[</span>TARGET<span style="color:#f92672">]</span>/FUZZ -w /usr/share/wordlists/dirb/common.txt -x php,html,txt
+</span></span></code></pre></div><h2 id="fuzzing-récursif-deuxième-flag">Fuzzing récursif (Deuxième Flag)</h2>
+<p>Pour le fuzzing récursif (pour obtenir le deuxième flag), utilisez la commande suivante :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>feroxbuster -u http://<span style="color:#f92672">[</span>TARGET<span style="color:#f92672">]</span>/recursive_fuzz -w /usr/share/wordlists/dirb/common.txt -x php,html,txt
+</span></span></code></pre></div><h2 id="troisième-flag---gobuster-ou-ffuf">Troisième Flag - Gobuster ou FFUF</h2>
+<p>HTB nous demande d&rsquo;utiliser <strong>Gobuster</strong> pour ce flag, mais nous pouvons aussi utiliser <strong>ffuf</strong> :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ffuf -c -ic -t <span style="color:#ae81ff">200</span> -u http://<span style="color:#f92672">[</span>TARGET<span style="color:#f92672">]</span>/get.php?x<span style="color:#f92672">=</span>FUZZ -w /usr/share/wordlists/dirb/common.txt -mc <span style="color:#ae81ff">200</span>
+</span></span></code></pre></div><h2 id="fuzzing-de-virtual-host">Fuzzing de Virtual Host</h2>
+<p>Pour le fuzzing de virtual host, ajoutez l&rsquo;hôte comme ceci :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#e6db74">&#39;[TARGET]\tvhost.htb&#39;</span> | sudo tee -a /etc/hosts
+</span></span></code></pre></div><p>Puis, essayez la commande suivante :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ffuf -c -ic -t <span style="color:#ae81ff">200</span> -u http://<span style="color:#f92672">[</span>TARGET<span style="color:#f92672">]</span> -H <span style="color:#e6db74">&#34;Host: FUZZ.vhost.htb&#34;</span> -w /usr/share/wordlists/dirb/common.txt
+</span></span></code></pre></div><h2 id="fuzzing-dun-autre-hôte">Fuzzing d&rsquo;un autre hôte</h2>
+<p>Pour fuzzer un autre hôte, utilisez :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ffuf -c -ic -t <span style="color:#ae81ff">200</span> -u http://FUZZ.vhost.com -w /usr/share/wordlists/dns/deepmagic.com-prefixes-top50000.txt
+</span></span></code></pre></div><h2 id="répertoire-caché-content-length">Répertoire caché (Content-Length)</h2>
+<p>Pour fuzzer un répertoire caché basé sur la longueur du contenu :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>feroxbuster -u http://<span style="color:#f92672">[</span>TARGET<span style="color:#f92672">]</span> -w /usr/share/wordlists/dirb/common.txt -x .php .html .gz -t <span style="color:#ae81ff">300</span>
+</span></span></code></pre></div><p>Une fois que vous trouvez un fichier <code>.gz</code>, utilisez :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -I http://<span style="color:#f92672">[</span>TARGET<span style="color:#f92672">]</span>/hidden/backup.tar.gz
+</span></span></code></pre></div><h2 id="fuzzing-dapi">Fuzzing d&rsquo;API</h2>
+<p>Utilisez <strong>ffuf</strong> pour le fuzzing d&rsquo;API :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ffuf -c -ic -t <span style="color:#ae81ff">200</span> -w /usr/share/wordlists/dirb/common.txt -u http://<span style="color:#f92672">[</span>TARGET<span style="color:#f92672">]</span>/FUZZ -mc <span style="color:#ae81ff">200</span>
+</span></span></code></pre></div><p>Puis utilisez <strong>curl</strong> :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl http://<span style="color:#f92672">[</span>TARGET<span style="color:#f92672">]</span>/endpoint
+</span></span></code></pre></div><h2 id="étape-finale-trouver-le-panel">Étape finale (Trouver le Panel)</h2>
+<p>Pour l&rsquo;étape finale, utilisez :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>feroxbuster -u http://<span style="color:#f92672">[</span>TARGET<span style="color:#f92672">]</span> -w /usr/share/wordlists/dirb/common.txt -x .php .html -t <span style="color:#ae81ff">300</span>
+</span></span></code></pre></div><p>Une fois que vous trouvez un panel, utilisez <strong>ffuf</strong> :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ffuf -c -ic -t <span style="color:#ae81ff">200</span> -w /usr/share/wordlists/dirb/common.txt -u http://<span style="color:#f92672">[</span>TARGET<span style="color:#f92672">]</span>/admin/panel.php?accessID<span style="color:#f92672">=</span>FUZZ -mc <span style="color:#ae81ff">200</span> -fs <span style="color:#ae81ff">58</span>
+</span></span></code></pre></div>
+    </div>
+    
+    <div class="page-footer">
+        
+        
+        <div class="related-posts">
+            <h3><i class="fas fa-link"></i> Articles connexes</h3>
+            <div class="related-grid">
+                
+                <a href="/cybersecurity-notes/writeups/network/2024-04-14-pentest-snmp/" class="related-item">
+                    <h4>Pentesting SNMP - WriteUp rapide</h4>
+                    <div class="related-meta">
+                        <span class="related-date">14/04/2024</span>
+                        
+                        <span class="related-tags">
+                            
+                            <span class="tag">pentest</span>
+                            
+                        </span>
+                        
+                    </div>
+                </a>
+                
+            </div>
+        </div>
+        
+        
+        <div class="share">
+            <span>Partager :</span>
+            <a href="https://twitter.com/intent/tweet?url=http%3a%2f%2flocalhost%3a1313%2fcybersecurity-notes%2fwriteups%2fweb%2fweb-fuzzing%2f&text=Web%20Fuzzing%20-%20HTB%20Course%20WriteUp" target="_blank" aria-label="Twitter">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.linkedin.com/sharing/share-offsite/?url=http%3a%2f%2flocalhost%3a1313%2fcybersecurity-notes%2fwriteups%2fweb%2fweb-fuzzing%2f" target="_blank" aria-label="LinkedIn">
+                <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="mailto:?subject=Web%20Fuzzing%20-%20HTB%20Course%20WriteUp&body=http%3a%2f%2flocalhost%3a1313%2fcybersecurity-notes%2fwriteups%2fweb%2fweb-fuzzing%2f" aria-label="Email">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+    </div>
+</article>
+
+</main>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-left">
+                <p>&copy; 2025 WriteUps &amp; Recherches Cybersécurité</p>
+            </div>
+            <div class="footer-right">
+                <div class="social-links">
+                    <a href="https://github.com/Istaarkk" target="_blank" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" target="_blank" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" target="_blank" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Site propulsé par <a href="https://gohugo.io/" target="_blank">Hugo</a> | Thème <span class="theme-name">CyberNotes</span></p>
+        </div>
+    </footer>
+
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        hljs.highlightAll();
+        
+        
+        document.querySelectorAll('pre code').forEach((block) => {
+            const button = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copier';
+            
+            const pre = block.parentNode;
+            pre.style.position = 'relative';
+            pre.insertBefore(button, pre.firstChild);
+            
+            button.addEventListener('click', () => {
+                navigator.clipboard.writeText(block.textContent);
+                button.textContent = 'Copié !';
+                setTimeout(() => {
+                    button.textContent = 'Copier';
+                }, 2000);
+            });
+        });
+        
+        
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    });
+    </script>
+    
+    
+</body>
+</html>  

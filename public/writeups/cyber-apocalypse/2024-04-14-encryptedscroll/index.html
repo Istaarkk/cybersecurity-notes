@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="fr-fr">
+<head><script src="/cybersecurity-notes/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=cybersecurity-notes/livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Apocalypse 2024 - EncryptedScroll | WriteUps &amp; Recherches Cybersécurité</title>
+    <meta name="description" content="EncryptedScroll - Cyber Apocalypse 2024 Description du challenge EncryptedScroll est un challenge de reverse engineering du Cyber Apocalypse CTF 2024. Le programme simule un parchemin magique qui ne révèle son contenu qu&rsquo;après avoir déchiffré une incantation secrète.
+Analyse du binaire Après avoir analysé le binaire avec un désassembleur, nous avons identifié que le programme utilise un algorithme simple de substitution pour masquer la chaîne de validation.
+Voici le code désassemblé qui montre le mécanisme de vérification :">
+    
+    
+    <meta property="og:title" content="Cyber Apocalypse 2024 - EncryptedScroll">
+    <meta property="og:description" content="EncryptedScroll - Cyber Apocalypse 2024 Description du challenge EncryptedScroll est un challenge de reverse engineering du Cyber Apocalypse CTF 2024. Le programme simule un parchemin magique qui ne révèle son contenu qu&rsquo;après avoir déchiffré une incantation secrète.
+Analyse du binaire Après avoir analysé le binaire avec un désassembleur, nous avons identifié que le programme utilise un algorithme simple de substitution pour masquer la chaîne de validation.
+Voici le code désassemblé qui montre le mécanisme de vérification :">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="http://localhost:1313/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-encryptedscroll/">
+    
+    
+    <link rel="icon" type="image/svg+xml" href="/cybersecurity-notes/images/favicon.svg">
+    <link rel="icon" type="image/png" href="/cybersecurity-notes/images/favicon.png">
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css">
+    
+    
+    <link rel="stylesheet" href="/cybersecurity-notes/css/main.css">
+    <link rel="stylesheet" href="/cybersecurity-notes/css/custom.css">
+    <link rel="stylesheet" href="/cybersecurity-notes/css/dropdown.css">
+    <link rel="stylesheet" href="/cybersecurity-notes/css/enhanced.css">
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/lib/highlight.min.js"></script>
+    
+    
+    <script src="/cybersecurity-notes/js/copy-code.js" defer></script>
+    <script src="/cybersecurity-notes/js/enhanced.js" defer></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="http://localhost:1313/cybersecurity-notes/" class="nav-brand">
+                <i class="fas fa-shield-alt"></i> WriteUps &amp; Recherches Cybersécurité
+            </a>
+            <div class="nav-links">
+                
+                
+                <a href="http://localhost:1313/cybersecurity-notes/writeups/" class="nav-link">
+                    
+                        <i class="fas fa-flag"></i>
+                    
+                    WriteUps
+                </a>
+                
+                
+                
+                <a href="http://localhost:1313/cybersecurity-notes/veille/" class="nav-link">
+                    
+                        <i class="fas fa-rss"></i>
+                    
+                    Veille
+                </a>
+                
+                
+                
+                <a href="http://localhost:1313/cybersecurity-notes/outils/" class="nav-link">
+                    
+                        <i class="fas fa-tools"></i>
+                    
+                    Outils
+                </a>
+                
+                
+            </div>
+        </div>
+    </nav>
+</body>
+</html> 
+<main class="content">
+    
+<article class="single-page">
+    <header class="page-header">
+        <div class="breadcrumbs">
+            <a href="http://localhost:1313/cybersecurity-notes/">Accueil</a> &gt;
+            
+            <span>Cyber Apocalypse 2024 - EncryptedScroll</span>
+        </div>
+        
+        <h1>Cyber Apocalypse 2024 - EncryptedScroll</h1>
+        
+        <div class="meta">
+            <div class="meta-item">
+                <i class="far fa-calendar-alt"></i>
+                <span>14/04/2024</span>
+            </div>
+            
+            
+            <div class="meta-item">
+                <i class="fas fa-tags"></i>
+                <div class="tags">
+                    
+                    <a href="/tags/cyber-apocalypse" class="tag">cyber apocalypse</a>
+                    
+                    <a href="/tags/reverse" class="tag">reverse</a>
+                    
+                    <a href="/tags/character-manipulation" class="tag">character manipulation</a>
+                    
+                    <a href="/tags/encryption" class="tag">encryption</a>
+                    
+                </div>
+            </div>
+            
+            
+            
+            
+            <div class="meta-item reading-time">
+                <i class="far fa-clock"></i>
+                <span>3 min</span>
+            </div>
+        </div>
+    </header>
+    
+    
+    <div class="toc-container">
+        <div class="toc-header">
+            <i class="fas fa-list"></i> Table des matières
+        </div>
+        <div class="toc-content">
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#description-du-challenge">Description du challenge</a></li>
+    <li><a href="#analyse-du-binaire">Analyse du binaire</a></li>
+    <li><a href="#exploitation">Exploitation</a></li>
+    <li><a href="#résolution">Résolution</a></li>
+    <li><a href="#étapes-de-lexploitation-manuelle">Étapes de l&rsquo;exploitation manuelle</a></li>
+    <li><a href="#exécution-du-programme">Exécution du programme</a></li>
+    <li><a href="#flag">Flag</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+        </div>
+    </div>
+    
+    
+    <div class="content">
+        <h1 id="encryptedscroll---cyber-apocalypse-2024">EncryptedScroll - Cyber Apocalypse 2024</h1>
+<h2 id="description-du-challenge">Description du challenge</h2>
+<p>EncryptedScroll est un challenge de reverse engineering du Cyber Apocalypse CTF 2024. Le programme simule un parchemin magique qui ne révèle son contenu qu&rsquo;après avoir déchiffré une incantation secrète.</p>
+<h2 id="analyse-du-binaire">Analyse du binaire</h2>
+<p>Après avoir analysé le binaire avec un désassembleur, nous avons identifié que le programme utilise un algorithme simple de substitution pour masquer la chaîne de validation.</p>
+<p>Voici le code désassemblé qui montre le mécanisme de vérification :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> input[<span style="color:#ae81ff">50</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> encoded_scroll[] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;IUC|t2nqm4`gm5h`5s2uin4u2d~&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> decoded_scroll[<span style="color:#ae81ff">50</span>];
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Déchiffrement de l&#39;incantation
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> len <span style="color:#f92672">=</span> <span style="color:#a6e22e">strlen</span>(encoded_scroll);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> len; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        decoded_scroll[i] <span style="color:#f92672">=</span> encoded_scroll[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;  <span style="color:#75715e">// Décrémentation de 1 pour chaque caractère
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>    decoded_scroll[len] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;\0&#39;</span>;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Entrez l&#39;incantation pour déchiffrer le parchemin : &#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">scanf</span>(<span style="color:#e6db74">&#34;%s&#34;</span>, input);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Vérification de l&#39;incantation
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">strcmp</span>(input, decoded_scroll) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Parchemin déchiffré ! Le flag est : HTB{%s}</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, decoded_scroll);
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Incantation incorrecte. Le parchemin reste scellé.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>La méthode de chiffrement est très simple : chaque caractère de la chaîne <code>encoded_scroll</code> a été incrémenté de 1. Pour obtenir la chaîne d&rsquo;origine, il suffit de décrémenter chaque caractère.</p>
+<h2 id="exploitation">Exploitation</h2>
+<p>Pour résoudre ce challenge, nous devons analyser la chaîne chiffrée &ldquo;IUC|t2nqm4<code>gm5h</code>5s2uin4u2d~&rdquo; et appliquer la transformation inverse (décrémenter chaque caractère de 1).</p>
+<p>Voici le script Python que nous avons utilisé pour déchiffrer la chaîne :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Analyse directe de la chaîne encodée dans le binaire</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Le code assembleur montre que la chaîne &#34;IUC|t2nqm4`gm5h`5s2uin4u2d~&#34; est décrementée de 1 pour chaque caractère</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Fonction pour décoder la chaîne cachée dans le binaire</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">decode_string</span>():
+</span></span><span style="display:flex;"><span>    encoded <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;IUC|t2nqm4`gm5h`5s2uin4u2d~&#34;</span>
+</span></span><span style="display:flex;"><span>    decoded <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> char <span style="color:#f92672">in</span> encoded:
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Décrémentation de 1 pour chaque caractère (selon le code assembleur)</span>
+</span></span><span style="display:flex;"><span>        decoded <span style="color:#f92672">+=</span> chr(ord(char) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;[+] Chaîne encodée: </span><span style="color:#e6db74">{</span>encoded<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;[+] Chaîne décodée: </span><span style="color:#e6db74">{</span>decoded<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> decoded
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Exécution</span>
+</span></span><span style="display:flex;"><span>solution <span style="color:#f92672">=</span> decode_string()
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">[*] Pour résoudre le challenge, entrez cette solution:&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;&gt;&gt;&gt; </span><span style="color:#e6db74">{</span>solution<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span></code></pre></div><h2 id="résolution">Résolution</h2>
+<p>En exécutant notre script de déchiffrement, nous obtenons :</p>
+<pre tabindex="0"><code>$ python3 exploit.py
+[+] Chaîne encodée: IUC|t2nqm4`gm5h`5s2uin4u2d~
+[+] Chaîne décodée: HTB{s1mpl3_fl1p_fl0p_r3v3r1d}
+
+[*] Pour résoudre le challenge, entrez cette solution:
+&gt;&gt;&gt; HTB{s1mpl3_fl1p_fl0p_r3v3r1d}
+</code></pre><h2 id="étapes-de-lexploitation-manuelle">Étapes de l&rsquo;exploitation manuelle</h2>
+<p>Si vous souhaitez résoudre ce challenge manuellement sans utiliser de script, voici les étapes à suivre :</p>
+<ol>
+<li>Identifiez la chaîne encodée &ldquo;IUC|t2nqm4<code>gm5h</code>5s2uin4u2d~&rdquo; dans le binaire.</li>
+<li>Pour chaque caractère, calculez le caractère ASCII qui le précède (code ASCII - 1) :
+<ul>
+<li>&lsquo;I&rsquo; (ASCII 73) =&gt; &lsquo;H&rsquo; (ASCII 72)</li>
+<li>&lsquo;U&rsquo; (ASCII 85) =&gt; &lsquo;T&rsquo; (ASCII 84)</li>
+<li>&lsquo;C&rsquo; (ASCII 67) =&gt; &lsquo;B&rsquo; (ASCII 66)</li>
+<li>&lsquo;|&rsquo; (ASCII 124) =&gt; &lsquo;{&rsquo; (ASCII 123)</li>
+<li>Et ainsi de suite&hellip;</li>
+</ul>
+</li>
+<li>En continuant ce processus pour chaque caractère, vous obtiendrez la chaîne déchiffrée: &ldquo;HTB{s1mpl3_fl1p_fl0p_r3v3r1d}&rdquo;</li>
+</ol>
+<h2 id="exécution-du-programme">Exécution du programme</h2>
+<p>Une fois le mot de passe déchiffré, nous pouvons l&rsquo;utiliser pour obtenir le flag :</p>
+<pre tabindex="0"><code>$ ./challenge
+Entrez l&#39;incantation pour déchiffrer le parchemin : HTB{s1mpl3_fl1p_fl0p_r3v3r1d}
+Parchemin déchiffré ! Le flag est : HTB{s1mpl3_fl1p_fl0p_r3v3r1d}
+</code></pre><h2 id="flag">Flag</h2>
+<p>Le flag de ce challenge est : <code>HTB{s1mpl3_fl1p_fl0p_r3v3r1d}</code></p>
+<h2 id="conclusion">Conclusion</h2>
+<p>EncryptedScroll est un challenge de reverse engineering simple qui illustre un concept fondamental : les transformations de caractères. Même si l&rsquo;algorithme utilisé ici est très basique (simple décrémentation), ce type de technique est couramment utilisé pour obfusquer des chaînes dans les binaires.</p>
+<p>Les points clés à retenir de ce challenge sont :</p>
+<ol>
+<li>Importance de l&rsquo;analyse du code assembleur pour comprendre les opérations effectuées sur les chaînes de caractères</li>
+<li>Compréhension des transformations de caractères simples (incrémentation/décrémentation)</li>
+<li>Mise en œuvre d&rsquo;une solution pour inverser ces transformations</li>
+</ol>
+<p>Ce challenge est une excellente introduction aux techniques de base de reverse engineering et montre comment des méthodes simples d&rsquo;obfuscation peuvent être facilement contournées avec une bonne compréhension du code sous-jacent.</p>
+
+    </div>
+    
+    <div class="page-footer">
+        
+        
+        
+        <div class="share">
+            <span>Partager :</span>
+            <a href="https://twitter.com/intent/tweet?url=http%3a%2f%2flocalhost%3a1313%2fcybersecurity-notes%2fwriteups%2fcyber-apocalypse%2f2024-04-14-encryptedscroll%2f&text=Cyber%20Apocalypse%202024%20-%20EncryptedScroll" target="_blank" aria-label="Twitter">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.linkedin.com/sharing/share-offsite/?url=http%3a%2f%2flocalhost%3a1313%2fcybersecurity-notes%2fwriteups%2fcyber-apocalypse%2f2024-04-14-encryptedscroll%2f" target="_blank" aria-label="LinkedIn">
+                <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="mailto:?subject=Cyber%20Apocalypse%202024%20-%20EncryptedScroll&body=http%3a%2f%2flocalhost%3a1313%2fcybersecurity-notes%2fwriteups%2fcyber-apocalypse%2f2024-04-14-encryptedscroll%2f" aria-label="Email">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+    </div>
+</article>
+
+</main>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-left">
+                <p>&copy; 2025 WriteUps &amp; Recherches Cybersécurité</p>
+            </div>
+            <div class="footer-right">
+                <div class="social-links">
+                    <a href="https://github.com/Istaarkk" target="_blank" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" target="_blank" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" target="_blank" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Site propulsé par <a href="https://gohugo.io/" target="_blank">Hugo</a> | Thème <span class="theme-name">CyberNotes</span></p>
+        </div>
+    </footer>
+
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        hljs.highlightAll();
+        
+        
+        document.querySelectorAll('pre code').forEach((block) => {
+            const button = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copier';
+            
+            const pre = block.parentNode;
+            pre.style.position = 'relative';
+            pre.insertBefore(button, pre.firstChild);
+            
+            button.addEventListener('click', () => {
+                navigator.clipboard.writeText(block.textContent);
+                button.textContent = 'Copié !';
+                setTimeout(() => {
+                    button.textContent = 'Copier';
+                }, 2000);
+            });
+        });
+        
+        
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    });
+    </script>
+    
+    
+</body>
+</html>  

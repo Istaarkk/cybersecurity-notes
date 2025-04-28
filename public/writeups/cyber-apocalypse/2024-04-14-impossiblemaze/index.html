@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="fr-fr">
+<head><script src="/cybersecurity-notes/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=cybersecurity-notes/livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Apocalypse 2024 - ImpossibleMaze | WriteUps &amp; Recherches Cybersécurité</title>
+    <meta name="description" content="ImpossibleMaze - Cyber Apocalypse 2024 Description du challenge ImpossibleMaze est un challenge de reverse engineering du Cyber Apocalypse CTF 2024. Le programme simule un labyrinthe qui semble impossible à résoudre, mais qui cache un mécanisme de validation basé sur la taille du terminal.
+Analyse du binaire Après décompilation et analyse du code, nous avons découvert que le binaire vérifie la taille du terminal d&rsquo;exécution. Si cette taille ne correspond pas exactement à 13 lignes et 37 colonnes (13x37 ou &ldquo;LEET&rdquo; en leetspeak), le labyrinthe est généré d&rsquo;une manière qui le rend impossible à résoudre.">
+    
+    
+    <meta property="og:title" content="Cyber Apocalypse 2024 - ImpossibleMaze">
+    <meta property="og:description" content="ImpossibleMaze - Cyber Apocalypse 2024 Description du challenge ImpossibleMaze est un challenge de reverse engineering du Cyber Apocalypse CTF 2024. Le programme simule un labyrinthe qui semble impossible à résoudre, mais qui cache un mécanisme de validation basé sur la taille du terminal.
+Analyse du binaire Après décompilation et analyse du code, nous avons découvert que le binaire vérifie la taille du terminal d&rsquo;exécution. Si cette taille ne correspond pas exactement à 13 lignes et 37 colonnes (13x37 ou &ldquo;LEET&rdquo; en leetspeak), le labyrinthe est généré d&rsquo;une manière qui le rend impossible à résoudre.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="http://localhost:1313/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-impossiblemaze/">
+    
+    
+    <link rel="icon" type="image/svg+xml" href="/cybersecurity-notes/images/favicon.svg">
+    <link rel="icon" type="image/png" href="/cybersecurity-notes/images/favicon.png">
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css">
+    
+    
+    <link rel="stylesheet" href="/cybersecurity-notes/css/main.css">
+    <link rel="stylesheet" href="/cybersecurity-notes/css/custom.css">
+    <link rel="stylesheet" href="/cybersecurity-notes/css/dropdown.css">
+    <link rel="stylesheet" href="/cybersecurity-notes/css/enhanced.css">
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/lib/highlight.min.js"></script>
+    
+    
+    <script src="/cybersecurity-notes/js/copy-code.js" defer></script>
+    <script src="/cybersecurity-notes/js/enhanced.js" defer></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="http://localhost:1313/cybersecurity-notes/" class="nav-brand">
+                <i class="fas fa-shield-alt"></i> WriteUps &amp; Recherches Cybersécurité
+            </a>
+            <div class="nav-links">
+                
+                
+                <a href="http://localhost:1313/cybersecurity-notes/writeups/" class="nav-link">
+                    
+                        <i class="fas fa-flag"></i>
+                    
+                    WriteUps
+                </a>
+                
+                
+                
+                <a href="http://localhost:1313/cybersecurity-notes/veille/" class="nav-link">
+                    
+                        <i class="fas fa-rss"></i>
+                    
+                    Veille
+                </a>
+                
+                
+                
+                <a href="http://localhost:1313/cybersecurity-notes/outils/" class="nav-link">
+                    
+                        <i class="fas fa-tools"></i>
+                    
+                    Outils
+                </a>
+                
+                
+            </div>
+        </div>
+    </nav>
+</body>
+</html> 
+<main class="content">
+    
+<article class="single-page">
+    <header class="page-header">
+        <div class="breadcrumbs">
+            <a href="http://localhost:1313/cybersecurity-notes/">Accueil</a> &gt;
+            
+            
+            <a href="/categories/reverse">reverse</a> &gt;
+            
+            
+            <span>Cyber Apocalypse 2024 - ImpossibleMaze</span>
+        </div>
+        
+        <h1>Cyber Apocalypse 2024 - ImpossibleMaze</h1>
+        
+        <div class="meta">
+            <div class="meta-item">
+                <i class="far fa-calendar-alt"></i>
+                <span>14/04/2024</span>
+            </div>
+            
+            
+            <div class="meta-item">
+                <i class="fas fa-tags"></i>
+                <div class="tags">
+                    
+                    <a href="/tags/binary-patching" class="tag">binary-patching</a>
+                    
+                    <a href="/tags/terminal-size" class="tag">terminal-size</a>
+                    
+                </div>
+            </div>
+            
+            
+            
+            <div class="meta-item">
+                <i class="fas fa-flag"></i>
+                <div class="tags">
+                    
+                    <a href="/ctfs/cyber-apocalypse" class="tag">cyber-apocalypse</a>
+                    
+                </div>
+            </div>
+            
+            
+            <div class="meta-item reading-time">
+                <i class="far fa-clock"></i>
+                <span>4 min</span>
+            </div>
+        </div>
+    </header>
+    
+    
+    <div class="toc-container">
+        <div class="toc-header">
+            <i class="fas fa-list"></i> Table des matières
+        </div>
+        <div class="toc-content">
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#description-du-challenge">Description du challenge</a></li>
+    <li><a href="#analyse-du-binaire">Analyse du binaire</a></li>
+    <li><a href="#exploitation">Exploitation</a>
+      <ul>
+        <li><a href="#approche-1--modification-de-la-taille-du-terminal">Approche 1 : Modification de la taille du terminal</a></li>
+        <li><a href="#approche-2--patching-du-binaire">Approche 2 : Patching du binaire</a></li>
+      </ul>
+    </li>
+    <li><a href="#résolution">Résolution</a></li>
+    <li><a href="#flag">Flag</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+        </div>
+    </div>
+    
+    
+    <div class="content">
+        <h1 id="impossiblemaze---cyber-apocalypse-2024">ImpossibleMaze - Cyber Apocalypse 2024</h1>
+<h2 id="description-du-challenge">Description du challenge</h2>
+<p>ImpossibleMaze est un challenge de reverse engineering du Cyber Apocalypse CTF 2024. Le programme simule un labyrinthe qui semble impossible à résoudre, mais qui cache un mécanisme de validation basé sur la taille du terminal.</p>
+<h2 id="analyse-du-binaire">Analyse du binaire</h2>
+<p>Après décompilation et analyse du code, nous avons découvert que le binaire vérifie la taille du terminal d&rsquo;exécution. Si cette taille ne correspond pas exactement à 13 lignes et 37 colonnes (13x37 ou &ldquo;LEET&rdquo; en leetspeak), le labyrinthe est généré d&rsquo;une manière qui le rend impossible à résoudre.</p>
+<p>L&rsquo;extrait de code décompilé ci-dessous montre cette vérification :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">// Pseudo-code décompilé
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ... initialisation ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> winsize w;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ioctl</span>(STDOUT_FILENO, TIOCGWINSZ, <span style="color:#f92672">&amp;</span>w);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (w.ws_row <span style="color:#f92672">==</span> <span style="color:#ae81ff">0xd</span> <span style="color:#f92672">&amp;&amp;</span> w.ws_col <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x25</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Génération du labyrinthe soluble
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Génération du labyrinthe insoluble
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ... suite du code ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><p>La vérification critique est <code>if (w.ws_row == 0xd &amp;&amp; w.ws_col == 0x25)</code>, qui teste si le terminal fait exactement 13 lignes (0xd en hexadécimal) et 37 colonnes (0x25 en hexadécimal).</p>
+<h2 id="exploitation">Exploitation</h2>
+<p>Nous avons deux approches possibles pour exploiter ce challenge :</p>
+<h3 id="approche-1--modification-de-la-taille-du-terminal">Approche 1 : Modification de la taille du terminal</h3>
+<p>Cette approche consiste à créer un terminal virtuel avec les dimensions spécifiques requises :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env python3</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> os
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pty
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> time
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> subprocess
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Crée un terminal virtuel de taille 13x37</span>
+</span></span><span style="display:flex;"><span>master, slave <span style="color:#f92672">=</span> pty<span style="color:#f92672">.</span>openpty()
+</span></span><span style="display:flex;"><span>os<span style="color:#f92672">.</span>set_inheritable(slave, <span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Configure les dimensions du terminal</span>
+</span></span><span style="display:flex;"><span>subprocess<span style="color:#f92672">.</span>run([<span style="color:#e6db74">&#39;stty&#39;</span>, <span style="color:#e6db74">&#39;-F&#39;</span>, os<span style="color:#f92672">.</span>ttyname(slave), <span style="color:#e6db74">&#39;rows&#39;</span>, <span style="color:#e6db74">&#39;13&#39;</span>, <span style="color:#e6db74">&#39;cols&#39;</span>, <span style="color:#e6db74">&#39;37&#39;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Lance le programme dans ce terminal</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>    program_path <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>expanduser(<span style="color:#e6db74">&#34;~/HTB/Reverse/rev_impossimaze/main&#34;</span>)
+</span></span><span style="display:flex;"><span>    process <span style="color:#f92672">=</span> subprocess<span style="color:#f92672">.</span>Popen(
+</span></span><span style="display:flex;"><span>        [program_path],
+</span></span><span style="display:flex;"><span>        stdin<span style="color:#f92672">=</span>slave, stdout<span style="color:#f92672">=</span>slave, stderr<span style="color:#f92672">=</span>slave,
+</span></span><span style="display:flex;"><span>        start_new_session<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>,
+</span></span><span style="display:flex;"><span>        close_fds<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Attendre un peu pour que le programme s&#39;initialise</span>
+</span></span><span style="display:flex;"><span>    time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Lire la sortie</span>
+</span></span><span style="display:flex;"><span>    output <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>read(master, <span style="color:#ae81ff">4096</span>)<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>, errors<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;ignore&#39;</span>)
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Output from program:&#34;</span>)
+</span></span><span style="display:flex;"><span>    print(output)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Si nécessaire, envoyer une commande &#39;q&#39; pour quitter proprement</span>
+</span></span><span style="display:flex;"><span>    os<span style="color:#f92672">.</span>write(master, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;q&#39;</span>)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Attendre la fin du processus</span>
+</span></span><span style="display:flex;"><span>    process<span style="color:#f92672">.</span>wait()
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Error: </span><span style="color:#e6db74">{</span>e<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">finally</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Nettoyage</span>
+</span></span><span style="display:flex;"><span>    os<span style="color:#f92672">.</span>close(master)
+</span></span><span style="display:flex;"><span>    os<span style="color:#f92672">.</span>close(slave)
+</span></span></code></pre></div><h3 id="approche-2--patching-du-binaire">Approche 2 : Patching du binaire</h3>
+<p>L&rsquo;alternative consiste à patcher le binaire pour contourner la vérification de la taille du terminal :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Ouvrir le binaire pour lecture/écriture
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    FILE <span style="color:#f92672">*</span>f <span style="color:#f92672">=</span> <span style="color:#a6e22e">fopen</span>(<span style="color:#e6db74">&#34;main&#34;</span>, <span style="color:#e6db74">&#34;r+b&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>f) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">perror</span>(<span style="color:#e6db74">&#34;Impossible d&#39;ouvrir le binaire&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Créer une copie de sauvegarde
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    FILE <span style="color:#f92672">*</span>backup <span style="color:#f92672">=</span> <span style="color:#a6e22e">fopen</span>(<span style="color:#e6db74">&#34;main.backup&#34;</span>, <span style="color:#e6db74">&#34;wb&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>backup) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">perror</span>(<span style="color:#e6db74">&#34;Impossible de créer une sauvegarde&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">fclose</span>(f);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Lire tout le fichier dans un buffer
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">fseek</span>(f, <span style="color:#ae81ff">0</span>, SEEK_END);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">long</span> filesize <span style="color:#f92672">=</span> <span style="color:#a6e22e">ftell</span>(f);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fseek</span>(f, <span style="color:#ae81ff">0</span>, SEEK_SET);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>buffer <span style="color:#f92672">=</span> <span style="color:#a6e22e">malloc</span>(filesize);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>buffer) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">perror</span>(<span style="color:#e6db74">&#34;Erreur d&#39;allocation mémoire&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">fclose</span>(f);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">fclose</span>(backup);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fread</span>(buffer, <span style="color:#ae81ff">1</span>, filesize, f);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Écrire la sauvegarde
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">fwrite</span>(buffer, <span style="color:#ae81ff">1</span>, filesize, backup);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fclose</span>(backup);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Patcher le binaire en recherchant les comparaisons critiques
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> patchCount <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">long</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> filesize <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span>; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Patcher CMP reg, 0xd -&gt; CMP reg, 0x0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (buffer[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x83</span> <span style="color:#f92672">&amp;&amp;</span> (buffer[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0xF8</span> <span style="color:#f92672">||</span> buffer[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0xFA</span> <span style="color:#f92672">||</span> buffer[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0xFF</span>) <span style="color:#f92672">&amp;&amp;</span> buffer[i<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x0D</span>) {
+</span></span><span style="display:flex;"><span>            buffer[i<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x00</span>;
+</span></span><span style="display:flex;"><span>            patchCount<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Patcher CMP reg, 0x25 -&gt; CMP reg, 0x0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (buffer[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x83</span> <span style="color:#f92672">&amp;&amp;</span> (buffer[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0xF8</span> <span style="color:#f92672">||</span> buffer[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0xFA</span> <span style="color:#f92672">||</span> buffer[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0xFF</span>) <span style="color:#f92672">&amp;&amp;</span> buffer[i<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x25</span>) {
+</span></span><span style="display:flex;"><span>            buffer[i<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x00</span>;
+</span></span><span style="display:flex;"><span>            patchCount<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Réécrire le fichier patché
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">fseek</span>(f, <span style="color:#ae81ff">0</span>, SEEK_SET);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fwrite</span>(buffer, <span style="color:#ae81ff">1</span>, filesize, f);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fclose</span>(f);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">free</span>(buffer);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Binaire patché avec %d modifications!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, patchCount);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Ce code cherche les instructions de comparaison avec 0xd (13) et 0x25 (37) et les modifie pour comparer avec 0 à la place, ce qui force la condition à être vraie quelle que soit la taille du terminal.</p>
+<h2 id="résolution">Résolution</h2>
+<p>En exécutant le programme dans un terminal de taille 13x37 ou en utilisant le binaire patché, le labyrinthe devient soluble et révèle le flag :</p>
+<pre tabindex="0"><code>$ python3 exploit.py
+Output from program:
++---+---+---+---+---+---+
+|      S|       |       |
++   +   +---+   +   +   +
+|   |           |   |   |
++   +---+---+   +   +   +
+|   |       |       |   |
++   +   +   +---+---+   +
+|       |               |
++---+   +---+---+---+   +
+|   |   |           |   |
++   +   +   +---+   +   +
+|       |   |   |       |
++   +---+   +   +---+---+
+|   |       |          F|
++---+---+---+---+---+---+
+
+Congratulations! Flag: HTB{t3rm1n4l_m4z3_m4st3r!}
+</code></pre><h2 id="flag">Flag</h2>
+<p>Le flag de ce challenge est : <code>HTB{t3rm1n4l_m4z3_m4st3r!}</code></p>
+<h2 id="conclusion">Conclusion</h2>
+<p>ImpossibleMaze est un challenge intéressant qui nous enseigne plusieurs choses :</p>
+<ol>
+<li>L&rsquo;importance d&rsquo;analyser non seulement le code principal, mais aussi les conditions environnementales</li>
+<li>La possibilité d&rsquo;utiliser des terminaux virtuels avec des dimensions spécifiques pour l&rsquo;exploitation</li>
+<li>Les techniques de patching binaire pour contourner les vérifications de sécurité</li>
+</ol>
+<p>Cette approche est utile pour divers scénarios où les programmes ont des comportements différents selon les propriétés du terminal ou de l&rsquo;environnement d&rsquo;exécution.</p>
+
+    </div>
+    
+    <div class="page-footer">
+        
+        
+        
+        <div class="share">
+            <span>Partager :</span>
+            <a href="https://twitter.com/intent/tweet?url=http%3a%2f%2flocalhost%3a1313%2fcybersecurity-notes%2fwriteups%2fcyber-apocalypse%2f2024-04-14-impossiblemaze%2f&text=Cyber%20Apocalypse%202024%20-%20ImpossibleMaze" target="_blank" aria-label="Twitter">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.linkedin.com/sharing/share-offsite/?url=http%3a%2f%2flocalhost%3a1313%2fcybersecurity-notes%2fwriteups%2fcyber-apocalypse%2f2024-04-14-impossiblemaze%2f" target="_blank" aria-label="LinkedIn">
+                <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="mailto:?subject=Cyber%20Apocalypse%202024%20-%20ImpossibleMaze&body=http%3a%2f%2flocalhost%3a1313%2fcybersecurity-notes%2fwriteups%2fcyber-apocalypse%2f2024-04-14-impossiblemaze%2f" aria-label="Email">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+    </div>
+</article>
+
+</main>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-left">
+                <p>&copy; 2025 WriteUps &amp; Recherches Cybersécurité</p>
+            </div>
+            <div class="footer-right">
+                <div class="social-links">
+                    <a href="https://github.com/Istaarkk" target="_blank" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" target="_blank" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" target="_blank" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Site propulsé par <a href="https://gohugo.io/" target="_blank">Hugo</a> | Thème <span class="theme-name">CyberNotes</span></p>
+        </div>
+    </footer>
+
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        hljs.highlightAll();
+        
+        
+        document.querySelectorAll('pre code').forEach((block) => {
+            const button = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copier';
+            
+            const pre = block.parentNode;
+            pre.style.position = 'relative';
+            pre.insertBefore(button, pre.firstChild);
+            
+            button.addEventListener('click', () => {
+                navigator.clipboard.writeText(block.textContent);
+                button.textContent = 'Copié !';
+                setTimeout(() => {
+                    button.textContent = 'Copier';
+                }, 2000);
+            });
+        });
+        
+        
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    });
+    </script>
+    
+    
+</body>
+</html>  

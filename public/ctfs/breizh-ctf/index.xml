@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Breizh-Ctf on WriteUps &amp; Recherches Cybersécurité</title>
+    <link>http://localhost:1313/cybersecurity-notes/ctfs/breizh-ctf/</link>
+    <description>Recent content in Breizh-Ctf on WriteUps &amp; Recherches Cybersécurité</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>fr-fr</language>
+    <lastBuildDate>Sun, 14 Apr 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/cybersecurity-notes/ctfs/breizh-ctf/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Breizh CTF 2025 - JackPwn</title>
+      <link>http://localhost:1313/cybersecurity-notes/writeups/breizh-ctf/2024-04-14-breizh-jackpwn/</link>
+      <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/cybersecurity-notes/writeups/breizh-ctf/2024-04-14-breizh-jackpwn/</guid>
+      <description>JackPwn - Breizh CTF 2025 Description du challenge JackPwn est un challenge de la catégorie Pwn du Breizh CTF 2025. Il simule un jeu de roulette avec une vulnérabilité de buffer overflow.&#xA;Analyse du binaire Voici le code source du binaire :&#xA;#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;string.h&amp;gt; #include &amp;lt;time.h&amp;gt; #define MISE 2 const char roulette[] = &amp;#34;xRNRNRNRNRNNRNRNRNRRNRNRNRNRNNRNRNRNR&amp;#34;; void read_input(char *buf) { char c; while (1) { c = getchar(); if (c == &amp;#39;\n&amp;#39;) { *(buf++) = 0; break; } else if (c == EOF) { exit(0); } *(buf++) = c; } } int get_random_number() { return 1 + (random() % 36); } int main() { int bille; char gagne; char valide, rouge, noir, pair, impair; struct { char mise[32]; int solde; } ctx; ctx.</description>
+    </item>
+    <item>
+      <title>Breizh CTF 2025 - Metamorph</title>
+      <link>http://localhost:1313/cybersecurity-notes/writeups/breizh-ctf/2024-04-14-breizh-metamorph/</link>
+      <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/cybersecurity-notes/writeups/breizh-ctf/2024-04-14-breizh-metamorph/</guid>
+      <description>Metamorph - Breizh CTF 2025 Description du challenge Metamorph est un challenge de la catégorie Pwn du Breizh CTF 2025. Il s&amp;rsquo;agit d&amp;rsquo;un binaire qui accepte un shellcode en entrée mais qui impose certaines restrictions sur les opcodes utilisables.&#xA;Analyse du binaire En examinant le code source du binaire, on remarque plusieurs points importants :&#xA;/* BREIZHCTF 2025 - Morph - Pwn */ #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;sys/mman.</description>
+    </item>
+    <item>
+      <title>Breizh CTF 2025 - Otis</title>
+      <link>http://localhost:1313/cybersecurity-notes/writeups/breizh-ctf/2024-04-14-breizh-otis/</link>
+      <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/cybersecurity-notes/writeups/breizh-ctf/2024-04-14-breizh-otis/</guid>
+      <description>Otis - Breizh CTF 2025 Description du challenge Otis est un challenge de la catégorie Pwn du Breizh CTF 2025. Il s&amp;rsquo;agit d&amp;rsquo;un binaire qui simule un système de transformation entre une vache et d&amp;rsquo;autres créatures, présentant une vulnérabilité de type Use-After-Free (UAF).&#xA;Analyse du binaire En examinant le code source du binaire, on peut identifier les points suivants :&#xA;#include &amp;lt;stdio.h&amp;gt; #include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;string.h&amp;gt; typedef struct { char msg[32]; char name[64]; } creature_t; creature_t *new_creature() { creature_t *creature = malloc(sizeof(*creature)); // you may need to install cowsay for this to work FILE *p = popen(&amp;#34;ls /usr/share/cowsay/cows/ | shuf -n1&amp;#34;, &amp;#34;r&amp;#34;); fgets(creature-&amp;gt;name, sizeof(creature-&amp;gt;name), p); pclose(p); return creature; } creature_t *new_cow() { creature_t *cow = malloc(sizeof(*cow)); strlcpy(cow-&amp;gt;name, &amp;#34;default&amp;#34;, sizeof(cow-&amp;gt;name)); return cow; } void roaaar(creature_t *creature) { // you may need to install cowsay for this to work char cmd[256] = &amp;#34;echo &amp;#39;Roarrr !</description>
+    </item>
+  </channel>
+</rss>

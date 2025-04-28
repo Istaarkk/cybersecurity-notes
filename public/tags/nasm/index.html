@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="fr-fr">
+<head><script src="/cybersecurity-notes/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=cybersecurity-notes/livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nasm | WriteUps &amp; Recherches Cybersécurité</title>
+    <meta name="description" content="">
+    
+    
+    <meta property="og:title" content="Nasm">
+    <meta property="og:description" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:1313/cybersecurity-notes/tags/nasm/">
+    
+    
+    <link rel="icon" type="image/svg+xml" href="/cybersecurity-notes/images/favicon.svg">
+    <link rel="icon" type="image/png" href="/cybersecurity-notes/images/favicon.png">
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css">
+    
+    
+    <link rel="stylesheet" href="/cybersecurity-notes/css/main.css">
+    <link rel="stylesheet" href="/cybersecurity-notes/css/custom.css">
+    <link rel="stylesheet" href="/cybersecurity-notes/css/dropdown.css">
+    <link rel="stylesheet" href="/cybersecurity-notes/css/enhanced.css">
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/lib/highlight.min.js"></script>
+    
+    
+    <script src="/cybersecurity-notes/js/copy-code.js" defer></script>
+    <script src="/cybersecurity-notes/js/enhanced.js" defer></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="http://localhost:1313/cybersecurity-notes/" class="nav-brand">
+                <i class="fas fa-shield-alt"></i> WriteUps &amp; Recherches Cybersécurité
+            </a>
+            <div class="nav-links">
+                
+                
+                <a href="http://localhost:1313/cybersecurity-notes/writeups/" class="nav-link">
+                    
+                        <i class="fas fa-flag"></i>
+                    
+                    WriteUps
+                </a>
+                
+                
+                
+                <a href="http://localhost:1313/cybersecurity-notes/veille/" class="nav-link">
+                    
+                        <i class="fas fa-rss"></i>
+                    
+                    Veille
+                </a>
+                
+                
+                
+                <a href="http://localhost:1313/cybersecurity-notes/outils/" class="nav-link">
+                    
+                        <i class="fas fa-tools"></i>
+                    
+                    Outils
+                </a>
+                
+                
+            </div>
+        </div>
+    </nav>
+</body>
+</html> 
+<main class="content">
+    
+<div class="list-page">
+    <header class="page-header">
+        <h1>Nasm</h1>
+        
+    </header>
+    
+    <div class="category-filter">
+        <div class="filter-label"><i class="fas fa-filter"></i> Filtrer par :</div>
+        <div class="filter-buttons">
+            <button class="filter-button active" data-filter="all">Tous</button>
+            
+            <button class="filter-button" data-filter="pwn">pwn</button>
+            
+            <button class="filter-button" data-filter="reverse">reverse</button>
+            
+        </div>
+    </div>
+    
+    <div class="content-list">
+        
+        <div class="year-group">
+            <h2 class="year-title">2024</h2>
+            <div class="year-content">
+                
+                <div class="content-item" data-categories="">
+                    <h2><a href="http://localhost:1313/cybersecurity-notes/writeups/reverse/gdb-nasm/">GDB and NASM Assembly Guide - WriteUp</a></h2>
+                    <div class="meta">
+                        <div class="meta-item">
+                            <i class="far fa-calendar-alt"></i>
+                            <span>14/04/2024</span>
+                        </div>
+                        
+                        
+                        
+                        <div class="meta-item reading-time">
+                            <i class="far fa-clock"></i>
+                            <span>4 min</span>
+                        </div>
+                    </div>
+                    
+                    <div class="summary">
+                        GDB and NASM Assembly Guide This writeup provides a comprehensive guide to using GDB for debugging NASM assembly code, with practical examples and explanations.
+Instructions and Code for GDB and NASM Open a File with GDB Steps:
+Open the file gdb in GDB: gdb ./gdb disassemble _start Set a breakpoint at a specific offset: b *(_start + 16) Run the program and inspect the rax register: run info registers rax Add the following instruction at the end of the code to move the value from rsp into rax: mov rax, rsp Compile the Assembly Code Assuming your assembly code is saved as mov.
+                    </div>
+                    
+                    
+                    <div class="tags-group">
+                        <i class="fas fa-tags"></i>
+                        <div class="tags">
+                            
+                            <a href="/tags/assembly" class="tag">assembly</a>
+                            
+                            <a href="/tags/gdb" class="tag">gdb</a>
+                            
+                            <a href="/tags/nasm" class="tag">nasm</a>
+                            
+                            <a href="/tags/debugging" class="tag">debugging</a>
+                            
+                            <a href="/tags/reverse-engineering" class="tag">reverse-engineering</a>
+                            
+                        </div>
+                    </div>
+                    
+                    
+                    <a href="http://localhost:1313/cybersecurity-notes/writeups/reverse/gdb-nasm/" class="read-more">
+                        Lire la suite <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.filter-button');
+    const contentItems = document.querySelectorAll('.content-item');
+    
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            
+            
+            button.classList.add('active');
+            
+            const filter = button.getAttribute('data-filter');
+            
+            
+            contentItems.forEach(item => {
+                if (filter === 'all') {
+                    item.style.display = 'block';
+                } else {
+                    const categories = item.getAttribute('data-categories').split(' ');
+                    if (categories.includes(filter)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                }
+            });
+        });
+    });
+});
+</script>
+
+</main>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-left">
+                <p>&copy; 2025 WriteUps &amp; Recherches Cybersécurité</p>
+            </div>
+            <div class="footer-right">
+                <div class="social-links">
+                    <a href="https://github.com/Istaarkk" target="_blank" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" target="_blank" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" target="_blank" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Site propulsé par <a href="https://gohugo.io/" target="_blank">Hugo</a> | Thème <span class="theme-name">CyberNotes</span></p>
+        </div>
+    </footer>
+
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        hljs.highlightAll();
+        
+        
+        document.querySelectorAll('pre code').forEach((block) => {
+            const button = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copier';
+            
+            const pre = block.parentNode;
+            pre.style.position = 'relative';
+            pre.insertBefore(button, pre.firstChild);
+            
+            button.addEventListener('click', () => {
+                navigator.clipboard.writeText(block.textContent);
+                button.textContent = 'Copié !';
+                setTimeout(() => {
+                    button.textContent = 'Copier';
+                }, 2000);
+            });
+        });
+        
+        
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    });
+    </script>
+    
+    
+</body>
+</html>  
