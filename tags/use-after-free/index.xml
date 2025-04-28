@@ -2,31 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Use-After-Free on WriteUps &amp; Recherches Cybersécurité</title>
-    <link>http://localhost:1313/cybersecurity-notes/tags/use-after-free/</link>
+    <link>https://Istaarkk.github.io/cybersecurity-notes/tags/use-after-free/</link>
     <description>Recent content in Use-After-Free on WriteUps &amp; Recherches Cybersécurité</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>fr-fr</language>
     <lastBuildDate>Sun, 14 Apr 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/cybersecurity-notes/tags/use-after-free/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://Istaarkk.github.io/cybersecurity-notes/tags/use-after-free/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Breizh CTF 2025 - Otis</title>
-      <link>http://localhost:1313/cybersecurity-notes/writeups/breizh-ctf/2024-04-14-breizh-otis/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/breizh-ctf/2024-04-14-breizh-otis/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/cybersecurity-notes/writeups/breizh-ctf/2024-04-14-breizh-otis/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/writeups/breizh-ctf/2024-04-14-breizh-otis/</guid>
       <description>Otis - Breizh CTF 2025 Description du challenge Otis est un challenge de la catégorie Pwn du Breizh CTF 2025. Il s&amp;rsquo;agit d&amp;rsquo;un binaire qui simule un système de transformation entre une vache et d&amp;rsquo;autres créatures, présentant une vulnérabilité de type Use-After-Free (UAF).&#xA;Analyse du binaire En examinant le code source du binaire, on peut identifier les points suivants :&#xA;#include &amp;lt;stdio.h&amp;gt; #include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;string.h&amp;gt; typedef struct { char msg[32]; char name[64]; } creature_t; creature_t *new_creature() { creature_t *creature = malloc(sizeof(*creature)); // you may need to install cowsay for this to work FILE *p = popen(&amp;#34;ls /usr/share/cowsay/cows/ | shuf -n1&amp;#34;, &amp;#34;r&amp;#34;); fgets(creature-&amp;gt;name, sizeof(creature-&amp;gt;name), p); pclose(p); return creature; } creature_t *new_cow() { creature_t *cow = malloc(sizeof(*cow)); strlcpy(cow-&amp;gt;name, &amp;#34;default&amp;#34;, sizeof(cow-&amp;gt;name)); return cow; } void roaaar(creature_t *creature) { // you may need to install cowsay for this to work char cmd[256] = &amp;#34;echo &amp;#39;Roarrr !</description>
     </item>
     <item>
       <title>PwnMe Junior 2025 - Evil Hackers</title>
-      <link>http://localhost:1313/cybersecurity-notes/writeups/pwnme-junior/2024-04-14-pwnme-evilhackers/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/pwnme-junior/2024-04-14-pwnme-evilhackers/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/cybersecurity-notes/writeups/pwnme-junior/2024-04-14-pwnme-evilhackers/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/writeups/pwnme-junior/2024-04-14-pwnme-evilhackers/</guid>
       <description>Write-up: Evil Hackers - PwnMe Junior 2025 Description Evil Hackers est un challenge de type &amp;ldquo;use-after-free&amp;rdquo; (UAF) qui simule un système de gestion d&amp;rsquo;utilisateurs vulnérable.&#xA;Analyse du binaire Le programme est un binaire ELF 64 bits qui offre une interface pour gérer des utilisateurs, avec plusieurs options :&#xA;Ajouter un utilisateur Supprimer un utilisateur Afficher les informations d&amp;rsquo;un utilisateur Modifier le nom d&amp;rsquo;un utilisateur Quitter Voici un extrait du code source :</description>
     </item>
     <item>
       <title>PwnMe Junior 2025 - Evil-Hackers WriteUp</title>
-      <link>http://localhost:1313/cybersecurity-notes/writeups/pwn/pwnme-junior/2024-04-14-pwnme-evilhackers/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/pwn/pwnme-junior/2024-04-14-pwnme-evilhackers/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/cybersecurity-notes/writeups/pwn/pwnme-junior/2024-04-14-pwnme-evilhackers/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/writeups/pwn/pwnme-junior/2024-04-14-pwnme-evilhackers/</guid>
       <description>PwnMe Junior 2025 - Evil-Hackers WriteUp Description du challenge Le challenge Evil-Hackers est une épreuve de Use-After-Free (UAF) sur un binaire 64 bits. Le programme gère des connexions de hackers et contient une vulnérabilité dans sa gestion de la mémoire.&#xA;Analyse du binaire Vérification des protections $ checksec evil-hackers [*] &amp;#39;/home/synapse/pwnme-junior-2025/pwn/Evil-Hackers/evil-hackers&amp;#39; Arch: amd64-64-little RELRO: Partial RELRO Stack: No canary found NX: NX enabled PIE: No PIE (0x400000) Vulnérabilité Analyse de la vulnérabilité Le programme contient une vulnérabilité Use-After-Free dans son système de gestion de mémoire :</description>
     </item>
   </channel>

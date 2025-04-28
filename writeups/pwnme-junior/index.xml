@@ -2,24 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>PwnMe Junior 2025 on WriteUps &amp; Recherches Cybersécurité</title>
-    <link>http://localhost:1313/cybersecurity-notes/writeups/pwnme-junior/</link>
+    <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/pwnme-junior/</link>
     <description>Recent content in PwnMe Junior 2025 on WriteUps &amp; Recherches Cybersécurité</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>fr-fr</language>
     <lastBuildDate>Sun, 14 Apr 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/cybersecurity-notes/writeups/pwnme-junior/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://Istaarkk.github.io/cybersecurity-notes/writeups/pwnme-junior/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>PwnMe Junior 2025 - Evil Hackers</title>
-      <link>http://localhost:1313/cybersecurity-notes/writeups/pwnme-junior/2024-04-14-pwnme-evilhackers/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/pwnme-junior/2024-04-14-pwnme-evilhackers/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/cybersecurity-notes/writeups/pwnme-junior/2024-04-14-pwnme-evilhackers/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/writeups/pwnme-junior/2024-04-14-pwnme-evilhackers/</guid>
       <description>Write-up: Evil Hackers - PwnMe Junior 2025 Description Evil Hackers est un challenge de type &amp;ldquo;use-after-free&amp;rdquo; (UAF) qui simule un système de gestion d&amp;rsquo;utilisateurs vulnérable.&#xA;Analyse du binaire Le programme est un binaire ELF 64 bits qui offre une interface pour gérer des utilisateurs, avec plusieurs options :&#xA;Ajouter un utilisateur Supprimer un utilisateur Afficher les informations d&amp;rsquo;un utilisateur Modifier le nom d&amp;rsquo;un utilisateur Quitter Voici un extrait du code source :</description>
     </item>
     <item>
       <title>PwnMe Junior 2025 - Overflowme</title>
-      <link>http://localhost:1313/cybersecurity-notes/writeups/pwnme-junior/2024-04-14-pwnme-overflowme/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/pwnme-junior/2024-04-14-pwnme-overflowme/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/cybersecurity-notes/writeups/pwnme-junior/2024-04-14-pwnme-overflowme/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/writeups/pwnme-junior/2024-04-14-pwnme-overflowme/</guid>
       <description>Write-up: Overflowme - PwnMe Junior 2025 Description Overflowme est un challenge de type &amp;ldquo;buffer overflow&amp;rdquo; classique, parfait pour s&amp;rsquo;initier aux techniques d&amp;rsquo;exploitation basiques.&#xA;Analyse du binaire Le programme est un binaire ELF 64 bits qui demande un nom d&amp;rsquo;utilisateur, puis vérifie si l&amp;rsquo;utilisateur est &amp;ldquo;admin&amp;rdquo;. Si ce n&amp;rsquo;est pas le cas, il affiche un message d&amp;rsquo;erreur.&#xA;Voici un extrait du code source :&#xA;#include &amp;lt;stdio.h&amp;gt; #include &amp;lt;string.h&amp;gt; int main() { char username[32]; int is_admin = 0; printf(&amp;#34;Username: &amp;#34;); gets(username); // Vulnérabilité: utilisation de gets() if (is_admin) { printf(&amp;#34;Welcome, admin!</description>
     </item>
   </channel>

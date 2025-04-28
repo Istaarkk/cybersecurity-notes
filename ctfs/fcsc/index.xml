@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Fcsc on WriteUps &amp; Recherches Cybersécurité</title>
-    <link>http://localhost:1313/cybersecurity-notes/ctfs/fcsc/</link>
+    <link>https://Istaarkk.github.io/cybersecurity-notes/ctfs/fcsc/</link>
     <description>Recent content in Fcsc on WriteUps &amp; Recherches Cybersécurité</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>fr-fr</language>
     <lastBuildDate>Sat, 27 Apr 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/cybersecurity-notes/ctfs/fcsc/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://Istaarkk.github.io/cybersecurity-notes/ctfs/fcsc/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>FCSC 2024 - Challenge de Reverse Engineering</title>
-      <link>http://localhost:1313/cybersecurity-notes/writeups/fcsc/2024-04-27-reverse-challenge/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/fcsc/2024-04-27-reverse-challenge/</link>
       <pubDate>Sat, 27 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/cybersecurity-notes/writeups/fcsc/2024-04-27-reverse-challenge/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/writeups/fcsc/2024-04-27-reverse-challenge/</guid>
       <description>Write-up: Challenge de Reverse Engineering Introduction Ce write-up présente la résolution d&amp;rsquo;un challenge de reverse engineering où nous devions analyser du code assembleur pour trouver un flag au format FCSC{&amp;hellip;}.&#xA;Analyse du code Le code fourni est une représentation désassemblée d&amp;rsquo;un programme binaire. En analysant les fonctions principales, nous avons pu comprendre le fonctionnement général du programme:&#xA;main() initialise le programme et déchiffre trois chaînes de caractères en effectuant un XOR avec des constantes (0x42, 0x13, 0x37) Le programme obtient une entrée utilisateur via VsvYbpipYYgRoCeFtoxhtAmdFuNu3WvV() Cette entrée est transformée par wKtyPoT4WdyrkVzhvYUfvqo3M9iPVMd3() Le résultat est comparé avec une valeur cible (jMunhwoW4bRqeCdJfXvfNrRm) dans VakkEeHbtHMpNqXPMkadR4v7K() Le mécanisme de chiffrement La fonction clé est wKtyPoT4WdyrkVzhvYUfvqo3M9iPVMd3() qui transforme l&amp;rsquo;entrée utilisateur comme suit:</description>
     </item>
   </channel>
