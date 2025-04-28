@@ -39,11 +39,12 @@ params:
     showAuthor: true
     showBreadcrumbs: true
     showTableOfContents: true
-  # Affichage des articles récents sur la page d'accueil
+  # Configuration de la page d'accueil
   homepage:
-    layout: "custom"
+    layout: "profile"  # ou "hero", "card", "background", selon ton choix
     showRecent: true
-    showRecentItems: 6
+    showRecentItems: 5
+    cardView: true
 
 menu:
   main:
