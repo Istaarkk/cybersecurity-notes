@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Reverse Engineering on WriteUps &amp; Recherches Cybersécurité</title>
-    <link>http://localhost:41813/cybersecurity-notes/writeups/reverse/</link>
+    <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/reverse/</link>
     <description>Recent content in Reverse Engineering on WriteUps &amp; Recherches Cybersécurité</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>fr-fr</language>
     <lastBuildDate>Sun, 14 Apr 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:41813/cybersecurity-notes/writeups/reverse/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://Istaarkk.github.io/cybersecurity-notes/writeups/reverse/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>GDB and NASM Assembly Guide - WriteUp</title>
-      <link>http://localhost:41813/cybersecurity-notes/writeups/reverse/gdb-nasm/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/reverse/gdb-nasm/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:41813/cybersecurity-notes/writeups/reverse/gdb-nasm/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/writeups/reverse/gdb-nasm/</guid>
       <description>GDB and NASM Assembly Guide This writeup provides a comprehensive guide to using GDB for debugging NASM assembly code, with practical examples and explanations.&#xA;Instructions and Code for GDB and NASM Open a File with GDB Steps:&#xA;Open the file gdb in GDB: gdb ./gdb disassemble _start Set a breakpoint at a specific offset: b *(_start + 16) Run the program and inspect the rax register: run info registers rax Add the following instruction at the end of the code to move the value from rsp into rax: mov rax, rsp Compile the Assembly Code Assuming your assembly code is saved as mov.</description>
     </item>
   </channel>

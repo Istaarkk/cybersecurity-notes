@@ -22,3 +22,18 @@ Cette section est dédiée aux challenges du Cyber Apocalypse CTF 2024 organisé
 Le Cyber Apocalypse CTF est une compétition annuelle organisée par Hack The Box. Ce CTF thématique propose une variété de challenges couvrant différentes catégories comme le Web, la Cryptographie, le Reverse Engineering, le Pwn, et plus encore. En 2024, l'événement a réuni des milliers de participants du monde entier pour relever des défis techniques dans un univers cyberpunk dystopique. 
 
 theme = "blowfish" 
+
+[homepage]
+  layout = "card"
+  showRecent = true
+  showRecentItems = 6
+  showMoreLink = false
+  cardView = true
+  cardViewScreenWidth = false
+  layoutBackgroundBlur = true
+
+[list]
+  showSummary = false
+  showCards = true
+  cardView = true
+  # ... autres options ... 

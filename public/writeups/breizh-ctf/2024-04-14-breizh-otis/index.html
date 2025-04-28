@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr-fr">
-<head><script src="/cybersecurity-notes/livereload.js?mindelay=10&amp;v=2&amp;port=41813&amp;path=cybersecurity-notes/livereload" data-no-instant defer></script>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Breizh CTF 2025 - Otis | WriteUps &amp; Recherches Cybersécurité</title>
@@ -14,7 +14,7 @@ Analyse du binaire En examinant le code source du binaire, on peut identifier le
 Analyse du binaire En examinant le code source du binaire, on peut identifier les points suivants :
 #include &lt;stdio.h&gt; #include &lt;stdlib.h&gt; #include &lt;string.h&gt; typedef struct { char msg[32]; char name[64]; } creature_t; creature_t *new_creature() { creature_t *creature = malloc(sizeof(*creature)); // you may need to install cowsay for this to work FILE *p = popen(&#34;ls /usr/share/cowsay/cows/ | shuf -n1&#34;, &#34;r&#34;); fgets(creature-&gt;name, sizeof(creature-&gt;name), p); pclose(p); return creature; } creature_t *new_cow() { creature_t *cow = malloc(sizeof(*cow)); strlcpy(cow-&gt;name, &#34;default&#34;, sizeof(cow-&gt;name)); return cow; } void roaaar(creature_t *creature) { // you may need to install cowsay for this to work char cmd[256] = &#34;echo &#39;Roarrr !">
     <meta property="og:type" content="article">
-    <meta property="og:url" content="http://localhost:41813/cybersecurity-notes/writeups/breizh-ctf/2024-04-14-breizh-otis/">
+    <meta property="og:url" content="https://Istaarkk.github.io/cybersecurity-notes/writeups/breizh-ctf/2024-04-14-breizh-otis/">
     
     
     <link rel="icon" type="image/svg+xml" href="/cybersecurity-notes/images/favicon.svg">
@@ -44,13 +44,13 @@ Analyse du binaire En examinant le code source du binaire, on peut identifier le
 <body>
     <nav class="navbar">
         <div class="nav-content">
-            <a href="http://localhost:41813/cybersecurity-notes/" class="nav-brand">
+            <a href="https://Istaarkk.github.io/cybersecurity-notes/" class="nav-brand">
                 <i class="fas fa-shield-alt"></i> WriteUps &amp; Recherches Cybersécurité
             </a>
             <div class="nav-links">
                 
                 
-                <a href="http://localhost:41813/cybersecurity-notes/writeups/" class="nav-link">
+                <a href="https://Istaarkk.github.io/cybersecurity-notes/writeups/" class="nav-link">
                     
                         <i class="fas fa-flag"></i>
                     
@@ -59,7 +59,7 @@ Analyse du binaire En examinant le code source du binaire, on peut identifier le
                 
                 
                 
-                <a href="http://localhost:41813/cybersecurity-notes/veille/" class="nav-link">
+                <a href="https://Istaarkk.github.io/cybersecurity-notes/veille/" class="nav-link">
                     
                         <i class="fas fa-rss"></i>
                     
@@ -68,7 +68,7 @@ Analyse du binaire En examinant le code source du binaire, on peut identifier le
                 
                 
                 
-                <a href="http://localhost:41813/cybersecurity-notes/outils/" class="nav-link">
+                <a href="https://Istaarkk.github.io/cybersecurity-notes/outils/" class="nav-link">
                     
                         <i class="fas fa-tools"></i>
                     
@@ -86,7 +86,7 @@ Analyse du binaire En examinant le code source du binaire, on peut identifier le
 <article class="single-page">
     <header class="page-header">
         <div class="breadcrumbs">
-            <a href="http://localhost:41813/cybersecurity-notes/">Accueil</a> &gt;
+            <a href="https://Istaarkk.github.io/cybersecurity-notes/">Accueil</a> &gt;
             
             
             <a href="/categories/pwn">pwn</a> &gt;
@@ -384,13 +384,13 @@ BZHCTF{0t1s_h4s_b33n_0wn3d_w1th_u4f}
         
         <div class="share">
             <span>Partager :</span>
-            <a href="https://twitter.com/intent/tweet?url=http%3a%2f%2flocalhost%3a41813%2fcybersecurity-notes%2fwriteups%2fbreizh-ctf%2f2024-04-14-breizh-otis%2f&text=Breizh%20CTF%202025%20-%20Otis" target="_blank" aria-label="Twitter">
+            <a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fIstaarkk.github.io%2fcybersecurity-notes%2fwriteups%2fbreizh-ctf%2f2024-04-14-breizh-otis%2f&text=Breizh%20CTF%202025%20-%20Otis" target="_blank" aria-label="Twitter">
                 <i class="fab fa-twitter"></i>
             </a>
-            <a href="https://www.linkedin.com/sharing/share-offsite/?url=http%3a%2f%2flocalhost%3a41813%2fcybersecurity-notes%2fwriteups%2fbreizh-ctf%2f2024-04-14-breizh-otis%2f" target="_blank" aria-label="LinkedIn">
+            <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3a%2f%2fIstaarkk.github.io%2fcybersecurity-notes%2fwriteups%2fbreizh-ctf%2f2024-04-14-breizh-otis%2f" target="_blank" aria-label="LinkedIn">
                 <i class="fab fa-linkedin"></i>
             </a>
-            <a href="mailto:?subject=Breizh%20CTF%202025%20-%20Otis&body=http%3a%2f%2flocalhost%3a41813%2fcybersecurity-notes%2fwriteups%2fbreizh-ctf%2f2024-04-14-breizh-otis%2f" aria-label="Email">
+            <a href="mailto:?subject=Breizh%20CTF%202025%20-%20Otis&body=https%3a%2f%2fIstaarkk.github.io%2fcybersecurity-notes%2fwriteups%2fbreizh-ctf%2f2024-04-14-breizh-otis%2f" aria-label="Email">
                 <i class="fas fa-envelope"></i>
             </a>
         </div>

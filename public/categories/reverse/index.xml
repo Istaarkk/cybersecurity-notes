@@ -2,45 +2,45 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Reverse on WriteUps &amp; Recherches Cybersécurité</title>
-    <link>http://localhost:41813/cybersecurity-notes/categories/reverse/</link>
+    <link>https://Istaarkk.github.io/cybersecurity-notes/categories/reverse/</link>
     <description>Recent content in Reverse on WriteUps &amp; Recherches Cybersécurité</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>fr-fr</language>
     <lastBuildDate>Sat, 27 Apr 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:41813/cybersecurity-notes/categories/reverse/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://Istaarkk.github.io/cybersecurity-notes/categories/reverse/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>FCSC 2024 - Challenge de Reverse Engineering</title>
-      <link>http://localhost:41813/cybersecurity-notes/writeups/fcsc/2024-04-27-reverse-challenge/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/fcsc/2024-04-27-reverse-challenge/</link>
       <pubDate>Sat, 27 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:41813/cybersecurity-notes/writeups/fcsc/2024-04-27-reverse-challenge/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/writeups/fcsc/2024-04-27-reverse-challenge/</guid>
       <description>Write-up: Challenge de Reverse Engineering Introduction Ce write-up présente la résolution d&amp;rsquo;un challenge de reverse engineering où nous devions analyser du code assembleur pour trouver un flag au format FCSC{&amp;hellip;}.&#xA;Analyse du code Le code fourni est une représentation désassemblée d&amp;rsquo;un programme binaire. En analysant les fonctions principales, nous avons pu comprendre le fonctionnement général du programme:&#xA;main() initialise le programme et déchiffre trois chaînes de caractères en effectuant un XOR avec des constantes (0x42, 0x13, 0x37) Le programme obtient une entrée utilisateur via VsvYbpipYYgRoCeFtoxhtAmdFuNu3WvV() Cette entrée est transformée par wKtyPoT4WdyrkVzhvYUfvqo3M9iPVMd3() Le résultat est comparé avec une valeur cible (jMunhwoW4bRqeCdJfXvfNrRm) dans VakkEeHbtHMpNqXPMkadR4v7K() Le mécanisme de chiffrement La fonction clé est wKtyPoT4WdyrkVzhvYUfvqo3M9iPVMd3() qui transforme l&amp;rsquo;entrée utilisateur comme suit:</description>
     </item>
     <item>
       <title>Cyber Apocalypse 2024 - BoxOfCourios</title>
-      <link>http://localhost:41813/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-boxofcourios/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-boxofcourios/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:41813/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-boxofcourios/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-boxofcourios/</guid>
       <description></description>
     </item>
     <item>
       <title>Cyber Apocalypse 2024 - EndlessCycle</title>
-      <link>http://localhost:41813/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-endlesscycle/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-endlesscycle/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:41813/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-endlesscycle/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-endlesscycle/</guid>
       <description>EndlessCycle - Cyber Apocalypse 2024 Description du challenge EndlessCycle est un challenge de reverse engineering du Cyber Apocalypse CTF 2024. Le programme semble piéger l&amp;rsquo;utilisateur dans une boucle sans fin, mais contient en réalité un flag caché dans le binaire, chiffré avec une opération XOR.&#xA;Analyse du binaire En analysant le binaire avec un désassembleur, nous avons découvert qu&amp;rsquo;il contient un ensemble de données chiffrées. Ces données se trouvent dans la section .</description>
     </item>
     <item>
       <title>Cyber Apocalypse 2024 - ImpossibleMaze</title>
-      <link>http://localhost:41813/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-impossiblemaze/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-impossiblemaze/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:41813/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-impossiblemaze/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-impossiblemaze/</guid>
       <description>ImpossibleMaze - Cyber Apocalypse 2024 Description du challenge ImpossibleMaze est un challenge de reverse engineering du Cyber Apocalypse CTF 2024. Le programme simule un labyrinthe qui semble impossible à résoudre, mais qui cache un mécanisme de validation basé sur la taille du terminal.&#xA;Analyse du binaire Après décompilation et analyse du code, nous avons découvert que le binaire vérifie la taille du terminal d&amp;rsquo;exécution. Si cette taille ne correspond pas exactement à 13 lignes et 37 colonnes (13x37 ou &amp;ldquo;LEET&amp;rdquo; en leetspeak), le labyrinthe est généré d&amp;rsquo;une manière qui le rend impossible à résoudre.</description>
     </item>
     <item>
       <title>Cyber Apocalypse 2024 - SealedRune</title>
-      <link>http://localhost:41813/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-sealedrune/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-sealedrune/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:41813/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-sealedrune/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-sealedrune/</guid>
       <description>SealedRune - Cyber Apocalypse 2024 Description du challenge SealedRune est un challenge de reverse engineering du Cyber Apocalypse CTF 2024. Le programme attend un input spécifique qui, une fois entré correctement, révèle le flag.&#xA;Analyse du binaire En analysant le binaire avec un désassembleur, nous avons découvert que le programme contient une chaîne encodée en Base64. Cette chaîne est ensuite décodée et comparée à l&amp;rsquo;entrée utilisateur, mais avec une particularité : la comparaison se fait avec la chaîne inversée.</description>
     </item>
   </channel>

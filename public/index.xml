@@ -2,129 +2,129 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>WriteUps &amp; Recherches Cybersécurité</title>
-    <link>http://localhost:41813/cybersecurity-notes/</link>
+    <link>https://Istaarkk.github.io/cybersecurity-notes/</link>
     <description>Recent content on WriteUps &amp; Recherches Cybersécurité</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>fr-fr</language>
     <lastBuildDate>Sat, 27 Apr 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:41813/cybersecurity-notes/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://Istaarkk.github.io/cybersecurity-notes/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>FCSC 2024 - Challenge de Reverse Engineering</title>
-      <link>http://localhost:41813/cybersecurity-notes/writeups/fcsc/2024-04-27-reverse-challenge/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/fcsc/2024-04-27-reverse-challenge/</link>
       <pubDate>Sat, 27 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:41813/cybersecurity-notes/writeups/fcsc/2024-04-27-reverse-challenge/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/writeups/fcsc/2024-04-27-reverse-challenge/</guid>
       <description>Write-up: Challenge de Reverse Engineering Introduction Ce write-up présente la résolution d&amp;rsquo;un challenge de reverse engineering où nous devions analyser du code assembleur pour trouver un flag au format FCSC{&amp;hellip;}.&#xA;Analyse du code Le code fourni est une représentation désassemblée d&amp;rsquo;un programme binaire. En analysant les fonctions principales, nous avons pu comprendre le fonctionnement général du programme:&#xA;main() initialise le programme et déchiffre trois chaînes de caractères en effectuant un XOR avec des constantes (0x42, 0x13, 0x37) Le programme obtient une entrée utilisateur via VsvYbpipYYgRoCeFtoxhtAmdFuNu3WvV() Cette entrée est transformée par wKtyPoT4WdyrkVzhvYUfvqo3M9iPVMd3() Le résultat est comparé avec une valeur cible (jMunhwoW4bRqeCdJfXvfNrRm) dans VakkEeHbtHMpNqXPMkadR4v7K() Le mécanisme de chiffrement La fonction clé est wKtyPoT4WdyrkVzhvYUfvqo3M9iPVMd3() qui transforme l&amp;rsquo;entrée utilisateur comme suit:</description>
     </item>
     <item>
       <title>À propos</title>
-      <link>http://localhost:41813/cybersecurity-notes/about/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/about/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:41813/cybersecurity-notes/about/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/about/</guid>
       <description>À propos Welcome here you will be able to find some of my works.&#xA;Contact Vous pouvez me contacter via :&#xA;GitHub : @Istaarkk </description>
     </item>
     <item>
       <title>Breizh CTF 2025 - JackPwn</title>
-      <link>http://localhost:41813/cybersecurity-notes/writeups/breizh-ctf/2024-04-14-breizh-jackpwn/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/breizh-ctf/2024-04-14-breizh-jackpwn/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:41813/cybersecurity-notes/writeups/breizh-ctf/2024-04-14-breizh-jackpwn/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/writeups/breizh-ctf/2024-04-14-breizh-jackpwn/</guid>
       <description>JackPwn - Breizh CTF 2025 Description du challenge JackPwn est un challenge de la catégorie Pwn du Breizh CTF 2025. Il simule un jeu de roulette avec une vulnérabilité de buffer overflow.&#xA;Analyse du binaire Voici le code source du binaire :&#xA;#include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;string.h&amp;gt; #include &amp;lt;time.h&amp;gt; #define MISE 2 const char roulette[] = &amp;#34;xRNRNRNRNRNNRNRNRNRRNRNRNRNRNNRNRNRNR&amp;#34;; void read_input(char *buf) { char c; while (1) { c = getchar(); if (c == &amp;#39;\n&amp;#39;) { *(buf++) = 0; break; } else if (c == EOF) { exit(0); } *(buf++) = c; } } int get_random_number() { return 1 + (random() % 36); } int main() { int bille; char gagne; char valide, rouge, noir, pair, impair; struct { char mise[32]; int solde; } ctx; ctx.</description>
     </item>
     <item>
       <title>Breizh CTF 2025 - Metamorph</title>
-      <link>http://localhost:41813/cybersecurity-notes/writeups/breizh-ctf/2024-04-14-breizh-metamorph/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/breizh-ctf/2024-04-14-breizh-metamorph/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:41813/cybersecurity-notes/writeups/breizh-ctf/2024-04-14-breizh-metamorph/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/writeups/breizh-ctf/2024-04-14-breizh-metamorph/</guid>
       <description>Metamorph - Breizh CTF 2025 Description du challenge Metamorph est un challenge de la catégorie Pwn du Breizh CTF 2025. Il s&amp;rsquo;agit d&amp;rsquo;un binaire qui accepte un shellcode en entrée mais qui impose certaines restrictions sur les opcodes utilisables.&#xA;Analyse du binaire En examinant le code source du binaire, on remarque plusieurs points importants :&#xA;/* BREIZHCTF 2025 - Morph - Pwn */ #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;sys/mman.</description>
     </item>
     <item>
       <title>Breizh CTF 2025 - Otis</title>
-      <link>http://localhost:41813/cybersecurity-notes/writeups/breizh-ctf/2024-04-14-breizh-otis/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/breizh-ctf/2024-04-14-breizh-otis/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:41813/cybersecurity-notes/writeups/breizh-ctf/2024-04-14-breizh-otis/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/writeups/breizh-ctf/2024-04-14-breizh-otis/</guid>
       <description>Otis - Breizh CTF 2025 Description du challenge Otis est un challenge de la catégorie Pwn du Breizh CTF 2025. Il s&amp;rsquo;agit d&amp;rsquo;un binaire qui simule un système de transformation entre une vache et d&amp;rsquo;autres créatures, présentant une vulnérabilité de type Use-After-Free (UAF).&#xA;Analyse du binaire En examinant le code source du binaire, on peut identifier les points suivants :&#xA;#include &amp;lt;stdio.h&amp;gt; #include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;string.h&amp;gt; typedef struct { char msg[32]; char name[64]; } creature_t; creature_t *new_creature() { creature_t *creature = malloc(sizeof(*creature)); // you may need to install cowsay for this to work FILE *p = popen(&amp;#34;ls /usr/share/cowsay/cows/ | shuf -n1&amp;#34;, &amp;#34;r&amp;#34;); fgets(creature-&amp;gt;name, sizeof(creature-&amp;gt;name), p); pclose(p); return creature; } creature_t *new_cow() { creature_t *cow = malloc(sizeof(*cow)); strlcpy(cow-&amp;gt;name, &amp;#34;default&amp;#34;, sizeof(cow-&amp;gt;name)); return cow; } void roaaar(creature_t *creature) { // you may need to install cowsay for this to work char cmd[256] = &amp;#34;echo &amp;#39;Roarrr !</description>
     </item>
     <item>
       <title>Cyber Apocalypse 2024 - BoxOfCourios</title>
-      <link>http://localhost:41813/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-boxofcourios/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-boxofcourios/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:41813/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-boxofcourios/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-boxofcourios/</guid>
       <description></description>
     </item>
     <item>
       <title>Cyber Apocalypse 2024 - EncryptedScroll</title>
-      <link>http://localhost:41813/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-encryptedscroll/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-encryptedscroll/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:41813/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-encryptedscroll/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-encryptedscroll/</guid>
       <description>EncryptedScroll - Cyber Apocalypse 2024 Description du challenge EncryptedScroll est un challenge de reverse engineering du Cyber Apocalypse CTF 2024. Le programme simule un parchemin magique qui ne révèle son contenu qu&amp;rsquo;après avoir déchiffré une incantation secrète.&#xA;Analyse du binaire Après avoir analysé le binaire avec un désassembleur, nous avons identifié que le programme utilise un algorithme simple de substitution pour masquer la chaîne de validation.&#xA;Voici le code désassemblé qui montre le mécanisme de vérification :</description>
     </item>
     <item>
       <title>Cyber Apocalypse 2024 - EndlessCycle</title>
-      <link>http://localhost:41813/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-endlesscycle/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-endlesscycle/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:41813/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-endlesscycle/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-endlesscycle/</guid>
       <description>EndlessCycle - Cyber Apocalypse 2024 Description du challenge EndlessCycle est un challenge de reverse engineering du Cyber Apocalypse CTF 2024. Le programme semble piéger l&amp;rsquo;utilisateur dans une boucle sans fin, mais contient en réalité un flag caché dans le binaire, chiffré avec une opération XOR.&#xA;Analyse du binaire En analysant le binaire avec un désassembleur, nous avons découvert qu&amp;rsquo;il contient un ensemble de données chiffrées. Ces données se trouvent dans la section .</description>
     </item>
     <item>
       <title>Cyber Apocalypse 2024 - ImpossibleMaze</title>
-      <link>http://localhost:41813/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-impossiblemaze/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-impossiblemaze/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:41813/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-impossiblemaze/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-impossiblemaze/</guid>
       <description>ImpossibleMaze - Cyber Apocalypse 2024 Description du challenge ImpossibleMaze est un challenge de reverse engineering du Cyber Apocalypse CTF 2024. Le programme simule un labyrinthe qui semble impossible à résoudre, mais qui cache un mécanisme de validation basé sur la taille du terminal.&#xA;Analyse du binaire Après décompilation et analyse du code, nous avons découvert que le binaire vérifie la taille du terminal d&amp;rsquo;exécution. Si cette taille ne correspond pas exactement à 13 lignes et 37 colonnes (13x37 ou &amp;ldquo;LEET&amp;rdquo; en leetspeak), le labyrinthe est généré d&amp;rsquo;une manière qui le rend impossible à résoudre.</description>
     </item>
     <item>
       <title>Cyber Apocalypse 2024 - SealedRune</title>
-      <link>http://localhost:41813/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-sealedrune/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-sealedrune/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:41813/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-sealedrune/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-sealedrune/</guid>
       <description>SealedRune - Cyber Apocalypse 2024 Description du challenge SealedRune est un challenge de reverse engineering du Cyber Apocalypse CTF 2024. Le programme attend un input spécifique qui, une fois entré correctement, révèle le flag.&#xA;Analyse du binaire En analysant le binaire avec un désassembleur, nous avons découvert que le programme contient une chaîne encodée en Base64. Cette chaîne est ensuite décodée et comparée à l&amp;rsquo;entrée utilisateur, mais avec une particularité : la comparaison se fait avec la chaîne inversée.</description>
     </item>
     <item>
       <title>GDB and NASM Assembly Guide - WriteUp</title>
-      <link>http://localhost:41813/cybersecurity-notes/writeups/reverse/gdb-nasm/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/reverse/gdb-nasm/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:41813/cybersecurity-notes/writeups/reverse/gdb-nasm/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/writeups/reverse/gdb-nasm/</guid>
       <description>GDB and NASM Assembly Guide This writeup provides a comprehensive guide to using GDB for debugging NASM assembly code, with practical examples and explanations.&#xA;Instructions and Code for GDB and NASM Open a File with GDB Steps:&#xA;Open the file gdb in GDB: gdb ./gdb disassemble _start Set a breakpoint at a specific offset: b *(_start + 16) Run the program and inspect the rax register: run info registers rax Add the following instruction at the end of the code to move the value from rsp into rax: mov rax, rsp Compile the Assembly Code Assuming your assembly code is saved as mov.</description>
     </item>
     <item>
       <title>Pentesting SNMP - WriteUp rapide</title>
-      <link>http://localhost:41813/cybersecurity-notes/writeups/network/2024-04-14-pentest-snmp/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/network/2024-04-14-pentest-snmp/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:41813/cybersecurity-notes/writeups/network/2024-04-14-pentest-snmp/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/writeups/network/2024-04-14-pentest-snmp/</guid>
       <description>Pentesting SNMP - WriteUp rapide Note SNMP (Simple Network Management Protocol) est souvent négligé dans les tests de sécurité mais peut révéler des informations sensibles sur les systèmes. Commandes utiles Énumération SNMP # Découverte SNMP snmpwalk -v2c -c public 192.168.1.1 # Avec communauté privée snmpwalk -v2c -c private 192.168.1.1 # Énumération des utilisateurs Windows snmpwalk -v2c -c public 192.168.1.1 1.3.6.1.4.1.77.1.2.25 Outils recommandés onesixtyone Scanner SNMP rapide pour tester différentes communautés. Documentation Points d&amp;rsquo;attention Attention Les communautés par défaut (public/private) sont souvent laissées inchangées dans les environnements de production.</description>
     </item>
     <item>
       <title>PwnMe Junior 2025 - Evil Hackers</title>
-      <link>http://localhost:41813/cybersecurity-notes/writeups/pwnme-junior/2024-04-14-pwnme-evilhackers/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/pwnme-junior/2024-04-14-pwnme-evilhackers/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:41813/cybersecurity-notes/writeups/pwnme-junior/2024-04-14-pwnme-evilhackers/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/writeups/pwnme-junior/2024-04-14-pwnme-evilhackers/</guid>
       <description>Write-up: Evil Hackers - PwnMe Junior 2025 Description Evil Hackers est un challenge de type &amp;ldquo;use-after-free&amp;rdquo; (UAF) qui simule un système de gestion d&amp;rsquo;utilisateurs vulnérable.&#xA;Analyse du binaire Le programme est un binaire ELF 64 bits qui offre une interface pour gérer des utilisateurs, avec plusieurs options :&#xA;Ajouter un utilisateur Supprimer un utilisateur Afficher les informations d&amp;rsquo;un utilisateur Modifier le nom d&amp;rsquo;un utilisateur Quitter Voici un extrait du code source :</description>
     </item>
     <item>
       <title>PwnMe Junior 2025 - Evil-Hackers WriteUp</title>
-      <link>http://localhost:41813/cybersecurity-notes/writeups/pwn/pwnme-junior/2024-04-14-pwnme-evilhackers/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/pwn/pwnme-junior/2024-04-14-pwnme-evilhackers/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:41813/cybersecurity-notes/writeups/pwn/pwnme-junior/2024-04-14-pwnme-evilhackers/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/writeups/pwn/pwnme-junior/2024-04-14-pwnme-evilhackers/</guid>
       <description>PwnMe Junior 2025 - Evil-Hackers WriteUp Description du challenge Le challenge Evil-Hackers est une épreuve de Use-After-Free (UAF) sur un binaire 64 bits. Le programme gère des connexions de hackers et contient une vulnérabilité dans sa gestion de la mémoire.&#xA;Analyse du binaire Vérification des protections $ checksec evil-hackers [*] &amp;#39;/home/synapse/pwnme-junior-2025/pwn/Evil-Hackers/evil-hackers&amp;#39; Arch: amd64-64-little RELRO: Partial RELRO Stack: No canary found NX: NX enabled PIE: No PIE (0x400000) Vulnérabilité Analyse de la vulnérabilité Le programme contient une vulnérabilité Use-After-Free dans son système de gestion de mémoire :</description>
     </item>
     <item>
       <title>PwnMe Junior 2025 - Overflowme</title>
-      <link>http://localhost:41813/cybersecurity-notes/writeups/pwnme-junior/2024-04-14-pwnme-overflowme/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/pwnme-junior/2024-04-14-pwnme-overflowme/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:41813/cybersecurity-notes/writeups/pwnme-junior/2024-04-14-pwnme-overflowme/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/writeups/pwnme-junior/2024-04-14-pwnme-overflowme/</guid>
       <description>Write-up: Overflowme - PwnMe Junior 2025 Description Overflowme est un challenge de type &amp;ldquo;buffer overflow&amp;rdquo; classique, parfait pour s&amp;rsquo;initier aux techniques d&amp;rsquo;exploitation basiques.&#xA;Analyse du binaire Le programme est un binaire ELF 64 bits qui demande un nom d&amp;rsquo;utilisateur, puis vérifie si l&amp;rsquo;utilisateur est &amp;ldquo;admin&amp;rdquo;. Si ce n&amp;rsquo;est pas le cas, il affiche un message d&amp;rsquo;erreur.&#xA;Voici un extrait du code source :&#xA;#include &amp;lt;stdio.h&amp;gt; #include &amp;lt;string.h&amp;gt; int main() { char username[32]; int is_admin = 0; printf(&amp;#34;Username: &amp;#34;); gets(username); // Vulnérabilité: utilisation de gets() if (is_admin) { printf(&amp;#34;Welcome, admin!</description>
     </item>
     <item>
       <title>PwnMe Junior 2025 - overflowme WriteUp</title>
-      <link>http://localhost:41813/cybersecurity-notes/writeups/pwn/pwnme-junior/2024-04-14-pwnme-overflowme/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/pwn/pwnme-junior/2024-04-14-pwnme-overflowme/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:41813/cybersecurity-notes/writeups/pwn/pwnme-junior/2024-04-14-pwnme-overflowme/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/writeups/pwn/pwnme-junior/2024-04-14-pwnme-overflowme/</guid>
       <description>PwnMe Junior 2025 - overflowme WriteUp Description du challenge Le challenge overflowme est un exercice de buffer overflow sur un binaire 64 bits. Le programme attend une entrée utilisateur et contient une vulnérabilité qui permet d&amp;rsquo;écraser l&amp;rsquo;adresse de retour.&#xA;Analyse du binaire Vérification des protections $ checksec overflowme [*] &amp;#39;/home/synapse/pwnme-junior-2025/pwn/overflowme/overflowme&amp;#39; Arch: amd64-64-little RELRO: Partial RELRO Stack: No canary found NX: NX enabled PIE: No PIE (0x400000) Exploitation Plan d&amp;rsquo;attaque Envoyer &amp;ldquo;5&amp;rdquo; comme première entrée Overflow du buffer avec un offset de 72 bytes Écraser l&amp;rsquo;adresse de retour avec l&amp;rsquo;adresse de la fonction win (0x401417) Script d&amp;rsquo;exploitation from pwn import * context.</description>
     </item>
     <item>
       <title>Web Fuzzing - HTB Course WriteUp</title>
-      <link>http://localhost:41813/cybersecurity-notes/writeups/web/web-fuzzing/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/web/web-fuzzing/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:41813/cybersecurity-notes/writeups/web/web-fuzzing/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/writeups/web/web-fuzzing/</guid>
       <description>Web Fuzzing Ce writeup couvre le cours Web Fuzzing sur HTB.&#xA;Vue d&amp;rsquo;ensemble Le fuzzing web est une technique essentielle en pentesting qui consiste à tester systématiquement les entrées d&amp;rsquo;une application web pour découvrir des vulnérabilités, des fichiers cachés ou des fonctionnalités non documentées.&#xA;Premier Flag - Fuzzing de base Pour trouver le premier flag, nous devons fuzzer le site en utilisant Feroxbuster, un outil open-source.&#xA;feroxbuster -u http://[TARGET]/FUZZ -w /usr/share/wordlists/dirb/common.</description>
     </item>
   </channel>
