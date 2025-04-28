@@ -1,0 +1,62 @@
+baseURL: "https://Istaarkk.github.io/cybersecurity-notes/"
+languageCode: "fr-fr"
+title: "WriteUps & Recherches Cybersécurité"
+theme: "blowfish"
+
+# Désactiver les résumés
+summaryLength: 0
+
+# Configuration des taxonomies
+taxonomies:
+  tag: "tags"
+  category: "categories"
+  ctf: "ctfs"
+
+params:
+  mainSections:
+    - writeups
+    - veille
+    - outils
+  # Active search
+  search:
+    enable: true
+  # Code highlighting
+  code:
+    copy: true
+    highlight: true
+    lineNumbers: false
+    theme: "monokai"
+  # Désactive les résumés
+  list:
+    showSummary: false
+    showCards: true
+    cardView: true
+  # Définit le thème de couleur Blowfish
+  colorScheme: "ocean"
+  # Paramètres de présentation
+  article:
+    showDate: true
+    showAuthor: true
+    showBreadcrumbs: true
+    showTableOfContents: true
+  # Affichage des articles récents sur la page d'accueil
+  homepage:
+    layout: "custom"
+    showRecent: true
+    showRecentItems: 6
+
+menu:
+  main:
+    - identifier: writeups
+      name: WriteUps
+      url: /writeups/
+      weight: 10
+      # Garde les menus enfants comme avant
+    - identifier: veille
+      name: Veille
+      url: /veille/
+      weight: 20
+    - identifier: outils
+      name: Outils
+      url: /outils/
+      weight: 30
