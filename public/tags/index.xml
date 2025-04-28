@@ -2,309 +2,309 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on WriteUps &amp; Recherches Cybersécurité</title>
-    <link>http://localhost:1313/cybersecurity-notes/tags/</link>
+    <link>https://Istaarkk.github.io/cybersecurity-notes/tags/</link>
     <description>Recent content in Tags on WriteUps &amp; Recherches Cybersécurité</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>fr-fr</language>
     <copyright>© 2025 </copyright>
-    <lastBuildDate>Sat, 27 Apr 2024 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/cybersecurity-notes/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 27 Apr 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://Istaarkk.github.io/cybersecurity-notes/tags/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Assembly</title>
-      <link>http://localhost:1313/cybersecurity-notes/tags/assembly/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/tags/assembly/</link>
       <pubDate>Sat, 27 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/cybersecurity-notes/tags/assembly/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/tags/assembly/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Cryptography</title>
-      <link>http://localhost:1313/cybersecurity-notes/tags/cryptography/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/tags/cryptography/</link>
       <pubDate>Sat, 27 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/cybersecurity-notes/tags/cryptography/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/tags/cryptography/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Reverse-Engineering</title>
-      <link>http://localhost:1313/cybersecurity-notes/tags/reverse-engineering/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/tags/reverse-engineering/</link>
       <pubDate>Sat, 27 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/cybersecurity-notes/tags/reverse-engineering/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/tags/reverse-engineering/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Binary-Analysis</title>
-      <link>http://localhost:1313/cybersecurity-notes/tags/binary-analysis/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/tags/binary-analysis/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/cybersecurity-notes/tags/binary-analysis/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/tags/binary-analysis/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Binary-Patching</title>
-      <link>http://localhost:1313/cybersecurity-notes/tags/binary-patching/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/tags/binary-patching/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/cybersecurity-notes/tags/binary-patching/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/tags/binary-patching/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Buffer-Overflow</title>
-      <link>http://localhost:1313/cybersecurity-notes/tags/buffer-overflow/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/tags/buffer-overflow/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/cybersecurity-notes/tags/buffer-overflow/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/tags/buffer-overflow/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Character Manipulation</title>
-      <link>http://localhost:1313/cybersecurity-notes/tags/character-manipulation/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/tags/character-manipulation/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/cybersecurity-notes/tags/character-manipulation/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/tags/character-manipulation/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Ctf</title>
-      <link>http://localhost:1313/cybersecurity-notes/tags/ctf/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/tags/ctf/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/cybersecurity-notes/tags/ctf/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/tags/ctf/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Cyber Apocalypse</title>
-      <link>http://localhost:1313/cybersecurity-notes/tags/cyber-apocalypse/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/tags/cyber-apocalypse/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/cybersecurity-notes/tags/cyber-apocalypse/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/tags/cyber-apocalypse/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Debugging</title>
-      <link>http://localhost:1313/cybersecurity-notes/tags/debugging/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/tags/debugging/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/cybersecurity-notes/tags/debugging/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/tags/debugging/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Decompilation</title>
-      <link>http://localhost:1313/cybersecurity-notes/tags/decompilation/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/tags/decompilation/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/cybersecurity-notes/tags/decompilation/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/tags/decompilation/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Encryption</title>
-      <link>http://localhost:1313/cybersecurity-notes/tags/encryption/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/tags/encryption/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/cybersecurity-notes/tags/encryption/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/tags/encryption/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Exploitation</title>
-      <link>http://localhost:1313/cybersecurity-notes/tags/exploitation/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/tags/exploitation/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/cybersecurity-notes/tags/exploitation/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/tags/exploitation/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Fuzzing</title>
-      <link>http://localhost:1313/cybersecurity-notes/tags/fuzzing/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/tags/fuzzing/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/cybersecurity-notes/tags/fuzzing/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/tags/fuzzing/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Gdb</title>
-      <link>http://localhost:1313/cybersecurity-notes/tags/gdb/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/tags/gdb/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/cybersecurity-notes/tags/gdb/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/tags/gdb/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Heap-Exploitation</title>
-      <link>http://localhost:1313/cybersecurity-notes/tags/heap-exploitation/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/tags/heap-exploitation/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/cybersecurity-notes/tags/heap-exploitation/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/tags/heap-exploitation/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Htb</title>
-      <link>http://localhost:1313/cybersecurity-notes/tags/htb/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/tags/htb/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/cybersecurity-notes/tags/htb/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/tags/htb/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Nasm</title>
-      <link>http://localhost:1313/cybersecurity-notes/tags/nasm/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/tags/nasm/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/cybersecurity-notes/tags/nasm/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/tags/nasm/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Network</title>
-      <link>http://localhost:1313/cybersecurity-notes/tags/network/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/tags/network/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/cybersecurity-notes/tags/network/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/tags/network/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Obfuscation</title>
-      <link>http://localhost:1313/cybersecurity-notes/tags/obfuscation/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/tags/obfuscation/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/cybersecurity-notes/tags/obfuscation/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/tags/obfuscation/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Pentest</title>
-      <link>http://localhost:1313/cybersecurity-notes/tags/pentest/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/tags/pentest/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/cybersecurity-notes/tags/pentest/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/tags/pentest/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Pwn</title>
-      <link>http://localhost:1313/cybersecurity-notes/tags/pwn/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/tags/pwn/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/cybersecurity-notes/tags/pwn/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/tags/pwn/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Pwnme</title>
-      <link>http://localhost:1313/cybersecurity-notes/tags/pwnme/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/tags/pwnme/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/cybersecurity-notes/tags/pwnme/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/tags/pwnme/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Reverse</title>
-      <link>http://localhost:1313/cybersecurity-notes/tags/reverse/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/tags/reverse/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/cybersecurity-notes/tags/reverse/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/tags/reverse/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Shellcode</title>
-      <link>http://localhost:1313/cybersecurity-notes/tags/shellcode/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/tags/shellcode/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/cybersecurity-notes/tags/shellcode/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/tags/shellcode/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Snmp</title>
-      <link>http://localhost:1313/cybersecurity-notes/tags/snmp/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/tags/snmp/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/cybersecurity-notes/tags/snmp/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/tags/snmp/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Terminal-Size</title>
-      <link>http://localhost:1313/cybersecurity-notes/tags/terminal-size/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/tags/terminal-size/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/cybersecurity-notes/tags/terminal-size/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/tags/terminal-size/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Use-After-Free</title>
-      <link>http://localhost:1313/cybersecurity-notes/tags/use-after-free/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/tags/use-after-free/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/cybersecurity-notes/tags/use-after-free/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/tags/use-after-free/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Web</title>
-      <link>http://localhost:1313/cybersecurity-notes/tags/web/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/tags/web/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/cybersecurity-notes/tags/web/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/tags/web/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Xor-Decryption</title>
-      <link>http://localhost:1313/cybersecurity-notes/tags/xor-decryption/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/tags/xor-decryption/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/cybersecurity-notes/tags/xor-decryption/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/tags/xor-decryption/</guid>
       <description></description>
       
     </item>

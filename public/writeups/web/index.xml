@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Web Hacking on WriteUps &amp; Recherches Cybersécurité</title>
-    <link>http://localhost:1313/cybersecurity-notes/writeups/web/</link>
+    <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/web/</link>
     <description>Recent content in Web Hacking on WriteUps &amp; Recherches Cybersécurité</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>fr-fr</language>
     <copyright>© 2025 </copyright>
-    <lastBuildDate>Sun, 14 Apr 2024 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/cybersecurity-notes/writeups/web/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 14 Apr 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://Istaarkk.github.io/cybersecurity-notes/writeups/web/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Web Fuzzing - HTB Course WriteUp</title>
-      <link>http://localhost:1313/cybersecurity-notes/writeups/web/web-fuzzing/</link>
+      <link>https://Istaarkk.github.io/cybersecurity-notes/writeups/web/web-fuzzing/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/cybersecurity-notes/writeups/web/web-fuzzing/</guid>
+      <guid>https://Istaarkk.github.io/cybersecurity-notes/writeups/web/web-fuzzing/</guid>
       <description>Web Fuzzing # Ce writeup couvre le cours Web Fuzzing sur HTB.</description>
       
     </item>
