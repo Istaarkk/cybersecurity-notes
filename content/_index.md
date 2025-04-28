@@ -85,4 +85,4 @@ draft: false
 
 <h2>Dernières Publications</h2>
 
-{{< recent-posts limit="3" >}} 
+<!-- Les publications récentes seront ajoutées via le thème Blowfish --> 
