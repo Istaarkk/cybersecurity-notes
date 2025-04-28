@@ -10,7 +10,7 @@
     <lastBuildDate>Sat, 27 Apr 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://Istaarkk.github.io/cybersecurity-notes/tags/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>Assembly</title>
+      <title>assembly</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/tags/assembly/</link>
       <pubDate>Sat, 27 Apr 2024 00:00:00 +0000</pubDate>
       
@@ -20,7 +20,7 @@
     </item>
     
     <item>
-      <title>Cryptography</title>
+      <title>cryptography</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/tags/cryptography/</link>
       <pubDate>Sat, 27 Apr 2024 00:00:00 +0000</pubDate>
       
@@ -30,7 +30,7 @@
     </item>
     
     <item>
-      <title>Reverse-Engineering</title>
+      <title>reverse-engineering</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/tags/reverse-engineering/</link>
       <pubDate>Sat, 27 Apr 2024 00:00:00 +0000</pubDate>
       
@@ -40,7 +40,7 @@
     </item>
     
     <item>
-      <title>Binary-Analysis</title>
+      <title>binary-analysis</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/tags/binary-analysis/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
@@ -50,7 +50,7 @@
     </item>
     
     <item>
-      <title>Binary-Patching</title>
+      <title>binary-patching</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/tags/binary-patching/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
@@ -60,7 +60,7 @@
     </item>
     
     <item>
-      <title>Buffer-Overflow</title>
+      <title>buffer-overflow</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/tags/buffer-overflow/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
@@ -70,7 +70,7 @@
     </item>
     
     <item>
-      <title>Character Manipulation</title>
+      <title>character manipulation</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/tags/character-manipulation/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
@@ -80,7 +80,7 @@
     </item>
     
     <item>
-      <title>Ctf</title>
+      <title>ctf</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/tags/ctf/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
@@ -90,7 +90,7 @@
     </item>
     
     <item>
-      <title>Cyber Apocalypse</title>
+      <title>cyber apocalypse</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/tags/cyber-apocalypse/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
@@ -100,7 +100,7 @@
     </item>
     
     <item>
-      <title>Debugging</title>
+      <title>debugging</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/tags/debugging/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
@@ -110,7 +110,7 @@
     </item>
     
     <item>
-      <title>Decompilation</title>
+      <title>decompilation</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/tags/decompilation/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
@@ -120,7 +120,7 @@
     </item>
     
     <item>
-      <title>Encryption</title>
+      <title>encryption</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/tags/encryption/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
@@ -130,7 +130,7 @@
     </item>
     
     <item>
-      <title>Exploitation</title>
+      <title>exploitation</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/tags/exploitation/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
@@ -140,7 +140,7 @@
     </item>
     
     <item>
-      <title>Fuzzing</title>
+      <title>fuzzing</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/tags/fuzzing/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
@@ -150,7 +150,7 @@
     </item>
     
     <item>
-      <title>Gdb</title>
+      <title>gdb</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/tags/gdb/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
@@ -160,7 +160,7 @@
     </item>
     
     <item>
-      <title>Heap-Exploitation</title>
+      <title>heap-exploitation</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/tags/heap-exploitation/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
@@ -170,7 +170,7 @@
     </item>
     
     <item>
-      <title>Htb</title>
+      <title>htb</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/tags/htb/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
@@ -180,7 +180,7 @@
     </item>
     
     <item>
-      <title>Nasm</title>
+      <title>nasm</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/tags/nasm/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
@@ -190,7 +190,7 @@
     </item>
     
     <item>
-      <title>Network</title>
+      <title>network</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/tags/network/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
@@ -200,7 +200,7 @@
     </item>
     
     <item>
-      <title>Obfuscation</title>
+      <title>obfuscation</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/tags/obfuscation/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
@@ -210,7 +210,7 @@
     </item>
     
     <item>
-      <title>Pentest</title>
+      <title>pentest</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/tags/pentest/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
@@ -220,7 +220,7 @@
     </item>
     
     <item>
-      <title>Pwn</title>
+      <title>pwn</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/tags/pwn/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
@@ -230,7 +230,7 @@
     </item>
     
     <item>
-      <title>Pwnme</title>
+      <title>pwnme</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/tags/pwnme/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
@@ -240,7 +240,7 @@
     </item>
     
     <item>
-      <title>Reverse</title>
+      <title>reverse</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/tags/reverse/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
@@ -250,7 +250,7 @@
     </item>
     
     <item>
-      <title>Shellcode</title>
+      <title>shellcode</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/tags/shellcode/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
@@ -260,7 +260,7 @@
     </item>
     
     <item>
-      <title>Snmp</title>
+      <title>snmp</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/tags/snmp/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
@@ -270,7 +270,7 @@
     </item>
     
     <item>
-      <title>Terminal-Size</title>
+      <title>terminal-size</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/tags/terminal-size/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
@@ -280,7 +280,7 @@
     </item>
     
     <item>
-      <title>Use-After-Free</title>
+      <title>use-after-free</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/tags/use-after-free/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
@@ -290,7 +290,7 @@
     </item>
     
     <item>
-      <title>Web</title>
+      <title>web</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/tags/web/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
@@ -300,7 +300,7 @@
     </item>
     
     <item>
-      <title>Xor-Decryption</title>
+      <title>xor-decryption</title>
       <link>https://Istaarkk.github.io/cybersecurity-notes/tags/xor-decryption/</link>
       <pubDate>Sun, 14 Apr 2024 00:00:00 +0000</pubDate>
       
