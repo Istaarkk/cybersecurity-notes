@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="fr-fr">
+<head><script src="/cybersecurity-notes/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=cybersecurity-notes/livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PwnMe Junior 2025 - Evil-Hackers WriteUp | WriteUps &amp; Recherches Cybersécurité</title>
+    <meta name="description" content="WriteUp du challenge Evil-Hackers du CTF PwnMe Junior 2025">
+    
+    
+    <meta property="og:title" content="PwnMe Junior 2025 - Evil-Hackers WriteUp">
+    <meta property="og:description" content="WriteUp du challenge Evil-Hackers du CTF PwnMe Junior 2025">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="http://localhost:1313/cybersecurity-notes/writeups/pwn/pwnme-junior/2024-04-14-pwnme-evilhackers/">
+    
+    
+    <link rel="icon" type="image/svg+xml" href="/cybersecurity-notes/images/favicon.svg">
+    <link rel="icon" type="image/png" href="/cybersecurity-notes/images/favicon.png">
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css">
+    
+    
+    <link rel="stylesheet" href="/cybersecurity-notes/css/main.css">
+    <link rel="stylesheet" href="/cybersecurity-notes/css/custom.css">
+    <link rel="stylesheet" href="/cybersecurity-notes/css/dropdown.css">
+    <link rel="stylesheet" href="/cybersecurity-notes/css/enhanced.css">
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/lib/highlight.min.js"></script>
+    
+    
+    <script src="/cybersecurity-notes/js/copy-code.js" defer></script>
+    <script src="/cybersecurity-notes/js/enhanced.js" defer></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="http://localhost:1313/cybersecurity-notes/" class="nav-brand">
+                <i class="fas fa-shield-alt"></i> WriteUps &amp; Recherches Cybersécurité
+            </a>
+            <div class="nav-links">
+                
+                
+                <a href="http://localhost:1313/cybersecurity-notes/writeups/" class="nav-link">
+                    
+                        <i class="fas fa-flag"></i>
+                    
+                    WriteUps
+                </a>
+                
+                
+                
+                <a href="http://localhost:1313/cybersecurity-notes/veille/" class="nav-link">
+                    
+                        <i class="fas fa-rss"></i>
+                    
+                    Veille
+                </a>
+                
+                
+                
+                <a href="http://localhost:1313/cybersecurity-notes/outils/" class="nav-link">
+                    
+                        <i class="fas fa-tools"></i>
+                    
+                    Outils
+                </a>
+                
+                
+            </div>
+        </div>
+    </nav>
+</body>
+</html> 
+<main class="content">
+    
+<article class="single-page">
+    <header class="page-header">
+        <div class="breadcrumbs">
+            <a href="http://localhost:1313/cybersecurity-notes/">Accueil</a> &gt;
+            
+            <span>PwnMe Junior 2025 - Evil-Hackers WriteUp</span>
+        </div>
+        
+        <h1>PwnMe Junior 2025 - Evil-Hackers WriteUp</h1>
+        
+        <div class="meta">
+            <div class="meta-item">
+                <i class="far fa-calendar-alt"></i>
+                <span>14/04/2024</span>
+            </div>
+            
+            
+            <div class="meta-item">
+                <i class="fas fa-tags"></i>
+                <div class="tags">
+                    
+                    <a href="/tags/pwn" class="tag">pwn</a>
+                    
+                    <a href="/tags/use-after-free" class="tag">use-after-free</a>
+                    
+                    <a href="/tags/ctf" class="tag">ctf</a>
+                    
+                    <a href="/tags/pwnme" class="tag">pwnme</a>
+                    
+                </div>
+            </div>
+            
+            
+            
+            
+            <div class="meta-item reading-time">
+                <i class="far fa-clock"></i>
+                <span>2 min</span>
+            </div>
+        </div>
+    </header>
+    
+    
+    
+    <div class="content">
+        <h1 id="pwnme-junior-2025---evil-hackers-writeup">PwnMe Junior 2025 - Evil-Hackers WriteUp</h1>
+<h2 id="description-du-challenge">Description du challenge</h2>
+<p>Le challenge Evil-Hackers est une épreuve de Use-After-Free (UAF) sur un binaire 64 bits. Le programme gère des connexions de hackers et contient une vulnérabilité dans sa gestion de la mémoire.</p>
+<h2 id="analyse-du-binaire">Analyse du binaire</h2>
+<h3 id="vérification-des-protections">Vérification des protections</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ checksec evil-hackers
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> <span style="color:#e6db74">&#39;/home/synapse/pwnme-junior-2025/pwn/Evil-Hackers/evil-hackers&#39;</span>
+</span></span><span style="display:flex;"><span>    Arch:     amd64-64-little
+</span></span><span style="display:flex;"><span>    RELRO:    Partial RELRO
+</span></span><span style="display:flex;"><span>    Stack:    No canary found
+</span></span><span style="display:flex;"><span>    NX:       NX enabled
+</span></span><span style="display:flex;"><span>    PIE:      No PIE <span style="color:#f92672">(</span>0x400000<span style="color:#f92672">)</span>
+</span></span></code></pre></div><h2 id="vulnérabilité">Vulnérabilité</h2>
+<h3 id="analyse-de-la-vulnérabilité">Analyse de la vulnérabilité</h3>
+<p>Le programme contient une vulnérabilité Use-After-Free dans son système de gestion de mémoire :</p>
+<ol>
+<li>Le programme utilise un pointeur global (<code>global_hacker</code>) qui peut être libéré mais reste accessible</li>
+<li>Le buffer de log initial fait 64 bytes</li>
+<li>La réallocation mémoire se produit quand : <code>log_size + msg_len + 2 &gt; log_capacity</code></li>
+<li>Chaque message de log ajoute :
+<ul>
+<li>La longueur du message</li>
+<li>2 bytes supplémentaires (1 pour le newline, 1 pour le null terminator)</li>
+</ul>
+</li>
+</ol>
+<h2 id="exploitation">Exploitation</h2>
+<h3 id="étapes-dexploitation">Étapes d&rsquo;exploitation</h3>
+<ol>
+<li>Appuyer sur <code>1</code> - Créer un hacker normal</li>
+<li>Appuyer sur <code>4</code> - Ajouter un message de log avec exactement 63 &lsquo;A&rsquo;s</li>
+<li>Appuyer sur <code>3</code> - Déconnecter le hacker (déclenche la condition UAF)</li>
+<li>Appuyer sur <code>5</code> - Créer un hacker d&rsquo;élite (réutilise la mémoire libérée)</li>
+<li>Appuyer sur <code>2</code> - Accéder aux données secrètes pour obtenir le flag</li>
+</ol>
+<h3 id="payload">Payload</h3>
+<p>Utiliser exactement 63 &lsquo;A&rsquo;s comme message de log :</p>
+<pre tabindex="0"><code>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+</code></pre><h3 id="détails-techniques">Détails techniques</h3>
+<ul>
+<li>Le buffer initial contient 19 bytes de &ldquo;Normal connection.&rdquo;</li>
+<li>L&rsquo;ajout de 63 &lsquo;A&rsquo;s + 2 bytes = 65 bytes supplémentaires</li>
+<li>Le total devient 84 bytes, déclenchant une réallocation à 128 bytes</li>
+<li>Cela satisfait la condition nécessaire pour la création du hacker d&rsquo;élite</li>
+</ul>
+<h2 id="flag">Flag</h2>
+<pre tabindex="0"><code>PWNME{JUNIOR_UAF_MASTER}
+</code></pre><h2 id="conclusion">Conclusion</h2>
+<p>Ce challenge était une excellente introduction aux vulnérabilités Use-After-Free. Les points clés étaient :</p>
+<ul>
+<li>Compréhension de la gestion de la mémoire du programme</li>
+<li>Calcul précis de la taille du message pour déclencher la réallocation</li>
+<li>Séquence correcte d&rsquo;actions pour exploiter la vulnérabilité UAF</li>
+</ul>
+
+    </div>
+    
+    <div class="page-footer">
+        
+        
+        <div class="related-posts">
+            <h3><i class="fas fa-link"></i> Articles connexes</h3>
+            <div class="related-grid">
+                
+                <a href="/cybersecurity-notes/writeups/pwn/pwnme-junior/2024-04-14-pwnme-overflowme/" class="related-item">
+                    <h4>PwnMe Junior 2025 - overflowme WriteUp</h4>
+                    <div class="related-meta">
+                        <span class="related-date">14/04/2024</span>
+                        
+                        <span class="related-tags">
+                            
+                            <span class="tag">pwn</span>
+                            
+                        </span>
+                        
+                    </div>
+                </a>
+                
+                <a href="/cybersecurity-notes/writeups/breizh-ctf/2024-04-14-breizh-otis/" class="related-item">
+                    <h4>Breizh CTF 2025 - Otis</h4>
+                    <div class="related-meta">
+                        <span class="related-date">14/04/2024</span>
+                        
+                        <span class="related-tags">
+                            
+                            <span class="tag">use-after-free</span>
+                            
+                        </span>
+                        
+                    </div>
+                </a>
+                
+                <a href="/cybersecurity-notes/writeups/pwnme-junior/2024-04-14-pwnme-evilhackers/" class="related-item">
+                    <h4>PwnMe Junior 2025 - Evil Hackers</h4>
+                    <div class="related-meta">
+                        <span class="related-date">14/04/2024</span>
+                        
+                        <span class="related-tags">
+                            
+                            <span class="tag">use-after-free</span>
+                            
+                        </span>
+                        
+                    </div>
+                </a>
+                
+            </div>
+        </div>
+        
+        
+        <div class="share">
+            <span>Partager :</span>
+            <a href="https://twitter.com/intent/tweet?url=http%3a%2f%2flocalhost%3a1313%2fcybersecurity-notes%2fwriteups%2fpwn%2fpwnme-junior%2f2024-04-14-pwnme-evilhackers%2f&text=PwnMe%20Junior%202025%20-%20Evil-Hackers%20WriteUp" target="_blank" aria-label="Twitter">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.linkedin.com/sharing/share-offsite/?url=http%3a%2f%2flocalhost%3a1313%2fcybersecurity-notes%2fwriteups%2fpwn%2fpwnme-junior%2f2024-04-14-pwnme-evilhackers%2f" target="_blank" aria-label="LinkedIn">
+                <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="mailto:?subject=PwnMe%20Junior%202025%20-%20Evil-Hackers%20WriteUp&body=http%3a%2f%2flocalhost%3a1313%2fcybersecurity-notes%2fwriteups%2fpwn%2fpwnme-junior%2f2024-04-14-pwnme-evilhackers%2f" aria-label="Email">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+    </div>
+</article>
+
+</main>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-left">
+                <p>&copy; 2025 WriteUps &amp; Recherches Cybersécurité</p>
+            </div>
+            <div class="footer-right">
+                <div class="social-links">
+                    <a href="https://github.com/Istaarkk" target="_blank" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" target="_blank" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" target="_blank" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Site propulsé par <a href="https://gohugo.io/" target="_blank">Hugo</a> | Thème <span class="theme-name">CyberNotes</span></p>
+        </div>
+    </footer>
+
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        hljs.highlightAll();
+        
+        
+        document.querySelectorAll('pre code').forEach((block) => {
+            const button = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copier';
+            
+            const pre = block.parentNode;
+            pre.style.position = 'relative';
+            pre.insertBefore(button, pre.firstChild);
+            
+            button.addEventListener('click', () => {
+                navigator.clipboard.writeText(block.textContent);
+                button.textContent = 'Copié !';
+                setTimeout(() => {
+                    button.textContent = 'Copier';
+                }, 2000);
+            });
+        });
+        
+        
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    });
+    </script>
+    
+    
+</body>
+</html>  

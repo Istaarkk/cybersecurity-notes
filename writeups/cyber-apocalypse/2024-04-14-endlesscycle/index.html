@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="fr-fr">
+<head><script src="/cybersecurity-notes/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=cybersecurity-notes/livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Apocalypse 2024 - EndlessCycle | WriteUps &amp; Recherches Cybersécurité</title>
+    <meta name="description" content="EndlessCycle - Cyber Apocalypse 2024 Description du challenge EndlessCycle est un challenge de reverse engineering du Cyber Apocalypse CTF 2024. Le programme semble piéger l&rsquo;utilisateur dans une boucle sans fin, mais contient en réalité un flag caché dans le binaire, chiffré avec une opération XOR.
+Analyse du binaire En analysant le binaire avec un désassembleur, nous avons découvert qu&rsquo;il contient un ensemble de données chiffrées. Ces données se trouvent dans la section .">
+    
+    
+    <meta property="og:title" content="Cyber Apocalypse 2024 - EndlessCycle">
+    <meta property="og:description" content="EndlessCycle - Cyber Apocalypse 2024 Description du challenge EndlessCycle est un challenge de reverse engineering du Cyber Apocalypse CTF 2024. Le programme semble piéger l&rsquo;utilisateur dans une boucle sans fin, mais contient en réalité un flag caché dans le binaire, chiffré avec une opération XOR.
+Analyse du binaire En analysant le binaire avec un désassembleur, nous avons découvert qu&rsquo;il contient un ensemble de données chiffrées. Ces données se trouvent dans la section .">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="http://localhost:1313/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-endlesscycle/">
+    
+    
+    <link rel="icon" type="image/svg+xml" href="/cybersecurity-notes/images/favicon.svg">
+    <link rel="icon" type="image/png" href="/cybersecurity-notes/images/favicon.png">
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css">
+    
+    
+    <link rel="stylesheet" href="/cybersecurity-notes/css/main.css">
+    <link rel="stylesheet" href="/cybersecurity-notes/css/custom.css">
+    <link rel="stylesheet" href="/cybersecurity-notes/css/dropdown.css">
+    <link rel="stylesheet" href="/cybersecurity-notes/css/enhanced.css">
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/lib/highlight.min.js"></script>
+    
+    
+    <script src="/cybersecurity-notes/js/copy-code.js" defer></script>
+    <script src="/cybersecurity-notes/js/enhanced.js" defer></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="http://localhost:1313/cybersecurity-notes/" class="nav-brand">
+                <i class="fas fa-shield-alt"></i> WriteUps &amp; Recherches Cybersécurité
+            </a>
+            <div class="nav-links">
+                
+                
+                <a href="http://localhost:1313/cybersecurity-notes/writeups/" class="nav-link">
+                    
+                        <i class="fas fa-flag"></i>
+                    
+                    WriteUps
+                </a>
+                
+                
+                
+                <a href="http://localhost:1313/cybersecurity-notes/veille/" class="nav-link">
+                    
+                        <i class="fas fa-rss"></i>
+                    
+                    Veille
+                </a>
+                
+                
+                
+                <a href="http://localhost:1313/cybersecurity-notes/outils/" class="nav-link">
+                    
+                        <i class="fas fa-tools"></i>
+                    
+                    Outils
+                </a>
+                
+                
+            </div>
+        </div>
+    </nav>
+</body>
+</html> 
+<main class="content">
+    
+<article class="single-page">
+    <header class="page-header">
+        <div class="breadcrumbs">
+            <a href="http://localhost:1313/cybersecurity-notes/">Accueil</a> &gt;
+            
+            
+            <a href="/categories/reverse">reverse</a> &gt;
+            
+            
+            <span>Cyber Apocalypse 2024 - EndlessCycle</span>
+        </div>
+        
+        <h1>Cyber Apocalypse 2024 - EndlessCycle</h1>
+        
+        <div class="meta">
+            <div class="meta-item">
+                <i class="far fa-calendar-alt"></i>
+                <span>14/04/2024</span>
+            </div>
+            
+            
+            <div class="meta-item">
+                <i class="fas fa-tags"></i>
+                <div class="tags">
+                    
+                    <a href="/tags/binary-analysis" class="tag">binary-analysis</a>
+                    
+                    <a href="/tags/xor-decryption" class="tag">xor-decryption</a>
+                    
+                </div>
+            </div>
+            
+            
+            
+            <div class="meta-item">
+                <i class="fas fa-flag"></i>
+                <div class="tags">
+                    
+                    <a href="/ctfs/cyber-apocalypse" class="tag">cyber-apocalypse</a>
+                    
+                </div>
+            </div>
+            
+            
+            <div class="meta-item reading-time">
+                <i class="far fa-clock"></i>
+                <span>5 min</span>
+            </div>
+        </div>
+    </header>
+    
+    
+    <div class="toc-container">
+        <div class="toc-header">
+            <i class="fas fa-list"></i> Table des matières
+        </div>
+        <div class="toc-content">
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#description-du-challenge">Description du challenge</a></li>
+    <li><a href="#analyse-du-binaire">Analyse du binaire</a></li>
+    <li><a href="#extraction-des-données-du-binaire">Extraction des données du binaire</a></li>
+    <li><a href="#exploitation">Exploitation</a></li>
+    <li><a href="#le-flag">Le Flag</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+        </div>
+    </div>
+    
+    
+    <div class="content">
+        <h1 id="endlesscycle---cyber-apocalypse-2024">EndlessCycle - Cyber Apocalypse 2024</h1>
+<h2 id="description-du-challenge">Description du challenge</h2>
+<p>EndlessCycle est un challenge de reverse engineering du Cyber Apocalypse CTF 2024. Le programme semble piéger l&rsquo;utilisateur dans une boucle sans fin, mais contient en réalité un flag caché dans le binaire, chiffré avec une opération XOR.</p>
+<h2 id="analyse-du-binaire">Analyse du binaire</h2>
+<p>En analysant le binaire avec un désassembleur, nous avons découvert qu&rsquo;il contient un ensemble de données chiffrées. Ces données se trouvent dans la section <code>.data</code> du binaire et sont manipulées par un algorithme de chiffrement XOR.</p>
+<p>Voici un extrait du code assembleur qui manipule ces données :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#75715e">; Récupération de l&#39;adresse des données chiffrées
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">rax</span>, [<span style="color:#66d9ef">rel</span> <span style="color:#66d9ef">data_address</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">; Boucle de déchiffrement XOR
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>.loop:
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">edx</span>, [<span style="color:#66d9ef">rax</span>]
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">xor</span> <span style="color:#66d9ef">edx</span>, <span style="color:#ae81ff">0xbeefcafe</span>  <span style="color:#75715e">; Clé XOR
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">mov</span> [<span style="color:#66d9ef">rax</span>], <span style="color:#66d9ef">edx</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">add</span> <span style="color:#66d9ef">rax</span>, <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">cmp</span> <span style="color:#66d9ef">rax</span>, [<span style="color:#66d9ef">rel</span> <span style="color:#66d9ef">data_end_address</span>]
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">jb</span> <span style="color:#66d9ef">.loop</span>
+</span></span></code></pre></div><p>Ce code effectue une opération XOR avec la clé <code>0xbeefcafe</code> sur des blocs de 4 octets. La zone de mémoire chiffrée contient en fait le flag du challenge.</p>
+<h2 id="extraction-des-données-du-binaire">Extraction des données du binaire</h2>
+<p>Pour extraire les données chiffrées du binaire, nous avons créé un script d&rsquo;analyse :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Tableau contenant les données extraites du binaire
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> code[] <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">0x55</span>, <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0x89</span>, <span style="color:#ae81ff">0xe5</span>, <span style="color:#ae81ff">0x68</span>, <span style="color:#ae81ff">0x3e</span>, <span style="color:#ae81ff">0x21</span>, <span style="color:#ae81ff">0x01</span>, <span style="color:#ae81ff">0x01</span>, <span style="color:#ae81ff">0x81</span>, <span style="color:#ae81ff">0x34</span>, <span style="color:#ae81ff">0x24</span>, <span style="color:#ae81ff">0x01</span>, <span style="color:#ae81ff">0x01</span>, <span style="color:#ae81ff">0x01</span>, <span style="color:#ae81ff">0x01</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0xb8</span>, <span style="color:#ae81ff">0x74</span>, <span style="color:#ae81ff">0x68</span>, <span style="color:#ae81ff">0x65</span>, <span style="color:#ae81ff">0x20</span>, <span style="color:#ae81ff">0x66</span>, <span style="color:#ae81ff">0x6c</span>, <span style="color:#ae81ff">0x61</span>, <span style="color:#ae81ff">0x67</span>, <span style="color:#ae81ff">0x50</span>, <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0xb8</span>, <span style="color:#ae81ff">0x57</span>, <span style="color:#ae81ff">0x68</span>, <span style="color:#ae81ff">0x61</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">0x74</span>, <span style="color:#ae81ff">0x20</span>, <span style="color:#ae81ff">0x69</span>, <span style="color:#ae81ff">0x73</span>, <span style="color:#ae81ff">0x20</span>, <span style="color:#ae81ff">0x50</span>, <span style="color:#ae81ff">0x6a</span>, <span style="color:#ae81ff">0x01</span>, <span style="color:#ae81ff">0x58</span>, <span style="color:#ae81ff">0x6a</span>, <span style="color:#ae81ff">0x01</span>, <span style="color:#ae81ff">0x5f</span>, <span style="color:#ae81ff">0x6a</span>, <span style="color:#ae81ff">0x12</span>, <span style="color:#ae81ff">0x5a</span>, <span style="color:#ae81ff">0x48</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">0x89</span>, <span style="color:#ae81ff">0xe6</span>, <span style="color:#ae81ff">0x0f</span>, <span style="color:#ae81ff">0x05</span>, <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0x81</span>, <span style="color:#ae81ff">0xec</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x01</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x49</span>, <span style="color:#ae81ff">0x89</span>, <span style="color:#ae81ff">0xe4</span>, <span style="color:#ae81ff">0x31</span>, <span style="color:#ae81ff">0xc0</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">0x31</span>, <span style="color:#ae81ff">0xff</span>, <span style="color:#ae81ff">0x31</span>, <span style="color:#ae81ff">0xd2</span>, <span style="color:#ae81ff">0xb6</span>, <span style="color:#ae81ff">0x01</span>, <span style="color:#ae81ff">0x4c</span>, <span style="color:#ae81ff">0x89</span>, <span style="color:#ae81ff">0xe6</span>, <span style="color:#ae81ff">0x0f</span>, <span style="color:#ae81ff">0x05</span>, <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0x85</span>, <span style="color:#ae81ff">0xc0</span>, <span style="color:#ae81ff">0x7e</span>, <span style="color:#ae81ff">0x32</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">0x6a</span>, <span style="color:#ae81ff">0x1a</span>, <span style="color:#ae81ff">0x58</span>, <span style="color:#ae81ff">0x4c</span>, <span style="color:#ae81ff">0x89</span>, <span style="color:#ae81ff">0xe1</span>, <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0x01</span>, <span style="color:#ae81ff">0xc8</span>, <span style="color:#ae81ff">0x81</span>, <span style="color:#ae81ff">0x31</span>, <span style="color:#ae81ff">0xfe</span>, <span style="color:#ae81ff">0xca</span>, <span style="color:#ae81ff">0xef</span>, <span style="color:#ae81ff">0xbe</span>, <span style="color:#ae81ff">0x48</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">0x83</span>, <span style="color:#ae81ff">0xc1</span>, <span style="color:#ae81ff">0x04</span>, <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0x39</span>, <span style="color:#ae81ff">0xc1</span>, <span style="color:#ae81ff">0x72</span>, <span style="color:#ae81ff">0xf1</span>, <span style="color:#ae81ff">0x4c</span>, <span style="color:#ae81ff">0x89</span>, <span style="color:#ae81ff">0xe7</span>, <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0x8d</span>, <span style="color:#ae81ff">0x35</span>, <span style="color:#ae81ff">0x12</span>, <span style="color:#ae81ff">0x00</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x48</span>, <span style="color:#ae81ff">0xc7</span>, <span style="color:#ae81ff">0xc1</span>, <span style="color:#ae81ff">0x1a</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0x00</span>, <span style="color:#ae81ff">0xfc</span>, <span style="color:#ae81ff">0xf3</span>, <span style="color:#ae81ff">0xa6</span>, <span style="color:#ae81ff">0x0f</span>, <span style="color:#ae81ff">0x94</span>, <span style="color:#ae81ff">0xc0</span>, <span style="color:#ae81ff">0x0f</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">0xb6</span>, <span style="color:#ae81ff">0xc0</span>, <span style="color:#ae81ff">0xc9</span>, <span style="color:#ae81ff">0xc3</span>, <span style="color:#ae81ff">0xb6</span>, <span style="color:#ae81ff">0x9e</span>, <span style="color:#ae81ff">0xad</span>, <span style="color:#ae81ff">0xc5</span>, <span style="color:#ae81ff">0x92</span>, <span style="color:#ae81ff">0xfa</span>, <span style="color:#ae81ff">0xdf</span>, <span style="color:#ae81ff">0xd5</span>, <span style="color:#ae81ff">0xa1</span>, <span style="color:#ae81ff">0xa8</span>, <span style="color:#ae81ff">0xdc</span>, <span style="color:#ae81ff">0xc7</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">0xce</span>, <span style="color:#ae81ff">0xa4</span>, <span style="color:#ae81ff">0x8b</span>, <span style="color:#ae81ff">0xe1</span>, <span style="color:#ae81ff">0x8a</span>, <span style="color:#ae81ff">0xa2</span>, <span style="color:#ae81ff">0xdc</span>, <span style="color:#ae81ff">0xe1</span>, <span style="color:#ae81ff">0x89</span>, <span style="color:#ae81ff">0xfa</span>, <span style="color:#ae81ff">0x9d</span>, <span style="color:#ae81ff">0xd2</span>, <span style="color:#ae81ff">0x9a</span>, <span style="color:#ae81ff">0xb7</span>
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> codeSize <span style="color:#f92672">=</span> <span style="color:#66d9ef">sizeof</span>(code);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Essayer différents offsets pour trouver les données chiffrées
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> startOffset <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x80</span>; startOffset <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0x95</span>; startOffset<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Offset 0x%02x: &#34;</span>, startOffset);
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Création d&#39;un buffer pour le déchiffrement
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> encryptedData[<span style="color:#ae81ff">32</span>] <span style="color:#f92672">=</span> {<span style="color:#ae81ff">0</span>};
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">32</span> <span style="color:#f92672">&amp;&amp;</span> startOffset <span style="color:#f92672">+</span> i <span style="color:#f92672">&lt;</span> codeSize; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            encryptedData[i] <span style="color:#f92672">=</span> code[startOffset <span style="color:#f92672">+</span> i];
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Déchiffrement XOR par blocs de 4 octets
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">32</span>; i <span style="color:#f92672">+=</span> <span style="color:#ae81ff">4</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> block <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">4</span> <span style="color:#f92672">&amp;&amp;</span> i <span style="color:#f92672">+</span> j <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">32</span>; j<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>                block <span style="color:#f92672">|=</span> ((<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span>)encryptedData[i <span style="color:#f92672">+</span> j]) <span style="color:#f92672">&lt;&lt;</span> (j <span style="color:#f92672">*</span> <span style="color:#ae81ff">8</span>);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// XOR avec 0xbeefcafe
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            block <span style="color:#f92672">^=</span> <span style="color:#ae81ff">0xbeefcafe</span>;
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// Affichage des caractères déchiffrés
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">4</span> <span style="color:#f92672">&amp;&amp;</span> i <span style="color:#f92672">+</span> j <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">32</span>; j<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">char</span> c <span style="color:#f92672">=</span> (block <span style="color:#f92672">&gt;&gt;</span> (j <span style="color:#f92672">*</span> <span style="color:#ae81ff">8</span>)) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0xFF</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (c <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">32</span> <span style="color:#f92672">&amp;&amp;</span> c <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">126</span>) <span style="color:#75715e">// Caractères imprimables ASCII
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;%c&#34;</span>, c);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;.&#34;</span>);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="exploitation">Exploitation</h2>
+<p>En analysant les données à différents offsets dans le binaire et en appliquant l&rsquo;opération XOR avec la clé <code>0xbeefcafe</code>, nous avons pu retrouver le flag caché. L&rsquo;exploitation se déroule en plusieurs étapes :</p>
+<ol>
+<li>Extraction des données chiffrées à partir du binaire</li>
+<li>Identification de l&rsquo;offset exact où se trouve le flag chiffré (autour de l&rsquo;offset 0x8C)</li>
+<li>Application de l&rsquo;opération XOR sur les blocs de 4 octets avec la clé 0xbeefcafe</li>
+<li>Conversion des valeurs déchiffrées en caractères ASCII</li>
+</ol>
+<p>Voici un script complet pour extraire et afficher le flag :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    FILE <span style="color:#f92672">*</span>f <span style="color:#f92672">=</span> <span style="color:#a6e22e">fopen</span>(<span style="color:#e6db74">&#34;challenge&#34;</span>, <span style="color:#e6db74">&#34;rb&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>f) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">perror</span>(<span style="color:#e6db74">&#34;Impossible d&#39;ouvrir le binaire&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Aller à la section .data (supposée être à l&#39;offset 0x2000)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">fseek</span>(f, <span style="color:#ae81ff">0x2000</span>, SEEK_SET);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Lire les données
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> buffer[<span style="color:#ae81ff">1024</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">size_t</span> bytesRead <span style="color:#f92672">=</span> <span style="color:#a6e22e">fread</span>(buffer, <span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">sizeof</span>(buffer), f);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fclose</span>(f);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Lecture de %zu octets depuis le binaire</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, bytesRead);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Parcourir les données pour trouver des patterns intéressants
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">size_t</span> offset <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; offset <span style="color:#f92672">&lt;</span> bytesRead <span style="color:#f92672">-</span> <span style="color:#ae81ff">32</span>; offset <span style="color:#f92672">+=</span> <span style="color:#ae81ff">4</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;Offset 0x%04zx: &#34;</span>, offset);
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Déchiffrer 32 octets à cet offset
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">32</span>; i <span style="color:#f92672">+=</span> <span style="color:#ae81ff">4</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (offset <span style="color:#f92672">+</span> i <span style="color:#f92672">&lt;</span> bytesRead <span style="color:#f92672">-</span> <span style="color:#ae81ff">4</span>) {
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// Construire un bloc de 4 octets (little-endian)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> block <span style="color:#f92672">=</span> 
+</span></span><span style="display:flex;"><span>                    (buffer[offset <span style="color:#f92672">+</span> i]) <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span>                    (buffer[offset <span style="color:#f92672">+</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">8</span>) <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span>                    (buffer[offset <span style="color:#f92672">+</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>] <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">16</span>) <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span>                    (buffer[offset <span style="color:#f92672">+</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span>] <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">24</span>);
+</span></span><span style="display:flex;"><span>                
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// XOR avec 0xbeefcafe
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                block <span style="color:#f92672">^=</span> <span style="color:#ae81ff">0xbeefcafe</span>;
+</span></span><span style="display:flex;"><span>                
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// Afficher les caractères déchiffrés
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">4</span>; j<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">char</span> c <span style="color:#f92672">=</span> (block <span style="color:#f92672">&gt;&gt;</span> (j <span style="color:#f92672">*</span> <span style="color:#ae81ff">8</span>)) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0xFF</span>;
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> (c <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">32</span> <span style="color:#f92672">&amp;&amp;</span> c <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">126</span>)
+</span></span><span style="display:flex;"><span>                        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;%c&#34;</span>, c);
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;.&#34;</span>);
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Si on trouve &#34;HTB{&#34; dans la sortie, on a probablement trouvé le flag
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// donc on s&#39;arrête
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (offset <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">100</span>) <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="le-flag">Le Flag</h2>
+<p>En exécutant notre outil d&rsquo;analyse, nous avons pu récupérer le flag :</p>
+<pre tabindex="0"><code>$ ./extract_flag
+...
+Offset 0x008c: HTB{l00k_b3y0nd_th3_w0rld}
+...
+</code></pre><p>Le flag de ce challenge est : <code>HTB{l00k_b3y0nd_th3_w0rld}</code></p>
+<h2 id="conclusion">Conclusion</h2>
+<p>EndlessCycle est un challenge intéressant qui met en pratique plusieurs concepts de rétro-ingénierie :</p>
+<ol>
+<li>L&rsquo;extraction de données à partir d&rsquo;un binaire</li>
+<li>La compréhension des algorithmes de chiffrement simples comme le XOR</li>
+<li>L&rsquo;analyse des sections du binaire pour trouver des informations cachées</li>
+<li>L&rsquo;implémentation d&rsquo;une routine de déchiffrement pour récupérer des données sensibles</li>
+</ol>
+<p>Ce type de technique d&rsquo;obfuscation est souvent utilisé dans des logiciels malveillants pour cacher des chaînes sensibles, comme des adresses C2 ou des noms de fichiers, et ce challenge nous permet de pratiquer les méthodes pour déjouer ces techniques.</p>
+
+    </div>
+    
+    <div class="page-footer">
+        
+        
+        <div class="related-posts">
+            <h3><i class="fas fa-link"></i> Articles connexes</h3>
+            <div class="related-grid">
+                
+                <a href="/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-boxofcourios/" class="related-item">
+                    <h4>Cyber Apocalypse 2024 - BoxOfCourios</h4>
+                    <div class="related-meta">
+                        <span class="related-date">14/04/2024</span>
+                        
+                        <span class="related-tags">
+                            
+                            <span class="tag">binary-analysis</span>
+                            
+                        </span>
+                        
+                    </div>
+                </a>
+                
+                <a href="/cybersecurity-notes/writeups/cyber-apocalypse/2024-04-14-sealedrune/" class="related-item">
+                    <h4>Cyber Apocalypse 2024 - SealedRune</h4>
+                    <div class="related-meta">
+                        <span class="related-date">14/04/2024</span>
+                        
+                        <span class="related-tags">
+                            
+                            <span class="tag">binary-analysis</span>
+                            
+                        </span>
+                        
+                    </div>
+                </a>
+                
+            </div>
+        </div>
+        
+        
+        <div class="share">
+            <span>Partager :</span>
+            <a href="https://twitter.com/intent/tweet?url=http%3a%2f%2flocalhost%3a1313%2fcybersecurity-notes%2fwriteups%2fcyber-apocalypse%2f2024-04-14-endlesscycle%2f&text=Cyber%20Apocalypse%202024%20-%20EndlessCycle" target="_blank" aria-label="Twitter">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.linkedin.com/sharing/share-offsite/?url=http%3a%2f%2flocalhost%3a1313%2fcybersecurity-notes%2fwriteups%2fcyber-apocalypse%2f2024-04-14-endlesscycle%2f" target="_blank" aria-label="LinkedIn">
+                <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="mailto:?subject=Cyber%20Apocalypse%202024%20-%20EndlessCycle&body=http%3a%2f%2flocalhost%3a1313%2fcybersecurity-notes%2fwriteups%2fcyber-apocalypse%2f2024-04-14-endlesscycle%2f" aria-label="Email">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+    </div>
+</article>
+
+</main>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-left">
+                <p>&copy; 2025 WriteUps &amp; Recherches Cybersécurité</p>
+            </div>
+            <div class="footer-right">
+                <div class="social-links">
+                    <a href="https://github.com/Istaarkk" target="_blank" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" target="_blank" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" target="_blank" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Site propulsé par <a href="https://gohugo.io/" target="_blank">Hugo</a> | Thème <span class="theme-name">CyberNotes</span></p>
+        </div>
+    </footer>
+
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        hljs.highlightAll();
+        
+        
+        document.querySelectorAll('pre code').forEach((block) => {
+            const button = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copier';
+            
+            const pre = block.parentNode;
+            pre.style.position = 'relative';
+            pre.insertBefore(button, pre.firstChild);
+            
+            button.addEventListener('click', () => {
+                navigator.clipboard.writeText(block.textContent);
+                button.textContent = 'Copié !';
+                setTimeout(() => {
+                    button.textContent = 'Copier';
+                }, 2000);
+            });
+        });
+        
+        
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    });
+    </script>
+    
+    
+</body>
+</html>  

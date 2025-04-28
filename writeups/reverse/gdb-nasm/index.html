@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="fr-fr">
+<head><script src="/cybersecurity-notes/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=cybersecurity-notes/livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GDB and NASM Assembly Guide - WriteUp | WriteUps &amp; Recherches Cybersécurité</title>
+    <meta name="description" content="GDB and NASM Assembly Guide This writeup provides a comprehensive guide to using GDB for debugging NASM assembly code, with practical examples and explanations.
+Instructions and Code for GDB and NASM Open a File with GDB Steps:
+Open the file gdb in GDB: gdb ./gdb disassemble _start Set a breakpoint at a specific offset: b *(_start &#43; 16) Run the program and inspect the rax register: run info registers rax Add the following instruction at the end of the code to move the value from rsp into rax: mov rax, rsp Compile the Assembly Code Assuming your assembly code is saved as mov.">
+    
+    
+    <meta property="og:title" content="GDB and NASM Assembly Guide - WriteUp">
+    <meta property="og:description" content="GDB and NASM Assembly Guide This writeup provides a comprehensive guide to using GDB for debugging NASM assembly code, with practical examples and explanations.
+Instructions and Code for GDB and NASM Open a File with GDB Steps:
+Open the file gdb in GDB: gdb ./gdb disassemble _start Set a breakpoint at a specific offset: b *(_start &#43; 16) Run the program and inspect the rax register: run info registers rax Add the following instruction at the end of the code to move the value from rsp into rax: mov rax, rsp Compile the Assembly Code Assuming your assembly code is saved as mov.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="http://localhost:1313/cybersecurity-notes/writeups/reverse/gdb-nasm/">
+    
+    
+    <link rel="icon" type="image/svg+xml" href="/cybersecurity-notes/images/favicon.svg">
+    <link rel="icon" type="image/png" href="/cybersecurity-notes/images/favicon.png">
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css">
+    
+    
+    <link rel="stylesheet" href="/cybersecurity-notes/css/main.css">
+    <link rel="stylesheet" href="/cybersecurity-notes/css/custom.css">
+    <link rel="stylesheet" href="/cybersecurity-notes/css/dropdown.css">
+    <link rel="stylesheet" href="/cybersecurity-notes/css/enhanced.css">
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/lib/highlight.min.js"></script>
+    
+    
+    <script src="/cybersecurity-notes/js/copy-code.js" defer></script>
+    <script src="/cybersecurity-notes/js/enhanced.js" defer></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="http://localhost:1313/cybersecurity-notes/" class="nav-brand">
+                <i class="fas fa-shield-alt"></i> WriteUps &amp; Recherches Cybersécurité
+            </a>
+            <div class="nav-links">
+                
+                
+                <a href="http://localhost:1313/cybersecurity-notes/writeups/" class="nav-link">
+                    
+                        <i class="fas fa-flag"></i>
+                    
+                    WriteUps
+                </a>
+                
+                
+                
+                <a href="http://localhost:1313/cybersecurity-notes/veille/" class="nav-link">
+                    
+                        <i class="fas fa-rss"></i>
+                    
+                    Veille
+                </a>
+                
+                
+                
+                <a href="http://localhost:1313/cybersecurity-notes/outils/" class="nav-link">
+                    
+                        <i class="fas fa-tools"></i>
+                    
+                    Outils
+                </a>
+                
+                
+            </div>
+        </div>
+    </nav>
+</body>
+</html> 
+<main class="content">
+    
+<article class="single-page">
+    <header class="page-header">
+        <div class="breadcrumbs">
+            <a href="http://localhost:1313/cybersecurity-notes/">Accueil</a> &gt;
+            
+            <span>GDB and NASM Assembly Guide - WriteUp</span>
+        </div>
+        
+        <h1>GDB and NASM Assembly Guide - WriteUp</h1>
+        
+        <div class="meta">
+            <div class="meta-item">
+                <i class="far fa-calendar-alt"></i>
+                <span>14/04/2024</span>
+            </div>
+            
+            
+            <div class="meta-item">
+                <i class="fas fa-tags"></i>
+                <div class="tags">
+                    
+                    <a href="/tags/assembly" class="tag">assembly</a>
+                    
+                    <a href="/tags/gdb" class="tag">gdb</a>
+                    
+                    <a href="/tags/nasm" class="tag">nasm</a>
+                    
+                    <a href="/tags/debugging" class="tag">debugging</a>
+                    
+                    <a href="/tags/reverse-engineering" class="tag">reverse-engineering</a>
+                    
+                </div>
+            </div>
+            
+            
+            
+            
+            <div class="meta-item reading-time">
+                <i class="far fa-clock"></i>
+                <span>4 min</span>
+            </div>
+        </div>
+    </header>
+    
+    
+    <div class="toc-container">
+        <div class="toc-header">
+            <i class="fas fa-list"></i> Table des matières
+        </div>
+        <div class="toc-content">
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#instructions-and-code-for-gdb-and-nasm">Instructions and Code for GDB and NASM</a>
+      <ul>
+        <li><a href="#open-a-file-with-gdb">Open a File with GDB</a></li>
+        <li><a href="#compile-the-assembly-code">Compile the Assembly Code</a></li>
+        <li><a href="#debugging-with-gdb">Debugging with GDB</a></li>
+        <li><a href="#loops">Loops</a></li>
+        <li><a href="#unconditional-branching">Unconditional Branching</a></li>
+        <li><a href="#conditional-branching">Conditional Branching</a></li>
+        <li><a href="#using-the-stack">Using the Stack</a></li>
+        <li><a href="#procedures">Procedures</a></li>
+        <li><a href="#functions">Functions</a></li>
+        <li><a href="#shellcodes">Shellcodes</a></li>
+        <li><a href="#injecting-shellcode-via-netcat">Injecting Shellcode via Netcat</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        </div>
+    </div>
+    
+    
+    <div class="content">
+        <h1 id="gdb-and-nasm-assembly-guide">GDB and NASM Assembly Guide</h1>
+<p>This writeup provides a comprehensive guide to using GDB for debugging NASM assembly code, with practical examples and explanations.</p>
+<h2 id="instructions-and-code-for-gdb-and-nasm">Instructions and Code for GDB and NASM</h2>
+<h3 id="open-a-file-with-gdb">Open a File with GDB</h3>
+<p>Steps:</p>
+<ol>
+<li>Open the file gdb in GDB:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>gdb ./gdb
+</span></span><span style="display:flex;"><span>disassemble _start
+</span></span></code></pre></div></li>
+<li>Set a breakpoint at a specific offset:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>b *<span style="color:#f92672">(</span>_start + 16<span style="color:#f92672">)</span>
+</span></span></code></pre></div></li>
+<li>Run the program and inspect the rax register:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>run
+</span></span><span style="display:flex;"><span>info registers rax
+</span></span></code></pre></div></li>
+<li>Add the following instruction at the end of the code to move the value from rsp into rax:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nasm" data-lang="nasm"><span style="display:flex;"><span><span style="color:#a6e22e">mov</span> rax, rsp
+</span></span></code></pre></div></li>
+</ol>
+<h3 id="compile-the-assembly-code">Compile the Assembly Code</h3>
+<p>Assuming your assembly code is saved as mov.s, compile it with:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nasm -f elf64 mov.s -o mov.o
+</span></span><span style="display:flex;"><span>ld mov.o -o mov
+</span></span></code></pre></div><p>If nasm is not installed, you can install it on Arch Linux using:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pacman -Syu nasm
+</span></span></code></pre></div><h3 id="debugging-with-gdb">Debugging with GDB</h3>
+<p>Debug the program:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>gdb ./mov
+</span></span><span style="display:flex;"><span>b _start
+</span></span><span style="display:flex;"><span>run
+</span></span><span style="display:flex;"><span>info registers rax
+</span></span></code></pre></div><p>To step through the code:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ni
+</span></span></code></pre></div><h3 id="loops">Loops</h3>
+<p>Complete Code:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nasm" data-lang="nasm"><span style="display:flex;"><span><span style="color:#66d9ef">global</span> _start
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">section</span> .text
+</span></span><span style="display:flex;"><span>_start:
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">mov</span> rax, <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">mov</span> rcx, <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>loop:
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">imul</span> rax, rax
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">dec</span> rcx
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">jnz</span> loop
+</span></span><span style="display:flex;"><span>exit:
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">mov</span> rax, <span style="color:#ae81ff">60</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">xor</span> rdi, rdi
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">syscall</span>
+</span></span></code></pre></div><p>Debugging Steps:
+Follow the same procedure as before:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>break _start
+</span></span><span style="display:flex;"><span>ni
+</span></span><span style="display:flex;"><span>info registers rax
+</span></span></code></pre></div><h3 id="unconditional-branching">Unconditional Branching</h3>
+<p>Updated Code:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nasm" data-lang="nasm"><span style="display:flex;"><span><span style="color:#66d9ef">global</span> _start
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">section</span> .text
+</span></span><span style="display:flex;"><span>_start:
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">mov</span> rbx, <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">mov</span> rcx, <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>loop:
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">imul</span> rbx, rbx
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">jmp</span> func
+</span></span><span style="display:flex;"><span>func:
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">mov</span> rax, <span style="color:#ae81ff">60</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">mov</span> rdi, <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">syscall</span>
+</span></span></code></pre></div><p>Debugging Steps:
+Use the same method:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>break _start
+</span></span><span style="display:flex;"><span>ni
+</span></span><span style="display:flex;"><span>info registers rbx
+</span></span></code></pre></div><h3 id="conditional-branching">Conditional Branching</h3>
+<p>Original Code from HTB:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nasm" data-lang="nasm"><span style="display:flex;"><span><span style="color:#66d9ef">global</span> _start
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">section</span> .text
+</span></span><span style="display:flex;"><span>_start:
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">mov</span> rax, <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">imul</span> rax, <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>loop:
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">cmp</span> rax, <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">jnz</span> loop
+</span></span></code></pre></div><p>Modified Code:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nasm" data-lang="nasm"><span style="display:flex;"><span><span style="color:#66d9ef">global</span> _start
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">section</span> .text
+</span></span><span style="display:flex;"><span>_start:
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">mov</span> rax, <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">imul</span> rax, <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>loop:
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">cmp</span> rax, <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">jnz</span> loop
+</span></span></code></pre></div><h3 id="using-the-stack">Using the Stack</h3>
+<p>To analyze the stack pointer (rsp), you need to debug the script and observe its behavior during execution.</p>
+<p>Steps:</p>
+<ol>
+<li>Compile the given assembly code with nasm and ld.</li>
+<li>Set a breakpoint at Exit:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>b *Exit
+</span></span><span style="display:flex;"><span>run
+</span></span></code></pre></div></li>
+<li>To find the value of rsp, use:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>x/1gx $rsp
+</span></span></code></pre></div></li>
+</ol>
+<p>Explanation:</p>
+<ul>
+<li><code>x/</code> → Examine memory command.</li>
+<li><code>1</code> → Display 1 memory value.</li>
+<li><code>g</code> → Format as a 64-bit value (giant word).</li>
+<li><code>x</code> → Display the output in hexadecimal.</li>
+<li><code>$rsp</code> → Address to examine (current stack pointer).</li>
+</ul>
+<h3 id="procedures">Procedures</h3>
+<p>Provided Code:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nasm" data-lang="nasm"><span style="display:flex;"><span><span style="color:#66d9ef">global</span> _start
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">section</span> .data
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">message</span> db <span style="color:#e6db74">&#34;Fibonacci Sequence:&#34;</span>, <span style="color:#ae81ff">0x0a</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">section</span> .text
+</span></span><span style="display:flex;"><span>_start:
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">call</span> printMessage   <span style="color:#75715e">; Print the intro message</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">call</span> initFib        <span style="color:#75715e">; Initialize Fibonacci values</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">call</span> loopFib        <span style="color:#75715e">; Calculate Fibonacci numbers</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">call</span> Exit           <span style="color:#75715e">; Exit the program</span>
+</span></span><span style="display:flex;"><span>printMessage:
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mov</span> rax, <span style="color:#ae81ff">1</span>          <span style="color:#75715e">; syscall number for write</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mov</span> rdi, <span style="color:#ae81ff">1</span>          <span style="color:#75715e">; file descriptor (stdout)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mov</span> rsi, message    <span style="color:#75715e">; pointer to message</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mov</span> rdx, <span style="color:#ae81ff">20</span>         <span style="color:#75715e">; message length (20 bytes)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">syscall</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ret</span>
+</span></span><span style="display:flex;"><span>initFib:
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">xor</span> rax, rax        <span style="color:#75715e">; Initialize rax to 0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">xor</span> rbx, rbx        <span style="color:#75715e">; Initialize rbx to 0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">inc</span> rbx             <span style="color:#75715e">; Set rbx to 1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ret</span>
+</span></span><span style="display:flex;"><span>loopFib:
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">add</span> rax, rbx        <span style="color:#75715e">; Get the next Fibonacci number</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">xchg</span> rax, rbx       <span style="color:#75715e">; Swap values</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">cmp</span> rbx, <span style="color:#ae81ff">10</span>         <span style="color:#75715e">; Compare rbx with 10</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">js</span> loopFib          <span style="color:#75715e">; Jump if less than 10</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ret</span>
+</span></span><span style="display:flex;"><span>Exit:
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mov</span> rax, <span style="color:#ae81ff">60</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mov</span> rdi, <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">syscall</span>
+</span></span></code></pre></div><p>Debugging Steps:</p>
+<ol>
+<li>Compile with nasm and ld.</li>
+<li>Set a breakpoint at Exit:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>b *Exit
+</span></span><span style="display:flex;"><span>run
+</span></span></code></pre></div></li>
+<li>Examine rsp:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>x/1gx $rsp
+</span></span></code></pre></div></li>
+</ol>
+<h3 id="functions">Functions</h3>
+<p>Initial Code:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nasm" data-lang="nasm"><span style="display:flex;"><span><span style="color:#66d9ef">global</span> _start
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">extern</span> printf
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">section</span> .data
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">outFormat</span> db <span style="color:#e6db74">&#34;It&#39;s %s&#34;</span>, <span style="color:#ae81ff">0x0a</span>, <span style="color:#ae81ff">0x00</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">message</span> db <span style="color:#e6db74">&#34;Aligned!&#34;</span>, <span style="color:#ae81ff">0x0a</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">section</span> .text
+</span></span><span style="display:flex;"><span>_start:
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">call</span> print          <span style="color:#75715e">; Print the message</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">call</span> Exit           <span style="color:#75715e">; Exit the program</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print:
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mov</span> rdi, outFormat  <span style="color:#75715e">; Set 1st argument (format string)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mov</span> rsi, message    <span style="color:#75715e">; Set 2nd argument (message)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">call</span> printf         <span style="color:#75715e">; Call printf(outFormat, message)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ret</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Exit:
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mov</span> rax, <span style="color:#ae81ff">60</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mov</span> rdi, <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">syscall</span>
+</span></span></code></pre></div><p>Updated Code with Stack Alignment:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nasm" data-lang="nasm"><span style="display:flex;"><span><span style="color:#66d9ef">global</span> _start
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">extern</span> printf
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">section</span> .data
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">outFormat</span> db <span style="color:#e6db74">&#34;It&#39;s %s&#34;</span>, <span style="color:#ae81ff">0x0a</span>, <span style="color:#ae81ff">0x00</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">message</span> db <span style="color:#e6db74">&#34;Aligned!&#34;</span>, <span style="color:#ae81ff">0x0a</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">section</span> .text
+</span></span><span style="display:flex;"><span>_start:
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">call</span> print          <span style="color:#75715e">; Print the message</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">call</span> Exit           <span style="color:#75715e">; Exit the program</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print:
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">sub</span> rsp, <span style="color:#ae81ff">8</span>          <span style="color:#75715e">; Align stack to 16 bytes</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mov</span> rdi, outFormat  <span style="color:#75715e">; Set 1st argument (format string)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mov</span> rsi, message    <span style="color:#75715e">; Set 2nd argument (message)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">call</span> printf         <span style="color:#75715e">; Call printf(outFormat, message)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">add</span> rsp, <span style="color:#ae81ff">8</span>          <span style="color:#75715e">; Restore stack alignment</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ret</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Exit:
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mov</span> rax, <span style="color:#ae81ff">60</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mov</span> rdi, <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">syscall</span>
+</span></span></code></pre></div><p>Boundary Added for Alignment: 8 bytes</p>
+<h3 id="shellcodes">Shellcodes</h3>
+<p>Python Script for Executing Shellcode:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/python3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>context(os<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;linux&#34;</span>, arch<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;amd64&#34;</span>, log_level<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;error&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>shellcode <span style="color:#f92672">=</span> unhex(<span style="color:#e6db74">&#39;4831db536a0a48b86d336d307279217d5048b833645f316e37305f5048b84854427b6c303464504889e64831c0b0014831ff40b7014831d2b2190f054831c0043c4030ff0f05&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>run_shellcode(shellcode)<span style="color:#f92672">.</span>interactive()
+</span></span></code></pre></div><p>Run it:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 shell.py
+</span></span></code></pre></div><h3 id="injecting-shellcode-via-netcat">Injecting Shellcode via Netcat</h3>
+<p>Generate the shellcode. Assuming the flag is in /flag.txt:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>context(os<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;linux&#34;</span>, arch<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;amd64&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Generate shellcode to open /flag.txt and read its content</span>
+</span></span><span style="display:flex;"><span>shellcode <span style="color:#f92672">=</span> shellcraft<span style="color:#f92672">.</span>open(<span style="color:#e6db74">&#39;/flag.txt&#39;</span>) <span style="color:#f92672">+</span> \
+</span></span><span style="display:flex;"><span>            shellcraft<span style="color:#f92672">.</span>read(<span style="color:#e6db74">&#39;rax&#39;</span>, <span style="color:#e6db74">&#39;rsp&#39;</span>, <span style="color:#ae81ff">100</span>) <span style="color:#f92672">+</span> \
+</span></span><span style="display:flex;"><span>            shellcraft<span style="color:#f92672">.</span>write(<span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#39;rsp&#39;</span>, <span style="color:#ae81ff">100</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(asm(shellcode)<span style="color:#f92672">.</span>hex())
+</span></span></code></pre></div><p>Disassemble the shellcode for analysis:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>objdump -d -M intel loaded_shellcode &gt; disassembled_code.asm
+</span></span></code></pre></div>
+    </div>
+    
+    <div class="page-footer">
+        
+        
+        
+        <div class="share">
+            <span>Partager :</span>
+            <a href="https://twitter.com/intent/tweet?url=http%3a%2f%2flocalhost%3a1313%2fcybersecurity-notes%2fwriteups%2freverse%2fgdb-nasm%2f&text=GDB%20and%20NASM%20Assembly%20Guide%20-%20WriteUp" target="_blank" aria-label="Twitter">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.linkedin.com/sharing/share-offsite/?url=http%3a%2f%2flocalhost%3a1313%2fcybersecurity-notes%2fwriteups%2freverse%2fgdb-nasm%2f" target="_blank" aria-label="LinkedIn">
+                <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="mailto:?subject=GDB%20and%20NASM%20Assembly%20Guide%20-%20WriteUp&body=http%3a%2f%2flocalhost%3a1313%2fcybersecurity-notes%2fwriteups%2freverse%2fgdb-nasm%2f" aria-label="Email">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+    </div>
+</article>
+
+</main>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-left">
+                <p>&copy; 2025 WriteUps &amp; Recherches Cybersécurité</p>
+            </div>
+            <div class="footer-right">
+                <div class="social-links">
+                    <a href="https://github.com/Istaarkk" target="_blank" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" target="_blank" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" target="_blank" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Site propulsé par <a href="https://gohugo.io/" target="_blank">Hugo</a> | Thème <span class="theme-name">CyberNotes</span></p>
+        </div>
+    </footer>
+
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        hljs.highlightAll();
+        
+        
+        document.querySelectorAll('pre code').forEach((block) => {
+            const button = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copier';
+            
+            const pre = block.parentNode;
+            pre.style.position = 'relative';
+            pre.insertBefore(button, pre.firstChild);
+            
+            button.addEventListener('click', () => {
+                navigator.clipboard.writeText(block.textContent);
+                button.textContent = 'Copié !';
+                setTimeout(() => {
+                    button.textContent = 'Copier';
+                }, 2000);
+            });
+        });
+        
+        
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    });
+    </script>
+    
+    
+</body>
+</html>  
