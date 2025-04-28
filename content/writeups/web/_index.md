@@ -1,10 +1,18 @@
 ---
 title: "Web Hacking"
+description: "WriteUps et techniques d'exploitation de vulnérabilités web"
 date: 2024-04-14
-description: "WriteUps de challenges de sécurité Web - XSS, CSRF, SQLi, et plus"
+draft: false
 ---
 
 # Web Hacking
+
+Explorez les techniques d'exploitation et d'analyse des vulnérabilités web, incluant:
+- Cross-Site Scripting (XSS)
+- SQL Injection
+- Cross-Site Request Forgery (CSRF)
+- Broken Authentication
+- Server-Side Request Forgery (SSRF)
 
 Cette section contient mes WriteUps pour des challenges de sécurité Web. J'y aborde diverses vulnérabilités courantes telles que :
 

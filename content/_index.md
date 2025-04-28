@@ -10,12 +10,12 @@ Explorez mes WriteUps détaillés de challenges CTF, recherches en sécurité in
 
 ### Catégories Principales
 
-- [Web Hacking](/writeups/web/) - XSS, CSRF, SQLi, et autres vulnérabilités web
-- [Pwn & Exploitation](/writeups/pwn/) - Buffer overflow, ROP, format string
-- [Reverse Engineering](/writeups/reverse/) - Analyse avec Ghidra, IDA Pro et radare2
-- [Network Security](/writeups/network/) - Exploitation de services réseau
-- [PwnMe Junior 2025](/writeups/pwnme-junior/) - WriteUps complets des challenges
-- [Veille Technologique](/veille/) - Actualités et analyses de vulnérabilités
+- [Web Hacking]({{< relref "/writeups/web/" >}}) - XSS, CSRF, SQLi, et autres vulnérabilités web
+- [Pwn & Exploitation]({{< relref "/writeups/pwn/" >}}) - Buffer overflow, ROP, format string
+- [Reverse Engineering]({{< relref "/writeups/reverse/" >}}) - Analyse avec Ghidra, IDA Pro et radare2
+- [Network Security]({{< relref "/writeups/network/" >}}) - Exploitation de services réseau
+- [PwnMe Junior 2025]({{< relref "/writeups/pwnme-junior/" >}}) - WriteUps complets des challenges
+- [Veille Technologique]({{< relref "/veille/" >}}) - Actualités et analyses de vulnérabilités
 
 <div class="hero-section">
   <div class="hero-content">
@@ -53,46 +53,46 @@ Explorez mes WriteUps détaillés de challenges CTF, recherches en sécurité in
 <h2>Catégories Principales</h2>
 
 <div class="category-grid">
-  <div class="category-card">
+  <div class="category-card web">
     <div class="category-icon"><i class="fas fa-globe"></i></div>
     <h3 class="category-title">Web Hacking</h3>
     <p class="category-description">XSS, CSRF, SQLi, et autres vulnérabilités web. Méthodologies d'exploitation et de protection.</p>
-    <a href="/writeups/web/" class="category-link">Voir les WriteUps <i class="fas fa-arrow-right"></i></a>
+    <a href="{{< relref "/writeups/web/" >}}" class="category-link">Voir les WriteUps <i class="fas fa-arrow-right"></i></a>
   </div>
   
-  <div class="category-card">
+  <div class="category-card pwn">
     <div class="category-icon"><i class="fas fa-microchip"></i></div>
     <h3 class="category-title">Pwn & Exploitation</h3>
     <p class="category-description">Buffer overflow, ROP, format string et exploitation de binaires avec des scripts pwntools.</p>
-    <a href="/writeups/pwn/" class="category-link">Voir les WriteUps <i class="fas fa-arrow-right"></i></a>
+    <a href="{{< relref "/writeups/pwn/" >}}" class="category-link">Voir les WriteUps <i class="fas fa-arrow-right"></i></a>
   </div>
   
-  <div class="category-card">
+  <div class="category-card reverse">
     <div class="category-icon"><i class="fas fa-code"></i></div>
     <h3 class="category-title">Reverse Engineering</h3>
     <p class="category-description">Analyse statique/dynamique avec Ghidra, IDA Pro et radare2. Décompilation et déobfuscation.</p>
-    <a href="/writeups/reverse/" class="category-link">Voir les WriteUps <i class="fas fa-arrow-right"></i></a>
+    <a href="{{< relref "/writeups/reverse/" >}}" class="category-link">Voir les WriteUps <i class="fas fa-arrow-right"></i></a>
   </div>
   
-  <div class="category-card">
+  <div class="category-card network">
     <div class="category-icon"><i class="fas fa-network-wired"></i></div>
     <h3 class="category-title">Network Security</h3>
     <p class="category-description">Exploitation de services réseau, scan et énumération, analyse de protocoles et pentesting.</p>
-    <a href="/writeups/network/" class="category-link">Voir les WriteUps <i class="fas fa-arrow-right"></i></a>
+    <a href="{{< relref "/writeups/network/" >}}" class="category-link">Voir les WriteUps <i class="fas fa-arrow-right"></i></a>
   </div>
   
-  <div class="category-card">
+  <div class="category-card pwnme">
     <div class="category-icon"><i class="fas fa-trophy"></i></div>
     <h3 class="category-title">PwnMe Junior 2025</h3>
     <p class="category-description">WriteUps complets des challenges du CTF PwnMe Junior 2025 avec exploits et explications.</p>
-    <a href="/writeups/pwnme-junior/" class="category-link">Voir les WriteUps <i class="fas fa-arrow-right"></i></a>
+    <a href="{{< relref "/writeups/pwnme-junior/" >}}" class="category-link">Voir les WriteUps <i class="fas fa-arrow-right"></i></a>
   </div>
   
-  <div class="category-card">
+  <div class="category-card veille">
     <div class="category-icon"><i class="fas fa-newspaper"></i></div>
     <h3 class="category-title">Veille Technologique</h3>
     <p class="category-description">Actualités, analyses de vulnérabilités récentes et suivi des dernières menaces de sécurité.</p>
-    <a href="/veille/" class="category-link">Voir les Articles <i class="fas fa-arrow-right"></i></a>
+    <a href="{{< relref "/veille/" >}}" class="category-link">Voir les Articles <i class="fas fa-arrow-right"></i></a>
   </div>
 </div>
 

@@ -3,6 +3,10 @@ languageCode: "fr-fr"
 title: "WriteUps & Recherches Cybersécurité"
 theme: "blowfish"
 
+# Configuration des URLs
+relativeURLs: true
+canonifyURLs: true
+
 # Désactiver les résumés
 summaryLength: 0
 
@@ -51,11 +55,14 @@ menu:
       name: WriteUps
       url: /writeups/
       weight: 10
+      pre: <i class="fas fa-file-code"></i>
     - identifier: veille
       name: Veille
       url: /veille/
       weight: 20
+      pre: <i class="fas fa-newspaper"></i>
     - identifier: outils
       name: Outils
       url: /outils/
       weight: 30
+      pre: <i class="fas fa-tools"></i>
