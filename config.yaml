@@ -1,14 +1,28 @@
 baseURL: "https://Istaarkk.github.io/cybersecurity-notes/"
 languageCode: "fr-fr"
 title: "WriteUps & Recherches Cybersécurité"
-theme: "blowfish"
+# theme: "blowfish" # Commenté car nous utilisons maintenant nos propres layouts
 
 # Configuration des URLs
 relativeURLs: true
 canonifyURLs: true
 
-# Désactiver les résumés
-summaryLength: 0
+# Paramètres Hugo
+paginate: 10
+summaryLength: 150
+enableRobotsTXT: true
+enableGitInfo: true
+
+# Markdown configuration
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  highlight:
+    style: github-dark
+    lineNos: true
+    codeFences: true
+    guessSyntax: true
 
 # Configuration des taxonomies
 taxonomies:
@@ -16,41 +30,81 @@ taxonomies:
   category: "categories"
   ctf: "ctfs"
 
+# Paramètres du site
 params:
+  # Description du site
+  description: "Blog de cybersécurité avec writeups CTF, analyses de vulnérabilités et outils de sécurité"
+  author: "Istaarkk"
+  
+  # Sections principales
   mainSections:
     - writeups
     - veille
     - outils
-  # Active search
+    
+  # Configuration de recherche
   search:
     enable: true
-  # Code highlighting
+    
+  # Configuration du code
   code:
     copy: true
     highlight: true
-    lineNumbers: false
-    theme: "monokai"
-  # Désactive les résumés
+    lineNumbers: true
+    theme: "github-dark"
+    
+  # Configuration des listes
   list:
-    showSummary: false
+    showSummary: true
     showCards: true
     cardView: true
-  # Définit le thème de couleur Blowfish
-  colorScheme: "ocean"
-  # Paramètres de présentation
+    showDate: true
+    showReadingTime: true
+    
+  # Configuration des articles
   article:
     showDate: true
     showAuthor: true
     showBreadcrumbs: true
     showTableOfContents: true
-  # Affichage des articles récents sur la page d'accueil
+    showReadingTime: true
+    showRelated: true
+    showTags: true
+    showCategories: true
+    
+  # Configuration de la page d'accueil
   homepage:
-    layout: "profile"
     showRecent: true
     showRecentItems: 6
+    showStats: true
+    showCategories: true
+    
+  # Configuration des images
+  images:
+    resize: true
+    quality: 85
+    
+  # Configuration SEO
+  seo:
+    enabled: true
+    twitter_card: "summary_large_image"
+    
+  # Configuration sociale
+  social:
+    github: "Istaarkk"
+    
+  # Analytics (optionnel)
+  # analytics:
+  #   google: "G-XXXXXXXXXX"
 
+# Menu de navigation
 menu:
   main:
+    - identifier: accueil
+      name: Accueil
+      url: /
+      weight: 5
+      pre: <i class="fas fa-home"></i>
     - identifier: writeups
       name: WriteUps
       url: /writeups/
@@ -66,3 +120,49 @@ menu:
       url: /outils/
       weight: 30
       pre: <i class="fas fa-tools"></i>
+    - identifier: about
+      name: À propos
+      url: /about/
+      weight: 40
+      pre: <i class="fas fa-user"></i>
+
+# Configuration des formats de sortie
+outputs:
+  home: ["HTML", "RSS", "JSON"]
+  page: ["HTML"]
+  section: ["HTML", "RSS"]
+
+# Configuration RSS
+rss:
+  limit: 20
+
+# Configuration des permaliens
+permalinks:
+  writeups: "/writeups/:year/:month/:slug/"
+  veille: "/veille/:year/:month/:slug/"
+  outils: "/outils/:slug/"
+  
+# Configuration de la sécurité
+security:
+  enableInlineShortcodes: false
+  funcs:
+    getenv:
+      - "^HUGO_"
+      - "^WC_"
+    
+# Configuration de la minification
+minify:
+  disableCSS: false
+  disableHTML: false
+  disableJS: false
+  disableJSON: false
+  disableSVG: false
+  disableXML: false
+  minifyOutput: true
+  
+# Configuration des shortcodes personnalisés
+markup:
+  tableOfContents:
+    endLevel: 4
+    ordered: false
+    startLevel: 2

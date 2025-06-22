@@ -8,15 +8,15 @@ ctfs: ["cyber-apocalypse"]
 
 # SealedRune - Cyber Apocalypse 2024
 
-## Description du challenge
+## Challenge Description
 
-SealedRune est un challenge de reverse engineering du Cyber Apocalypse CTF 2024. Le programme attend un input spécifique qui, une fois entré correctement, révèle le flag.
+SealedRune is a reverse engineering challenge from Cyber Apocalypse CTF 2024. The program expects a specific input which, when entered correctly, reveals the flag.
 
-## Analyse du binaire
+## Binary Analysis
 
-En analysant le binaire avec un désassembleur, nous avons découvert que le programme contient une chaîne encodée en Base64. Cette chaîne est ensuite décodée et comparée à l'entrée utilisateur, mais avec une particularité : la comparaison se fait avec la chaîne inversée.
+By analyzing the binary with a disassembler, we discovered that the program contains a Base64-encoded string. This string is then decoded and compared to the user input, but with a twist: the comparison is made with the reversed string.
 
-Voici le pseudocode extrait de la décompilation :
+Here is the pseudocode extracted from the decompilation:
 
 ```c
 int main() {
@@ -24,13 +24,11 @@ int main() {
     char* encoded_secret = "emFyZmZ1bkdsZWFW";
     char decoded_secret[50];
     
-    // Décodage de la chaîne Base64
     base64_decode(encoded_secret, decoded_secret);
     
     printf("Entrez le mot de passe pour desceller la rune : ");
     scanf("%s", input);
     
-    // Vérification du mot de passe
     int valid = 1;
     int len = strlen(decoded_secret);
     
@@ -53,80 +51,60 @@ int main() {
 
 ## Exploitation
 
-Pour résoudre ce challenge, nous devons :
-1. Décoder la chaîne Base64 "emFyZmZ1bkdsZWFW"
-2. Inverser la chaîne décodée
-3. Utiliser ce résultat comme mot de passe
+To solve this challenge, we need to:
+1. Decode the Base64 string "emFyZmZ1bkdsZWFW"
+2. Reverse the decoded string
+3. Use this result as the password
 
-Voici le script Python que nous avons utilisé pour résoudre le challenge :
+Here is the Python script we used to solve the challenge:
 
 ```python
 import base64
 
-# La chaîne secrète encodée en Base64
 encoded_secret = "emFyZmZ1bkdsZWFW"
 
-# Décodage Base64
 decoded_secret = base64.b64decode(encoded_secret).decode('utf-8')
 print(f"Chaîne décodée: {decoded_secret}")
 
-# Inversion de la chaîne
 reversed_secret = decoded_secret[::-1]
 print(f"Chaîne inversée (solution): {reversed_secret}")
 ```
 
-## Résolution
-
-En exécutant notre script, nous obtenons :
+## Solution
 
 ```
-$ python3 exploit.py
+~/HTB/Reverse/rev_sealedrune » python exploit.py                                                                                                                    
 Chaîne décodée: zarffunGleaV
-Chaîne inversée (solution): VaelGnuffrraz
+Chaîne inversée (solution): VaelGnuffraz
+
+~/HTB/Reverse/rev_sealedrune » ./challenge                                                                                                                           
+       ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+       ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡾⠋⠙⢦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+       ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⠁⠀⠀⠀⠈⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+       ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡿⠀⠀⠘⠃⠀⢻⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+       ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇⢠⡀⠀⢀⣤⣸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+       ⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣤⣤⣷⣾⡷⠞⠛⠙⣛⣷⣤⣤⣄⡀⠀⠀⠀⠀⠀
+       ⠀⠀⠀⠀⠀⢀⣤⣾⣿⣯⡁⠀⠀⠀⠀⠀⠀⠀⠀⣈⣿⣿⣦⣤⡀⠀⠀⠀⠀
+       ⠀⠀⠀⢠⣾⡿⠛⠁⠀⠙⢿⡄⠀⠀⠀⠀⠀⠀⣸⡿⠋⠀⠙⠛⢿⣦⡀⠀⠀
+       ⠀⠀⣴⡿⠁⠀⠀⠀⠀⠀⠈⣿⣶⣤⣀⣀⣤⣶⣿⠁⠀⠀⠀⠀⠀⠙⢿⣦⠀
+       ⠀⣾⡟⠀⠀⠀⠀⠀⠀⠀⢰⡟⠉⠛⠿⠿⠛⠉⢻⡆⠀⠀⠀⠀⠀⠀⠘⣷  
+       ⢸⡇⠀⠀⠀⠀⠀⠀⠀⠀⠈⣧⠀⠀⠀⠀⠀⠀⣼⠁⠀⠀⠀⠀⠀⠀⠀⢹  
+       ⠘⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣇⠀⠀⠀⠀⠀⡇⠀⠀⠀⠀⠀⠀⠀⣸⠇  
+        ⠹⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⡄⠀⠀⠀⢰⠇⠀⠀⠀⠀⠀⠀⣰⠏    
+         ⠙⢦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠻⣄⠀⠀⣀⡾⠀⠀⠀⠀⠀⣠⠞⠁    
+           ⠈⠳⣄⠀⠀⠀⠀⠀⠀⠀⠀⠙⠓⠚⠋⠀⠀⠀⠀⣠⡾⠁      
+              ⠙⠳⢤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡤⠖⠋        
+                 ⠈⠛⠶⣤⣄⡀⠀⠀⢀⣠⡤⠖⠛⠁          
+                     ⠉⠛⠛⠉
+🔮 The ancient rune shimmers with magical energy... 🔮
+Enter the incantation to reveal its secret: VaelGnuffraz
+The rune glows with power... The path to The Dragon’s Heart is revealed!
+The secret spell is `HTB{run3_m4g1c_r3v34l3d}`.
 ```
 
-Ainsi, le mot de passe correct est `VaelGnuffrraz`. En fournissant ce mot de passe au programme, nous obtenons le flag.
-
-## Étapes de l'exploitation manuelle
-
-Si vous préférez résoudre ce challenge manuellement sans utiliser de script, voici les étapes :
-
-1. Identifiez la chaîne encodée "emFyZmZ1bkdsZWFW" dans le binaire
-2. Décodez-la en Base64 (vous pouvez utiliser des outils en ligne ou la commande suivante) :
-   ```bash
-   echo "emFyZmZ1bkdsZWFW" | base64 -d
-   ```
-   Résultat : zarffunGleaV
-3. Inversez cette chaîne (vous pouvez le faire manuellement ou avec la commande suivante) :
-   ```bash
-   echo "zarffunGleaV" | rev
-   ```
-   Résultat : VaelGnuffrraz
-4. Utilisez "VaelGnuffrraz" comme input pour le programme
+By entering the correct password, the program reveals the flag.
 
 ## Flag
 
-En entrant le mot de passe correct, le programme nous révèle le flag :
+`HTB{run3_m4g1c_r3v34l3d}`
 
-```
-$ ./challenge
-Entrez le mot de passe pour desceller la rune : VaelGnuffrraz
-Rune descellée ! Le flag est : HTB{run3_m4g1c_r3v34l3d}
-```
-
-Le flag de ce challenge est donc : `HTB{run3_m4g1c_r3v34l3d}`
-
-## Conclusion
-
-SealedRune est un challenge relativement simple qui illustre des techniques courantes utilisées pour obfusquer des chaînes de caractères dans les binaires :
-
-1. Encodage en Base64 pour masquer le contenu
-2. Inversion de chaîne pour compliquer davantage l'analyse
-
-Ce type de protection est souvent utilisé dans les crackmes basiques et constitue une bonne introduction aux techniques de reverse engineering. Pour résoudre ce challenge, il était nécessaire de :
-
-1. Identifier la chaîne encodée dans le binaire
-2. Comprendre l'algorithme de vérification du mot de passe
-3. Effectuer les transformations inverses pour obtenir le mot de passe valide
-
-Bien que ces techniques d'obfuscation soient rudimentaires, elles servent de base pour comprendre des mécanismes plus complexes de protection de binaires. 

@@ -6,17 +6,17 @@ categories: ["reverse"]
 ctfs: ["cyber-apocalypse"]
 ---
 
-# EndlessCycle - Cyber Apocalypse 2024
+# EndlessCycle - Cyber Apocalypse
 
-## Description du challenge
+## Challenge Description
 
-EndlessCycle est un challenge de reverse engineering du Cyber Apocalypse CTF 2024. Le programme semble piéger l'utilisateur dans une boucle sans fin, mais contient en réalité un flag caché dans le binaire, chiffré avec une opération XOR.
+EndlessCycle is a reverse engineering challenge from Cyber Apocalypse CTF 2024. The program appears to trap the user in an endless loop, but actually contains a flag hidden in the binary, encrypted with a XOR operation.
 
-## Analyse du binaire
+## Binary Analysis
 
-En analysant le binaire avec un désassembleur, nous avons découvert qu'il contient un ensemble de données chiffrées. Ces données se trouvent dans la section `.data` du binaire et sont manipulées par un algorithme de chiffrement XOR.
+By analyzing the binary with a disassembler, we discovered it contains a set of encrypted data. These data are located in the `.data` section of the binary and are manipulated by a XOR encryption algorithm.
 
-Voici un extrait du code assembleur qui manipule ces données :
+Here is an excerpt of the assembly code that handles these data:
 
 ```asm
 ; Récupération de l'adresse des données chiffrées
@@ -32,11 +32,11 @@ cmp rax, [rel data_end_address]
 jb .loop
 ```
 
-Ce code effectue une opération XOR avec la clé `0xbeefcafe` sur des blocs de 4 octets. La zone de mémoire chiffrée contient en fait le flag du challenge.
+This code performs a XOR operation on 4-byte blocks. The encrypted memory area actually contains the challenge flag.
 
-## Extraction des données du binaire
+## Extracting Data from the Binary
 
-Pour extraire les données chiffrées du binaire, nous avons créé un script d'analyse :
+To extract the encrypted data from the binary, we created an analysis script:
 
 ```c
 #include <stdio.h>
@@ -44,7 +44,6 @@ Pour extraire les données chiffrées du binaire, nous avons créé un script d'
 #include <string.h>
 
 int main() {
-    // Tableau contenant les données extraites du binaire
     unsigned char code[] = {
         0x55, 0x48, 0x89, 0xe5, 0x68, 0x3e, 0x21, 0x01, 0x01, 0x81, 0x34, 0x24, 0x01, 0x01, 0x01, 0x01,
         0x48, 0xb8, 0x74, 0x68, 0x65, 0x20, 0x66, 0x6c, 0x61, 0x67, 0x50, 0x48, 0xb8, 0x57, 0x68, 0x61,
@@ -59,30 +58,25 @@ int main() {
     };
     int codeSize = sizeof(code);
     
-    // Essayer différents offsets pour trouver les données chiffrées
     for (int startOffset = 0x80; startOffset < 0x95; startOffset++) {
         printf("Offset 0x%02x: ", startOffset);
         
-        // Création d'un buffer pour le déchiffrement
         unsigned char encryptedData[32] = {0};
         for (int i = 0; i < 32 && startOffset + i < codeSize; i++) {
             encryptedData[i] = code[startOffset + i];
         }
         
-        // Déchiffrement XOR par blocs de 4 octets
         for (int i = 0; i < 32; i += 4) {
             unsigned int block = 0;
             for (int j = 0; j < 4 && i + j < 32; j++) {
                 block |= ((unsigned int)encryptedData[i + j]) << (j * 8);
             }
             
-            // XOR avec 0xbeefcafe
             block ^= 0xbeefcafe;
             
-            // Affichage des caractères déchiffrés
             for (int j = 0; j < 4 && i + j < 32; j++) {
                 char c = (block >> (j * 8)) & 0xFF;
-                if (c >= 32 && c <= 126) // Caractères imprimables ASCII
+                if (c >= 32 && c <= 126) 
                     printf("%c", c);
                 else
                     printf(".");
@@ -97,14 +91,14 @@ int main() {
 
 ## Exploitation
 
-En analysant les données à différents offsets dans le binaire et en appliquant l'opération XOR avec la clé `0xbeefcafe`, nous avons pu retrouver le flag caché. L'exploitation se déroule en plusieurs étapes :
+By analyzing the data at different offsets in the binary and applying the XOR operation with the key `0xbeefcafe`, we were able to recover the hidden flag. The exploitation proceeds in several steps:
 
-1. Extraction des données chiffrées à partir du binaire
-2. Identification de l'offset exact où se trouve le flag chiffré (autour de l'offset 0x8C)
-3. Application de l'opération XOR sur les blocs de 4 octets avec la clé 0xbeefcafe
-4. Conversion des valeurs déchiffrées en caractères ASCII
+1. Extracting the encrypted data from the binary
+2. Identifying the exact offset where the encrypted flag is located (around offset 0x8C)
+3. Applying the XOR operation on 4-byte blocks with the key 0xbeefcafe
+4. Converting the decrypted values to ASCII characters
 
-Voici un script complet pour extraire et afficher le flag :
+Here is a complete script to extract and display the flag:
 
 ```c
 #include <stdio.h>
@@ -118,34 +112,27 @@ int main() {
         return 1;
     }
     
-    // Aller à la section .data (supposée être à l'offset 0x2000)
     fseek(f, 0x2000, SEEK_SET);
     
-    // Lire les données
     unsigned char buffer[1024];
     size_t bytesRead = fread(buffer, 1, sizeof(buffer), f);
     fclose(f);
     
     printf("Lecture de %zu octets depuis le binaire\n", bytesRead);
     
-    // Parcourir les données pour trouver des patterns intéressants
     for (size_t offset = 0; offset < bytesRead - 32; offset += 4) {
         printf("Offset 0x%04zx: ", offset);
         
-        // Déchiffrer 32 octets à cet offset
         for (int i = 0; i < 32; i += 4) {
             if (offset + i < bytesRead - 4) {
-                // Construire un bloc de 4 octets (little-endian)
                 unsigned int block = 
                     (buffer[offset + i]) |
                     (buffer[offset + i + 1] << 8) |
                     (buffer[offset + i + 2] << 16) |
                     (buffer[offset + i + 3] << 24);
                 
-                // XOR avec 0xbeefcafe
                 block ^= 0xbeefcafe;
                 
-                // Afficher les caractères déchiffrés
                 for (int j = 0; j < 4; j++) {
                     char c = (block >> (j * 8)) & 0xFF;
                     if (c >= 32 && c <= 126)
@@ -157,8 +144,7 @@ int main() {
         }
         printf("\n");
         
-        // Si on trouve "HTB{" dans la sortie, on a probablement trouvé le flag
-        // donc on s'arrête
+
         if (offset > 100) break;
     }
     
@@ -166,9 +152,9 @@ int main() {
 }
 ```
 
-## Le Flag
+## The Flag
 
-En exécutant notre outil d'analyse, nous avons pu récupérer le flag :
+By executing our analysis tool, we were able to retrieve the flag:
 
 ```
 $ ./extract_flag
@@ -177,15 +163,5 @@ Offset 0x008c: HTB{l00k_b3y0nd_th3_w0rld}
 ...
 ```
 
-Le flag de ce challenge est : `HTB{l00k_b3y0nd_th3_w0rld}`
+The flag for this challenge is: `HTB{l00k_b3y0nd_th3_w0rld}`
 
-## Conclusion
-
-EndlessCycle est un challenge intéressant qui met en pratique plusieurs concepts de rétro-ingénierie :
-
-1. L'extraction de données à partir d'un binaire
-2. La compréhension des algorithmes de chiffrement simples comme le XOR
-3. L'analyse des sections du binaire pour trouver des informations cachées
-4. L'implémentation d'une routine de déchiffrement pour récupérer des données sensibles
-
-Ce type de technique d'obfuscation est souvent utilisé dans des logiciels malveillants pour cacher des chaînes sensibles, comme des adresses C2 ou des noms de fichiers, et ce challenge nous permet de pratiquer les méthodes pour déjouer ces techniques. 

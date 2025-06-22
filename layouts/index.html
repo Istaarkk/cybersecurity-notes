@@ -1,0 +1,283 @@
+{{ define "main" }}
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>{{ .Site.Title }}</h1>
+        <p>Explorez mes WriteUps détaillés de challenges CTF, recherches en sécurité informatique et ressources pour les professionnels et passionnés de cybersécurité.</p>
+        <div class="hero-badges">
+            <span class="badge">Pwn</span>
+            <span class="badge">Web</span>
+            <span class="badge">Reverse</span>
+            <span class="badge">Network</span>
+            <span class="badge">CTF</span>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats">
+    <div class="stats-container">
+        <div class="stat-item">
+            <span class="stat-number">{{ len (where .Site.RegularPages "Section" "writeups") }}+</span>
+            <span class="stat-label">WriteUps</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">{{ len .Site.Taxonomies.categories }}+</span>
+            <span class="stat-label">Catégories</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">{{ len .Site.Taxonomies.ctfs }}+</span>
+            <span class="stat-label">CTFs</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">{{ now.Format "2006" }}</span>
+            <span class="stat-label">Dernière MAJ</span>
+        </div>
+    </div>
+</section>
+
+<!-- Categories Section -->
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Catégories Principales</h2>
+        <p class="section-subtitle">Découvrez mes analyses détaillées et writeups organisés par domaine d'expertise</p>
+        
+        <div class="grid grid-3">
+            <!-- Web Hacking -->
+            <div class="card">
+                <div class="card-header">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <i class="fas fa-globe" style="font-size: 2rem; color: var(--primary-color);"></i>
+                        <h3 class="card-title">Web Hacking</h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">XSS, CSRF, SQLi, et autres vulnérabilités web. Méthodologies d'exploitation et de protection.</p>
+                    <div class="card-tags">
+                        <span class="tag tag-primary">XSS</span>
+                        <span class="tag tag-warning">SQLi</span>
+                        <span class="tag tag-error">CSRF</span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: var(--font-size-sm);">
+                        <i class="fas fa-file-code"></i>
+                        {{ len (where (where .Site.RegularPages "Section" "writeups") ".Params.categories" "intersect" (slice "web")) }} writeups
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ "writeups/web" | relURL }}" class="btn btn-primary">
+                        Voir les WriteUps <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Pwn & Exploitation -->
+            <div class="card">
+                <div class="card-header">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <i class="fas fa-microchip" style="font-size: 2rem; color: var(--error-color);"></i>
+                        <h3 class="card-title">Pwn & Exploitation</h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">Buffer overflow, ROP, format string et exploitation de binaires avec des scripts pwntools.</p>
+                    <div class="card-tags">
+                        <span class="tag tag-error">Buffer Overflow</span>
+                        <span class="tag tag-warning">ROP</span>
+                        <span class="tag tag-primary">Shellcode</span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: var(--font-size-sm);">
+                        <i class="fas fa-file-code"></i>
+                        {{ len (where (where .Site.RegularPages "Section" "writeups") ".Params.categories" "intersect" (slice "pwn")) }} writeups
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ "writeups/pwn" | relURL }}" class="btn btn-primary">
+                        Voir les WriteUps <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Reverse Engineering -->
+            <div class="card">
+                <div class="card-header">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <i class="fas fa-code" style="font-size: 2rem; color: var(--success-color);"></i>
+                        <h3 class="card-title">Reverse Engineering</h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">Analyse statique/dynamique avec Ghidra, IDA Pro et radare2. Décompilation et déobfuscation.</p>
+                    <div class="card-tags">
+                        <span class="tag tag-success">Ghidra</span>
+                        <span class="tag tag-primary">IDA Pro</span>
+                        <span class="tag tag-warning">Radare2</span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: var(--font-size-sm);">
+                        <i class="fas fa-file-code"></i>
+                        {{ len (where (where .Site.RegularPages "Section" "writeups") ".Params.categories" "intersect" (slice "reverse")) }} writeups
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ "writeups/reverse" | relURL }}" class="btn btn-primary">
+                        Voir les WriteUps <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Network Security -->
+            <div class="card">
+                <div class="card-header">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <i class="fas fa-network-wired" style="font-size: 2rem; color: var(--warning-color);"></i>
+                        <h3 class="card-title">Network Security</h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">Exploitation de services réseau, scan et énumération, analyse de protocoles et pentesting.</p>
+                    <div class="card-tags">
+                        <span class="tag tag-warning">Nmap</span>
+                        <span class="tag tag-error">Metasploit</span>
+                        <span class="tag tag-primary">Wireshark</span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: var(--font-size-sm);">
+                        <i class="fas fa-file-code"></i>
+                        {{ len (where (where .Site.RegularPages "Section" "writeups") ".Params.categories" "intersect" (slice "network")) }} writeups
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ "writeups/network" | relURL }}" class="btn btn-primary">
+                        Voir les WriteUps <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Veille Technologique -->
+            <div class="card">
+                <div class="card-header">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <i class="fas fa-newspaper" style="font-size: 2rem; color: var(--accent-color);"></i>
+                        <h3 class="card-title">Veille Technologique</h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">Actualités, analyses de vulnérabilités récentes et suivi des dernières menaces de sécurité.</p>
+                    <div class="card-tags">
+                        <span class="tag">CVE</span>
+                        <span class="tag tag-warning">0-day</span>
+                        <span class="tag tag-error">APT</span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: var(--font-size-sm);">
+                        <i class="fas fa-file-alt"></i>
+                        {{ len (where .Site.RegularPages "Section" "veille") }} articles
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ "veille" | relURL }}" class="btn btn-primary">
+                        Voir les Articles <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Outils -->
+            <div class="card">
+                <div class="card-header">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <i class="fas fa-tools" style="font-size: 2rem; color: var(--secondary-color);"></i>
+                        <h3 class="card-title">Outils & Scripts</h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">Collection d'outils personnalisés, scripts Python et ressources utiles pour la cybersécurité.</p>
+                    <div class="card-tags">
+                        <span class="tag tag-primary">Python</span>
+                        <span class="tag tag-success">Bash</span>
+                        <span class="tag">PowerShell</span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: var(--font-size-sm);">
+                        <i class="fas fa-file-code"></i>
+                        {{ len (where .Site.RegularPages "Section" "outils") }} outils
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ "outils" | relURL }}" class="btn btn-primary">
+                        Voir les Outils <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Recent Posts Section -->
+<section class="section" style="background: var(--bg-secondary);">
+    <div class="container">
+        <h2 class="section-title">Dernières Publications</h2>
+        <p class="section-subtitle">Découvrez mes derniers writeups et analyses</p>
+        
+        <!-- Search Bar -->
+        <div class="search-container">
+            <input type="text" id="search-input" class="search-input" placeholder="Rechercher un writeup, tag, ou CTF...">
+            <i class="fas fa-search search-icon"></i>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all">Tous</button>
+            <button class="filter-btn" data-filter="pwn">Pwn</button>
+            <button class="filter-btn" data-filter="web">Web</button>
+            <button class="filter-btn" data-filter="reverse">Reverse</button>
+            <button class="filter-btn" data-filter="network">Network</button>
+        </div>
+
+        <!-- Recent Posts Grid -->
+        <div class="grid grid-2">
+            {{ range first 6 (where .Site.RegularPages "Section" "in" (slice "writeups" "veille")) }}
+            <article class="card">
+                <div class="card-body">
+                    <div class="card-meta">
+                        <span><i class="fas fa-calendar"></i> {{ .Date.Format "2 January 2006" }}</span>
+                        <span><i class="fas fa-folder"></i> {{ .Section | title }}</span>
+                        {{ if .Params.ctfs }}
+                        <span><i class="fas fa-trophy"></i> {{ index .Params.ctfs 0 | title }}</span>
+                        {{ end }}
+                    </div>
+                    
+                    <h3 class="card-title">
+                        <a href="{{ .RelPermalink }}" style="text-decoration: none; color: inherit;">
+                            {{ .Title }}
+                        </a>
+                    </h3>
+                    
+                    <p class="card-description">
+                        {{ .Summary | truncate 150 }}
+                    </p>
+                    
+                    {{ if .Params.tags }}
+                    <div class="card-tags">
+                        {{ range first 3 .Params.tags }}
+                        <span class="tag {{ if eq . "pwn" }}tag-error{{ else if eq . "web" }}tag-primary{{ else if eq . "reverse" }}tag-success{{ else if eq . "network" }}tag-warning{{ end }}">
+                            {{ . }}
+                        </span>
+                        {{ end }}
+                    </div>
+                    {{ end }}
+                </div>
+                <div class="card-footer">
+                    <a href="{{ .RelPermalink }}" class="btn btn-outline">
+                        Lire l'article <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+            {{ end }}
+        </div>
+
+        <div class="text-center mt-xl">
+            <a href="{{ "writeups" | relURL }}" class="btn btn-lg btn-primary">
+                Voir tous les WriteUps <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+{{ end }} 

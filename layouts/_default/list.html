@@ -1,0 +1,287 @@
+{{ define "main" }}
+
+<div class="container">
+    <!-- Page Header -->
+    <header class="section">
+        <div class="card">
+            <div class="card-body text-center">
+                <h1 class="section-title" style="margin-bottom: var(--spacing-md);">
+                    {{ if eq .Section "writeups" }}
+                        <i class="fas fa-file-code" style="color: var(--primary-color);"></i>
+                    {{ else if eq .Section "veille" }}
+                        <i class="fas fa-newspaper" style="color: var(--accent-color);"></i>
+                    {{ else if eq .Section "outils" }}
+                        <i class="fas fa-tools" style="color: var(--secondary-color);"></i>
+                    {{ else }}
+                        <i class="fas fa-folder" style="color: var(--primary-color);"></i>
+                    {{ end }}
+                    {{ .Title }}
+                </h1>
+                {{ if .Description }}
+                <p class="section-subtitle">{{ .Description }}</p>
+                {{ else if eq .Section "writeups" }}
+                <p class="section-subtitle">Découvrez mes analyses détaillées de challenges CTF et vulnérabilités</p>
+                {{ else if eq .Section "veille" }}
+                <p class="section-subtitle">Actualités et analyses des dernières menaces en cybersécurité</p>
+                {{ else if eq .Section "outils" }}
+                <p class="section-subtitle">Scripts et outils personnalisés pour la cybersécurité</p>
+                {{ end }}
+                
+                <!-- Stats -->
+                <div style="display: flex; justify-content: center; gap: var(--spacing-xl); margin-top: var(--spacing-lg);">
+                    <div class="stat-item" style="background: none; box-shadow: none; padding: var(--spacing-md);">
+                        <span class="stat-number" style="font-size: var(--font-size-2xl);">{{ len .Pages }}</span>
+                        <span class="stat-label">{{ if eq .Section "writeups" }}WriteUps{{ else if eq .Section "veille" }}Articles{{ else if eq .Section "outils" }}Outils{{ else }}Articles{{ end }}</span>
+                    </div>
+                    {{ if .Site.Taxonomies.categories }}
+                    <div class="stat-item" style="background: none; box-shadow: none; padding: var(--spacing-md);">
+                        <span class="stat-number" style="font-size: var(--font-size-2xl);">{{ len .Site.Taxonomies.categories }}</span>
+                        <span class="stat-label">Catégories</span>
+                    </div>
+                    {{ end }}
+                    {{ if and (eq .Section "writeups") .Site.Taxonomies.ctfs }}
+                    <div class="stat-item" style="background: none; box-shadow: none; padding: var(--spacing-md);">
+                        <span class="stat-number" style="font-size: var(--font-size-2xl);">{{ len .Site.Taxonomies.ctfs }}</span>
+                        <span class="stat-label">CTFs</span>
+                    </div>
+                    {{ end }}
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Search and Filters -->
+    <section class="mb-xl">
+        <!-- Search Bar -->
+        <div class="search-container">
+            <input type="text" id="search-input" class="search-input" placeholder="Rechercher dans {{ .Title | lower }}...">
+            <i class="fas fa-search search-icon"></i>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all">Tous</button>
+            {{ if eq .Section "writeups" }}
+                <button class="filter-btn" data-filter="pwn">Pwn</button>
+                <button class="filter-btn" data-filter="web">Web</button>
+                <button class="filter-btn" data-filter="reverse">Reverse</button>
+                <button class="filter-btn" data-filter="network">Network</button>
+                <button class="filter-btn" data-filter="crypto">Crypto</button>
+            {{ else }}
+                {{ range $name, $taxonomy := .Site.Taxonomies.categories }}
+                <button class="filter-btn" data-filter="{{ $name }}">{{ $name | title }}</button>
+                {{ end }}
+            {{ end }}
+        </div>
+
+        <!-- Sort Options -->
+        <div style="text-align: center; margin-bottom: var(--spacing-xl);">
+            <select id="sort-select" style="padding: var(--spacing-sm) var(--spacing-md); border: 2px solid var(--border-color); border-radius: var(--border-radius-sm); background: var(--bg-card); color: var(--text-primary);">
+                <option value="date-desc">Plus récent en premier</option>
+                <option value="date-asc">Plus ancien en premier</option>
+                <option value="title-asc">Titre A-Z</option>
+                <option value="title-desc">Titre Z-A</option>
+            </select>
+        </div>
+    </section>
+
+    <!-- Articles Grid -->
+    <section class="mb-xl">
+        <div class="grid grid-2" id="articles-grid">
+            {{ range .Pages }}
+            <article class="card" data-title="{{ .Title | lower }}" data-date="{{ .Date.Format "2006-01-02" }}" data-tags="{{ delimit .Params.tags "," | lower }}">
+                <div class="card-body">
+                    <!-- Meta Information -->
+                    <div class="card-meta">
+                        <span><i class="fas fa-calendar"></i> {{ .Date.Format "2 January 2006" }}</span>
+                        <span><i class="fas fa-clock"></i> {{ .ReadingTime }} min</span>
+                        {{ if .Params.ctfs }}
+                        <span><i class="fas fa-trophy"></i> {{ index .Params.ctfs 0 | title }}</span>
+                        {{ end }}
+                    </div>
+
+                    <!-- Title -->
+                    <h3 class="card-title">
+                        <a href="{{ .RelPermalink }}" style="text-decoration: none; color: inherit;">
+                            {{ .Title }}
+                        </a>
+                    </h3>
+
+                    <!-- Summary -->
+                    <p class="card-description">
+                        {{ .Summary | truncate 200 }}
+                    </p>
+
+                    <!-- Tags -->
+                    {{ if .Params.tags }}
+                    <div class="card-tags">
+                        {{ range first 4 .Params.tags }}
+                        <span class="tag {{ if eq . "pwn" }}tag-error{{ else if eq . "web" }}tag-primary{{ else if eq . "reverse" }}tag-success{{ else if eq . "network" }}tag-warning{{ else if eq . "crypto" }}tag-primary{{ else if eq . "shellcode" }}tag-error{{ else if eq . "exploitation" }}tag-error{{ end }}">
+                            {{ . }}
+                        </span>
+                        {{ end }}
+                    </div>
+                    {{ end }}
+
+                    <!-- Categories -->
+                    {{ if .Params.categories }}
+                    <div style="margin-top: var(--spacing-sm);">
+                        {{ range .Params.categories }}
+                        <span class="tag tag-primary">
+                            {{ . | title }}
+                        </span>
+                        {{ end }}
+                    </div>
+                    {{ end }}
+                </div>
+
+                <div class="card-footer">
+                    <a href="{{ .RelPermalink }}" class="btn btn-primary">
+                        {{ if eq $.Section "writeups" }}
+                            Lire le WriteUp
+                        {{ else if eq $.Section "veille" }}
+                            Lire l'Article
+                        {{ else if eq $.Section "outils" }}
+                            Voir l'Outil
+                        {{ else }}
+                            Lire
+                        {{ end }}
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </article>
+            {{ end }}
+        </div>
+
+        <!-- No Results Message -->
+        <div id="no-results" class="text-center" style="display: none; padding: var(--spacing-2xl);">
+            <div class="card">
+                <div class="card-body">
+                    <i class="fas fa-search" style="font-size: var(--font-size-4xl); color: var(--text-muted); margin-bottom: var(--spacing-lg);"></i>
+                    <h3 style="color: var(--text-muted); margin-bottom: var(--spacing-md);">Aucun résultat trouvé</h3>
+                    <p style="color: var(--text-muted);">Essayez de modifier vos critères de recherche ou filtres.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories/Tags Section -->
+    {{ if and (eq .Section "writeups") .Site.Taxonomies.ctfs }}
+    <section class="section" style="background: var(--bg-secondary); border-radius: var(--border-radius); padding: var(--spacing-2xl); margin-bottom: var(--spacing-xl);">
+        <h2 class="section-title">CTFs Couverts</h2>
+        <div class="grid grid-4">
+            {{ range $name, $taxonomy := .Site.Taxonomies.ctfs }}
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-trophy" style="font-size: var(--font-size-2xl); color: var(--warning-color); margin-bottom: var(--spacing-md);"></i>
+                    <h4 class="card-title">{{ $name | title }}</h4>
+                    <p style="color: var(--text-muted);">{{ len $taxonomy }} writeups</p>
+                    <a href="{{ "/ctfs/" | relURL }}{{ $name }}" class="btn btn-sm btn-outline">
+                        Voir les writeups
+                    </a>
+                </div>
+            </div>
+            {{ end }}
+        </div>
+    </section>
+    {{ end }}
+</div>
+
+<!-- Enhanced JavaScript for search, filter, and sort -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('search-input');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const sortSelect = document.getElementById('sort-select');
+    const articlesGrid = document.getElementById('articles-grid');
+    const noResults = document.getElementById('no-results');
+    let articles = Array.from(document.querySelectorAll('.card[data-title]'));
+
+    let currentFilter = 'all';
+    let currentSort = 'date-desc';
+    let currentSearch = '';
+
+    function filterAndSort() {
+        let filteredArticles = articles.filter(article => {
+            // Search filter
+            const title = article.getAttribute('data-title');
+            const tags = article.getAttribute('data-tags') || '';
+            const searchMatch = currentSearch === '' || 
+                                title.includes(currentSearch) || 
+                                tags.includes(currentSearch);
+
+            // Category filter
+            const categoryMatch = currentFilter === 'all' || 
+                                  tags.split(',').includes(currentFilter);
+
+            return searchMatch && categoryMatch;
+        });
+
+        // Sort articles
+        filteredArticles.sort((a, b) => {
+            const aTitle = a.getAttribute('data-title');
+            const bTitle = b.getAttribute('data-title');
+            const aDate = a.getAttribute('data-date');
+            const bDate = b.getAttribute('data-date');
+
+            switch(currentSort) {
+                case 'date-asc':
+                    return aDate.localeCompare(bDate);
+                case 'date-desc':
+                    return bDate.localeCompare(aDate);
+                case 'title-asc':
+                    return aTitle.localeCompare(bTitle);
+                case 'title-desc':
+                    return bTitle.localeCompare(aTitle);
+                default:
+                    return bDate.localeCompare(aDate);
+            }
+        });
+
+        // Hide all articles
+        articles.forEach(article => {
+            article.style.display = 'none';
+        });
+
+        // Show filtered articles
+        filteredArticles.forEach(article => {
+            article.style.display = 'block';
+            article.classList.add('animate-fade-in');
+        });
+
+        // Show/hide no results message
+        if (filteredArticles.length === 0) {
+            noResults.style.display = 'block';
+        } else {
+            noResults.style.display = 'none';
+        }
+    }
+
+    // Search functionality
+    searchInput.addEventListener('input', function(e) {
+        currentSearch = e.target.value.toLowerCase();
+        filterAndSort();
+    });
+
+    // Filter functionality
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            currentFilter = this.getAttribute('data-filter');
+            filterAndSort();
+        });
+    });
+
+    // Sort functionality
+    sortSelect.addEventListener('change', function() {
+        currentSort = this.value;
+        filterAndSort();
+    });
+
+    // Initial load
+    filterAndSort();
+});
+</script>
+
+{{ end }} 

@@ -1,0 +1,325 @@
+{{ define "main" }}
+
+<article class="container" style="max-width: 900px; margin-top: 2rem;">
+    <!-- Article Header -->
+    <header class="mb-xl">
+        <div class="card">
+            <div class="card-body">
+                <!-- Breadcrumb -->
+                <nav style="margin-bottom: var(--spacing-lg);">
+                    <ol style="display: flex; align-items: center; gap: var(--spacing-sm); list-style: none; color: var(--text-muted); font-size: var(--font-size-sm);">
+                        <li><a href="{{ .Site.BaseURL }}" style="color: var(--primary-color); text-decoration: none;">Accueil</a></li>
+                        <li><i class="fas fa-chevron-right"></i></li>
+                        <li><a href="{{ .Section | relURL }}" style="color: var(--primary-color); text-decoration: none;">{{ .Section | title }}</a></li>
+                        <li><i class="fas fa-chevron-right"></i></li>
+                        <li>{{ .Title }}</li>
+                    </ol>
+                </nav>
+
+                <!-- Title -->
+                <h1 style="font-size: var(--font-size-4xl); font-weight: 800; margin-bottom: var(--spacing-lg); line-height: 1.2;">
+                    {{ .Title }}
+                </h1>
+
+                <!-- Meta Information -->
+                <div class="card-meta" style="margin-bottom: var(--spacing-lg);">
+                    <span><i class="fas fa-calendar" style="color: var(--primary-color);"></i> {{ .Date.Format "2 January 2006" }}</span>
+                    <span><i class="fas fa-clock" style="color: var(--primary-color);"></i> {{ .ReadingTime }} min de lecture</span>
+                    {{ if .Params.ctfs }}
+                    <span><i class="fas fa-trophy" style="color: var(--warning-color);"></i> {{ index .Params.ctfs 0 | title }}</span>
+                    {{ end }}
+                    <span><i class="fas fa-folder" style="color: var(--primary-color);"></i> {{ .Section | title }}</span>
+                </div>
+
+                <!-- Tags -->
+                {{ if .Params.tags }}
+                <div class="card-tags">
+                    {{ range .Params.tags }}
+                    <span class="tag {{ if eq . "pwn" }}tag-error{{ else if eq . "web" }}tag-primary{{ else if eq . "reverse" }}tag-success{{ else if eq . "network" }}tag-warning{{ else if eq . "shellcode" }}tag-error{{ else if eq . "exploitation" }}tag-error{{ end }}">
+                        {{ . }}
+                    </span>
+                    {{ end }}
+                </div>
+                {{ end }}
+
+                <!-- Categories -->
+                {{ if .Params.categories }}
+                <div style="margin-top: var(--spacing-md);">
+                    <strong style="color: var(--text-secondary); font-size: var(--font-size-sm);">Catégories:</strong>
+                    {{ range .Params.categories }}
+                    <span class="tag tag-primary" style="margin-left: var(--spacing-sm);">
+                        {{ . | title }}
+                    </span>
+                    {{ end }}
+                </div>
+                {{ end }}
+            </div>
+        </div>
+    </header>
+
+    <!-- Article Content -->
+    <div class="card mb-xl">
+        <div class="card-body">
+            <!-- Table of Contents -->
+            {{ if .TableOfContents }}
+            <div style="background: var(--bg-secondary); padding: var(--spacing-lg); border-radius: var(--border-radius); margin-bottom: var(--spacing-xl);">
+                <h3 style="margin-bottom: var(--spacing-md); color: var(--text-primary); display: flex; align-items: center; gap: var(--spacing-sm);">
+                    <i class="fas fa-list"></i> Table des matières
+                </h3>
+                <div style="color: var(--text-secondary);">
+                    {{ .TableOfContents }}
+                </div>
+            </div>
+            {{ end }}
+
+            <!-- Content -->
+            <div class="content">
+                {{ .Content }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="card mb-xl">
+        <div class="card-body">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-xl);">
+                <!-- Previous Post -->
+                {{ if .PrevInSection }}
+                <div>
+                    <h4 style="color: var(--text-secondary); font-size: var(--font-size-sm); margin-bottom: var(--spacing-sm);">
+                        <i class="fas fa-chevron-left"></i> Article précédent
+                    </h4>
+                    <a href="{{ .PrevInSection.RelPermalink }}" style="text-decoration: none; color: var(--primary-color); font-weight: 500;">
+                        {{ .PrevInSection.Title }}
+                    </a>
+                </div>
+                {{ else }}
+                <div></div>
+                {{ end }}
+
+                <!-- Next Post -->
+                {{ if .NextInSection }}
+                <div style="text-align: right;">
+                    <h4 style="color: var(--text-secondary); font-size: var(--font-size-sm); margin-bottom: var(--spacing-sm);">
+                        Article suivant <i class="fas fa-chevron-right"></i>
+                    </h4>
+                    <a href="{{ .NextInSection.RelPermalink }}" style="text-decoration: none; color: var(--primary-color); font-weight: 500;">
+                        {{ .NextInSection.Title }}
+                    </a>
+                </div>
+                {{ end }}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Related Posts -->
+    {{ $related := .Site.RegularPages.Related . | first 3 }}
+    {{ if $related }}
+    <section class="card">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-lightbulb"></i> Articles similaires
+            </h3>
+        </div>
+        <div class="card-body">
+            <div class="grid grid-3">
+                {{ range $related }}
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title" style="font-size: var(--font-size-lg);">
+                            <a href="{{ .RelPermalink }}" style="text-decoration: none; color: inherit;">
+                                {{ .Title }}
+                            </a>
+                        </h4>
+                        <div class="card-meta">
+                            <span><i class="fas fa-calendar"></i> {{ .Date.Format "2 Jan 2006" }}</span>
+                            <span><i class="fas fa-folder"></i> {{ .Section | title }}</span>
+                        </div>
+                        {{ if .Params.tags }}
+                        <div class="card-tags">
+                            {{ range first 2 .Params.tags }}
+                            <span class="tag">{{ . }}</span>
+                            {{ end }}
+                        </div>
+                        {{ end }}
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{ .RelPermalink }}" class="btn btn-sm btn-outline">
+                            Lire <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+                {{ end }}
+            </div>
+        </div>
+    </section>
+    {{ end }}
+</article>
+
+<!-- Custom CSS for article content -->
+<style>
+.content {
+    line-height: 1.8;
+    color: var(--text-primary);
+}
+
+.content h1,
+.content h2,
+.content h3,
+.content h4,
+.content h5,
+.content h6 {
+    margin-top: var(--spacing-xl);
+    margin-bottom: var(--spacing-lg);
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.content h1 { font-size: var(--font-size-3xl); }
+.content h2 { font-size: var(--font-size-2xl); }
+.content h3 { font-size: var(--font-size-xl); }
+.content h4 { font-size: var(--font-size-lg); }
+
+.content p {
+    margin-bottom: var(--spacing-lg);
+    color: var(--text-secondary);
+}
+
+.content ul,
+.content ol {
+    margin-bottom: var(--spacing-lg);
+    padding-left: var(--spacing-xl);
+}
+
+.content li {
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-secondary);
+}
+
+.content blockquote {
+    background: var(--bg-secondary);
+    border-left: 4px solid var(--primary-color);
+    padding: var(--spacing-lg);
+    margin: var(--spacing-xl) 0;
+    border-radius: var(--border-radius);
+}
+
+.content blockquote p {
+    margin-bottom: 0;
+    font-style: italic;
+}
+
+.content pre {
+    background: #1a1a1a;
+    color: #f8f8f2;
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius);
+    overflow-x: auto;
+    margin: var(--spacing-xl) 0;
+    font-family: var(--font-family-mono);
+    font-size: var(--font-size-sm);
+    line-height: 1.5;
+}
+
+.content code {
+    background: var(--bg-tertiary);
+    color: var(--primary-color);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--border-radius-sm);
+    font-family: var(--font-family-mono);
+    font-size: 0.9em;
+}
+
+.content pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+}
+
+.content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+    margin: var(--spacing-xl) 0;
+}
+
+.content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: var(--spacing-xl) 0;
+    background: var(--bg-card);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.content th,
+.content td {
+    padding: var(--spacing-md);
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.content th {
+    background: var(--bg-secondary);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.content td {
+    color: var(--text-secondary);
+}
+
+.content a {
+    color: var(--primary-color);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: var(--transition-fast);
+}
+
+.content a:hover {
+    border-bottom-color: var(--primary-color);
+}
+
+/* Table of Contents Styling */
+.content .toc ul {
+    list-style: none;
+    padding-left: var(--spacing-lg);
+}
+
+.content .toc > ul {
+    padding-left: 0;
+}
+
+.content .toc a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    display: block;
+    padding: var(--spacing-xs) 0;
+    transition: var(--transition-fast);
+}
+
+.content .toc a:hover {
+    color: var(--primary-color);
+    border-bottom: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .content h1 { font-size: var(--font-size-2xl); }
+    .content h2 { font-size: var(--font-size-xl); }
+    .content h3 { font-size: var(--font-size-lg); }
+    
+    .content pre {
+        padding: var(--spacing-md);
+        font-size: var(--font-size-xs);
+    }
+    
+    .content table {
+        font-size: var(--font-size-sm);
+    }
+}
+</style>
+
+{{ end }} 
