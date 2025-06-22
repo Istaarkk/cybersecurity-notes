@@ -1,60 +1,36 @@
 {{ define "main" }}
 
 <div class="container">
-    <!-- Page Header -->
+    <!-- Header Section -->
     <header class="section">
         <div class="card">
             <div class="card-body text-center">
                 <h1 class="section-title" style="margin-bottom: var(--spacing-md);">
-                    {{ if eq .Section "writeups" }}
-                        <i class="fas fa-file-code" style="color: var(--primary-color);"></i>
-                    {{ else if eq .Section "veille" }}
-                        <i class="fas fa-newspaper" style="color: var(--accent-color);"></i>
-                    {{ else if eq .Section "outils" }}
-                        <i class="fas fa-tools" style="color: var(--secondary-color);"></i>
-                    {{ else }}
-                        <i class="fas fa-folder" style="color: var(--primary-color);"></i>
-                    {{ end }}
+                    <i class="fas fa-file-code" style="color: var(--primary-color);"></i>
                     {{ .Title }}
                 </h1>
-                {{ if .Description }}
                 <p class="section-subtitle">{{ .Description }}</p>
-                {{ else if eq .Section "writeups" }}
-                <p class="section-subtitle">Découvrez mes analyses détaillées de challenges CTF et vulnérabilités</p>
-                {{ else if eq .Section "veille" }}
-                <p class="section-subtitle">Actualités et analyses des dernières menaces en cybersécurité</p>
-                {{ else if eq .Section "outils" }}
-                <p class="section-subtitle">Scripts et outils personnalisés pour la cybersécurité</p>
-                {{ end }}
                 
-                <!-- Stats -->
+                <!-- Statistics -->
                 <div style="display: flex; justify-content: center; gap: var(--spacing-xl); margin-top: var(--spacing-lg);">
                     <div class="stat-item" style="background: none; box-shadow: none; padding: var(--spacing-md);">
-                        {{ if eq .Section "writeups" }}
                         <span class="stat-number" style="font-size: var(--font-size-2xl);">{{ len (where .Site.RegularPages "Section" "writeups") }}</span>
-                        {{ else }}
-                        <span class="stat-number" style="font-size: var(--font-size-2xl);">{{ len .Pages }}</span>
-                        {{ end }}
-                        <span class="stat-label">{{ if eq .Section "writeups" }}WriteUps{{ else if eq .Section "veille" }}Articles{{ else if eq .Section "outils" }}Outils{{ else }}Articles{{ end }}</span>
+                        <span class="stat-label">WriteUps</span>
                     </div>
-                    {{ if .Site.Taxonomies.categories }}
                     <div class="stat-item" style="background: none; box-shadow: none; padding: var(--spacing-md);">
                         <span class="stat-number" style="font-size: var(--font-size-2xl);">{{ len .Site.Taxonomies.categories }}</span>
                         <span class="stat-label">Catégories</span>
                     </div>
-                    {{ end }}
-                    {{ if and (eq .Section "writeups") .Site.Taxonomies.ctfs }}
                     <div class="stat-item" style="background: none; box-shadow: none; padding: var(--spacing-md);">
                         <span class="stat-number" style="font-size: var(--font-size-2xl);">{{ len .Site.Taxonomies.ctfs }}</span>
                         <span class="stat-label">CTFs</span>
                     </div>
-                    {{ end }}
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Search and Filters -->
+    <!-- Search and Filters Section -->
     <section class="mb-xl">
         <!-- Search Bar -->
         <div class="search-container">
@@ -65,17 +41,11 @@
         <!-- Filters -->
         <div class="filters">
             <button class="filter-btn active" data-filter="all">Tous</button>
-            {{ if eq .Section "writeups" }}
-                <button class="filter-btn" data-filter="pwn">Pwn</button>
-                <button class="filter-btn" data-filter="web">Web</button>
-                <button class="filter-btn" data-filter="reverse">Reverse</button>
-                <button class="filter-btn" data-filter="network">Network</button>
-                <button class="filter-btn" data-filter="crypto">Crypto</button>
-            {{ else }}
-                {{ range $name, $taxonomy := .Site.Taxonomies.categories }}
-                <button class="filter-btn" data-filter="{{ $name }}">{{ $name | title }}</button>
-                {{ end }}
-            {{ end }}
+            <button class="filter-btn" data-filter="pwn">Pwn</button>
+            <button class="filter-btn" data-filter="web">Web</button>
+            <button class="filter-btn" data-filter="reverse">Reverse</button>
+            <button class="filter-btn" data-filter="network">Network</button>
+            <button class="filter-btn" data-filter="crypto">Crypto</button>
         </div>
 
         <!-- Sort Options -->
@@ -92,72 +62,8 @@
     <!-- Articles Grid -->
     <section class="mb-xl">
         <div class="grid grid-2" id="articles-grid">
-            {{ if eq .Section "writeups" }}
-                {{ $writeupPages := where .Site.RegularPages "Section" "writeups" }}
-                {{ range $writeupPages.ByDate.Reverse }}
-                    <article class="card" data-title="{{ .Title | lower }}" data-date="{{ .Date.Format "2006-01-02" }}" data-tags="{{ if .Params.tags }}{{ delimit .Params.tags "," | lower }}{{ end }}" data-categories="{{ if .Params.categories }}{{ delimit .Params.categories "," | lower }}{{ end }}">
-                        <div class="card-body">
-                            <!-- Meta Information -->
-                            <div class="card-meta">
-                                <span><i class="fas fa-calendar"></i> {{ .Date.Format "2 January 2006" }}</span>
-                                <span><i class="fas fa-clock"></i> {{ .ReadingTime }} min</span>
-                                {{ if .Params.ctfs }}
-                                <span><i class="fas fa-trophy"></i> {{ index .Params.ctfs 0 | title }}</span>
-                                {{ end }}
-                            </div>
-
-                            <!-- Title -->
-                            <h3 class="card-title">
-                                <a href="{{ .RelPermalink }}" style="text-decoration: none; color: inherit;">
-                                    {{ .Title }}
-                                </a>
-                            </h3>
-
-                            <!-- Summary -->
-                            <p class="card-description">
-                                {{ .Summary | truncate 200 }}
-                            </p>
-
-                            <!-- Tags -->
-                            {{ if .Params.tags }}
-                            <div class="card-tags">
-                                {{ range first 4 .Params.tags }}
-                                <span class="tag {{ if eq . "pwn" }}tag-error{{ else if eq . "web" }}tag-primary{{ else if eq . "reverse" }}tag-success{{ else if eq . "network" }}tag-warning{{ else if eq . "crypto" }}tag-primary{{ else if eq . "shellcode" }}tag-error{{ else if eq . "exploitation" }}tag-error{{ else if eq . "forensics" }}tag-success{{ else if eq . "steganography" }}tag-warning{{ else if eq . "osint" }}tag-primary{{ else if eq . "misc" }}tag-secondary{{ else if eq . "hardware" }}tag-warning{{ else if eq . "mobile" }}tag-success{{ end }}">
-                                    <i class="fas fa-hashtag" style="font-size: 0.7em; opacity: 0.8; margin-right: 0.2em;"></i>
-                                    {{ . }}
-                                </span>
-                                {{ end }}
-                                {{ if gt (len .Params.tags) 4 }}
-                                <span class="tag" style="background: var(--text-muted); color: var(--text-inverse); font-size: 0.7em;">
-                                    +{{ sub (len .Params.tags) 4 }}
-                                </span>
-                                {{ end }}
-                            </div>
-                            {{ end }}
-
-                            <!-- Categories -->
-                            {{ if .Params.categories }}
-                            <div style="margin-top: var(--spacing-sm);">
-                                {{ range .Params.categories }}
-                                <span class="tag tag-primary" style="text-transform: uppercase; font-weight: 600;">
-                                    <i class="fas fa-folder" style="font-size: 0.7em; opacity: 0.8; margin-right: 0.2em;"></i>
-                                    {{ . | title }}
-                                </span>
-                                {{ end }}
-                            </div>
-                            {{ end }}
-                        </div>
-
-                        <div class="card-footer">
-                            <a href="{{ .RelPermalink }}" class="btn btn-primary">
-                                Lire le WriteUp
-                                <i class="fas fa-arrow-right"></i>
-                            </a>
-                        </div>
-                    </article>
-                {{ end }}
-            {{ else }}
-                {{ range .Pages }}
+            {{ $writeupPages := where .Site.RegularPages "Section" "writeups" }}
+            {{ range $writeupPages.ByDate.Reverse }}
                 <article class="card" data-title="{{ .Title | lower }}" data-date="{{ .Date.Format "2006-01-02" }}" data-tags="{{ if .Params.tags }}{{ delimit .Params.tags "," | lower }}{{ end }}" data-categories="{{ if .Params.categories }}{{ delimit .Params.categories "," | lower }}{{ end }}">
                     <div class="card-body">
                         <!-- Meta Information -->
@@ -213,20 +119,11 @@
 
                     <div class="card-footer">
                         <a href="{{ .RelPermalink }}" class="btn btn-primary">
-                            {{ if eq $.Section "writeups" }}
-                                Lire le WriteUp
-                            {{ else if eq $.Section "veille" }}
-                                Lire l'Article
-                            {{ else if eq $.Section "outils" }}
-                                Voir l'Outil
-                            {{ else }}
-                                Lire
-                            {{ end }}
+                            Lire le WriteUp
                             <i class="fas fa-arrow-right"></i>
                         </a>
                     </div>
                 </article>
-                {{ end }}
             {{ end }}
         </div>
 
@@ -243,7 +140,7 @@
     </section>
 
     <!-- Categories/Tags Section -->
-    {{ if and (eq .Section "writeups") .Site.Taxonomies.ctfs }}
+    {{ if .Site.Taxonomies.ctfs }}
     <section class="section" style="background: var(--bg-secondary); border-radius: var(--border-radius); padding: var(--spacing-2xl); margin-bottom: var(--spacing-xl);">
         <h2 class="section-title">CTFs Couverts</h2>
         <div class="grid grid-4">
@@ -314,16 +211,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             currentFilter.toLowerCase().includes(tag)
                         );
                     }
-                }
-                
-                // Debug info (remove in production)
-                if (currentFilter !== 'all') {
-                    console.log(`Article: ${title}`);
-                    console.log(`Filter: ${currentFilter}`);
-                    console.log(`Categories: ${categoriesList}`);
-                    console.log(`Tags: ${tagsList}`);
-                    console.log(`Match: ${categoryMatch}`);
-                    console.log('---');
                 }
             }
 

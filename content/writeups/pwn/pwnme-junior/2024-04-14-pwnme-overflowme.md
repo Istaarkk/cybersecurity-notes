@@ -3,6 +3,7 @@ title: "PwnMe Junior 2025 - overflowme WriteUp"
 date: 2024-04-14
 description: "WriteUp du challenge overflowme du CTF PwnMe Junior 2025"
 tags: ["pwn", "buffer-overflow", "ctf", "pwnme"]
+categories: ["pwn"]
 ---
 
 # PwnMe Junior 2025 - overflowme WriteUp

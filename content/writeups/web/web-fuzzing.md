@@ -3,6 +3,7 @@ title: "Web Fuzzing - HTB Course WriteUp"
 date: 2024-04-14
 draft: false
 tags: ["web", "fuzzing", "pentest", "htb"]
+categories: ["web"]
 ---
 
 # Web Fuzzing

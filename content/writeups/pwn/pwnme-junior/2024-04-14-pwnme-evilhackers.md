@@ -3,6 +3,7 @@ title: "PwnMe Junior 2025 - Evil-Hackers WriteUp"
 date: 2024-04-14
 description: "WriteUp du challenge Evil-Hackers du CTF PwnMe Junior 2025"
 tags: ["pwn", "use-after-free", "ctf", "pwnme"]
+categories: ["pwn"]
 ---
 
 # PwnMe Junior 2025 - Evil-Hackers WriteUp

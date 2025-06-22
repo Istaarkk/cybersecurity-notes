@@ -31,25 +31,38 @@
                     <span><i class="fas fa-folder" style="color: var(--primary-color);"></i> {{ .Section | title }}</span>
                 </div>
 
-                <!-- Tags -->
-                {{ if .Params.tags }}
-                <div class="card-tags">
-                    {{ range .Params.tags }}
-                    <span class="tag {{ if eq . "pwn" }}tag-error{{ else if eq . "web" }}tag-primary{{ else if eq . "reverse" }}tag-success{{ else if eq . "network" }}tag-warning{{ else if eq . "shellcode" }}tag-error{{ else if eq . "exploitation" }}tag-error{{ end }}">
-                        {{ . }}
-                    </span>
+                <!-- Tags et Catégories -->
+                {{ if or .Params.tags .Params.categories }}
+                <div style="margin-top: var(--spacing-lg); padding-top: var(--spacing-lg); border-top: 1px solid var(--border-color);">
+                    {{ if .Params.tags }}
+                    <div style="margin-bottom: var(--spacing-md);">
+                        <h4 style="color: var(--text-secondary); font-size: var(--font-size-sm); margin-bottom: var(--spacing-sm); font-weight: 600; display: flex; align-items: center; gap: var(--spacing-sm);">
+                            <i class="fas fa-tags"></i> Tags
+                        </h4>
+                        <div class="card-tags">
+                            {{ range .Params.tags }}
+                            <span class="tag {{ if eq . "pwn" }}tag-error{{ else if eq . "web" }}tag-primary{{ else if eq . "reverse" }}tag-success{{ else if eq . "network" }}tag-warning{{ else if eq . "crypto" }}tag-primary{{ else if eq . "shellcode" }}tag-error{{ else if eq . "exploitation" }}tag-error{{ else if eq . "forensics" }}tag-success{{ else if eq . "steganography" }}tag-warning{{ else if eq . "osint" }}tag-primary{{ end }}">
+                                <i class="fas fa-hashtag" style="font-size: 0.7em; opacity: 0.8;"></i>
+                                {{ . }}
+                            </span>
+                            {{ end }}
+                        </div>
+                    </div>
                     {{ end }}
-                </div>
-                {{ end }}
 
-                <!-- Categories -->
-                {{ if .Params.categories }}
-                <div style="margin-top: var(--spacing-md);">
-                    <strong style="color: var(--text-secondary); font-size: var(--font-size-sm);">Catégories:</strong>
-                    {{ range .Params.categories }}
-                    <span class="tag tag-primary" style="margin-left: var(--spacing-sm);">
-                        {{ . | title }}
-                    </span>
+                    {{ if .Params.categories }}
+                    <div>
+                        <h4 style="color: var(--text-secondary); font-size: var(--font-size-sm); margin-bottom: var(--spacing-sm); font-weight: 600; display: flex; align-items: center; gap: var(--spacing-sm);">
+                            <i class="fas fa-folder"></i> Catégories
+                        </h4>
+                        <div class="card-tags">
+                            {{ range .Params.categories }}
+                            <span class="tag tag-primary" style="text-transform: uppercase; font-weight: 600;">
+                                {{ . | title }}
+                            </span>
+                            {{ end }}
+                        </div>
+                    </div>
                     {{ end }}
                 </div>
                 {{ end }}

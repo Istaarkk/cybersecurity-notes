@@ -3,6 +3,7 @@ title: "GDB and NASM Assembly Guide - WriteUp"
 date: 2024-04-14
 draft: false
 tags: ["assembly", "gdb", "nasm", "debugging", "reverse-engineering"]
+categories: ["reverse"]
 ---
 
 # GDB and NASM Assembly Guide

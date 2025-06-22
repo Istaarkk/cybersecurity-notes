@@ -2,6 +2,7 @@
 title: "Cyber Apocalypse 2024 - EncryptedScroll"
 date: 2024-04-14
 tags: ["cyber apocalypse", "reverse", "character manipulation", "encryption"]
+categories: ["reverse"]
 ---
 
 # EncryptedScroll - Cyber Apocalypse 
