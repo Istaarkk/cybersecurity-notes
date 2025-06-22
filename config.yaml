@@ -1,7 +1,6 @@
 baseURL: "https://Istaarkk.github.io/cybersecurity-notes/"
 languageCode: "fr-fr"
 title: "WriteUps & Recherches Cybersécurité"
-# theme: "blowfish" # Commenté car nous utilisons maintenant nos propres layouts
 
 # Configuration des URLs
 relativeURLs: true
@@ -23,6 +22,10 @@ markup:
     lineNos: true
     codeFences: true
     guessSyntax: true
+  tableOfContents:
+    endLevel: 4
+    ordered: false
+    startLevel: 2
 
 # Configuration des taxonomies
 taxonomies:
@@ -36,66 +39,9 @@ params:
   description: "Blog de cybersécurité avec writeups CTF, analyses de vulnérabilités et outils de sécurité"
   author: "Istaarkk"
   
-  # Sections principales
-  mainSections:
-    - writeups
-    - veille
-    - outils
-    
-  # Configuration de recherche
-  search:
-    enable: true
-    
-  # Configuration du code
-  code:
-    copy: true
-    highlight: true
-    lineNumbers: true
-    theme: "github-dark"
-    
-  # Configuration des listes
-  list:
-    showSummary: true
-    showCards: true
-    cardView: true
-    showDate: true
-    showReadingTime: true
-    
-  # Configuration des articles
-  article:
-    showDate: true
-    showAuthor: true
-    showBreadcrumbs: true
-    showTableOfContents: true
-    showReadingTime: true
-    showRelated: true
-    showTags: true
-    showCategories: true
-    
-  # Configuration de la page d'accueil
-  homepage:
-    showRecent: true
-    showRecentItems: 6
-    showStats: true
-    showCategories: true
-    
-  # Configuration des images
-  images:
-    resize: true
-    quality: 85
-    
-  # Configuration SEO
-  seo:
-    enabled: true
-    twitter_card: "summary_large_image"
-    
   # Configuration sociale
   social:
     github: "Istaarkk"
-    
-  # Analytics (optionnel)
-  # analytics:
-  #   google: "G-XXXXXXXXXX"
 
 # Menu de navigation
 menu:
@@ -159,10 +105,3 @@ minify:
   disableSVG: false
   disableXML: false
   minifyOutput: true
-  
-# Configuration des shortcodes personnalisés
-markup:
-  tableOfContents:
-    endLevel: 4
-    ordered: false
-    startLevel: 2

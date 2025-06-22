@@ -89,7 +89,7 @@
     <section class="mb-xl">
         <div class="grid grid-2" id="articles-grid">
             {{ range .Pages }}
-            <article class="card" data-title="{{ .Title | lower }}" data-date="{{ .Date.Format "2006-01-02" }}" data-tags="{{ delimit .Params.tags "," | lower }}">
+            <article class="card" data-title="{{ .Title | lower }}" data-date="{{ .Date.Format "2006-01-02" }}" data-tags="{{ if .Params.tags }}{{ delimit .Params.tags "," | lower }}{{ end }}">
                 <div class="card-body">
                     <!-- Meta Information -->
                     <div class="card-meta">

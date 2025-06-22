@@ -22,17 +22,24 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          submodules: recursive
           fetch-depth: 0
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
-          hugo-version: '0.117.0'   
+          hugo-version: '0.121.0'
           extended: true
 
-      - name: Build
-        run: hugo --minify
+      - name: Setup Node.js (pour les dépendances CSS/JS)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Verify Hugo installation
+        run: hugo version
+
+      - name: Build with Hugo
+        run: hugo --minify --environment production
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
