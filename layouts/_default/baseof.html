@@ -19,9 +19,6 @@
     <!-- Highlight.js -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
     
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ "css/modern-theme.css" | relURL }}">
-    
     <!-- Theme initialization script (prevent FOUC) -->
     <script>
         (function() {
@@ -47,6 +44,389 @@
     }
     </script>
     {{ end }}
+
+    <style>
+        :root {
+            --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            --font-family-mono: 'JetBrains Mono', 'Fira Code', monospace;
+            
+            /* Colors */
+            --color-primary: #667eea;
+            --color-primary-dark: #5a67d8;
+            --color-secondary: #764ba2;
+            --color-accent: #f093fb;
+            
+            --color-success: #10b981;
+            --color-warning: #f59e0b;
+            --color-error: #ef4444;
+            --color-info: #3b82f6;
+            
+            --color-gray-50: #f9fafb;
+            --color-gray-100: #f3f4f6;
+            --color-gray-200: #e5e7eb;
+            --color-gray-300: #d1d5db;
+            --color-gray-400: #9ca3af;
+            --color-gray-500: #6b7280;
+            --color-gray-600: #4b5563;
+            --color-gray-700: #374151;
+            --color-gray-800: #1f2937;
+            --color-gray-900: #111827;
+            
+            /* Theme colors */
+            --bg-primary: #ffffff;
+            --bg-secondary: var(--color-gray-50);
+            --bg-tertiary: var(--color-gray-100);
+            
+            --text-primary: var(--color-gray-900);
+            --text-secondary: var(--color-gray-700);
+            --text-muted: var(--color-gray-500);
+            
+            --border-color: var(--color-gray-200);
+            --border-color-light: var(--color-gray-100);
+            
+            /* Spacing */
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            --spacing-3xl: 4rem;
+            
+            /* Radius */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.5rem;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            
+            /* Transitions */
+            --transition-fast: all 0.15s ease;
+            --transition-base: all 0.3s ease;
+            --transition-slow: all 0.5s ease;
+        }
+        
+        [data-theme="dark"] {
+            --bg-primary: var(--color-gray-900);
+            --bg-secondary: var(--color-gray-800);
+            --bg-tertiary: var(--color-gray-700);
+            
+            --text-primary: var(--color-gray-100);
+            --text-secondary: var(--color-gray-300);
+            --text-muted: var(--color-gray-400);
+            
+            --border-color: var(--color-gray-700);
+            --border-color-light: var(--color-gray-600);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: var(--font-family-sans);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: var(--transition-base);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        main {
+            flex: 1;
+        }
+        
+        /* Header Styles */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color-light);
+            transition: var(--transition-base);
+        }
+        
+        [data-theme="dark"] .header {
+            background: rgba(17, 24, 39, 0.95);
+        }
+        
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 4rem;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            transition: var(--transition-fast);
+        }
+        
+        .logo:hover {
+            color: var(--color-primary);
+        }
+        
+        .logo i {
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-item a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-lg);
+            transition: var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .nav-item a:hover,
+        .nav-item.active a {
+            color: var(--color-primary);
+            background: var(--bg-secondary);
+        }
+        
+        .nav-item i {
+            font-size: 0.9rem;
+        }
+        
+        /* Mobile menu */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: var(--radius-md);
+            transition: var(--transition-fast);
+        }
+        
+        .mobile-menu-toggle:hover {
+            background: var(--bg-secondary);
+        }
+        
+        /* Footer Styles */
+        .footer {
+            background: linear-gradient(135deg, var(--color-gray-900), var(--color-gray-800));
+            color: var(--color-gray-300);
+            padding: 3rem 0 2rem;
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .footer-text {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            justify-content: flex-end;
+        }
+        
+        .footer-link {
+            color: var(--color-gray-300);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition-fast);
+        }
+        
+        .footer-link:hover {
+            color: var(--color-primary);
+        }
+        
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition-base);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .theme-toggle .sun-icon {
+            display: block;
+        }
+        
+        .theme-toggle .moon-icon {
+            display: none;
+        }
+        
+        [data-theme="dark"] .theme-toggle .sun-icon {
+            display: none;
+        }
+        
+        [data-theme="dark"] .theme-toggle .moon-icon {
+            display: block;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 0 1rem;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .footer-links {
+                justify-content: center;
+            }
+            
+            .theme-toggle {
+                bottom: 1rem;
+                right: 1rem;
+                width: 3rem;
+                height: 3rem;
+                font-size: 1rem;
+            }
+        }
+        
+        /* Utility Classes */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 1.2em;
+            height: 1.2em;
+            border: 2px solid var(--color-gray-300);
+            border-radius: 50%;
+            border-top-color: var(--color-primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Scroll to top */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 6rem;
+            right: 2rem;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 1rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition-base);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .scroll-to-top:hover {
+            background: var(--color-primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+    </style>
 </head>
 <body>
     <!-- Header -->
@@ -56,6 +436,7 @@
                 <i class="fas fa-shield-halved"></i>
                 {{ .Site.Title }}
             </a>
+            
             <nav>
                 <ul class="nav-menu">
                     {{ range .Site.Menus.main }}
@@ -67,6 +448,10 @@
                     </li>
                     {{ end }}
                 </ul>
+                
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                    <i class="fas fa-bars"></i>
+                </button>
             </nav>
         </div>
     </header>
@@ -79,9 +464,11 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
-            <p class="footer-text">
-                © {{ now.Format "2006" }} {{ .Site.Title }}. Tous droits réservés.
-            </p>
+            <div>
+                <p class="footer-text">
+                    © {{ now.Format "2006" }} {{ .Site.Title }}. Tous droits réservés.
+                </p>
+            </div>
             <div class="footer-links">
                 <a href="{{ .Site.BaseURL }}" class="footer-link">Accueil</a>
                 <a href="{{ "writeups" | relURL }}" class="footer-link">WriteUps</a>
@@ -95,6 +482,11 @@
     <button class="theme-toggle" id="theme-toggle" aria-label="Basculer le thème">
         <i class="fas fa-sun sun-icon"></i>
         <i class="fas fa-moon moon-icon"></i>
+    </button>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scroll-to-top" aria-label="Retour en haut">
+        <i class="fas fa-chevron-up"></i>
     </button>
 
     <!-- Scripts -->
@@ -112,7 +504,6 @@
             if (currentTheme) {
                 document.documentElement.setAttribute('data-theme', currentTheme);
             } else {
-                // Check system preference
                 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
                 const theme = prefersDark ? 'dark' : 'light';
                 document.documentElement.setAttribute('data-theme', theme);
@@ -127,7 +518,7 @@
                 document.documentElement.setAttribute('data-theme', newTheme);
                 localStorage.setItem('theme', newTheme);
                 
-                // Add a small animation effect
+                // Add animation effect
                 this.style.transform = 'rotate(360deg)';
                 setTimeout(() => {
                     this.style.transform = '';
@@ -143,92 +534,58 @@
             });
         }
 
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
+        // Scroll to top functionality
+        function initScrollToTop() {
+            const scrollToTopBtn = document.getElementById('scroll-to-top');
+            
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    scrollToTopBtn.classList.add('visible');
+                } else {
+                    scrollToTopBtn.classList.remove('visible');
+                }
+            });
+            
+            scrollToTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
                     behavior: 'smooth'
                 });
             });
-        });
-
-        // Search functionality
-        function initSearch() {
-            const searchInput = document.getElementById('search-input');
-            const searchResults = document.getElementById('search-results');
-            
-            if (searchInput) {
-                searchInput.addEventListener('input', function(e) {
-                    const query = e.target.value.toLowerCase();
-                    const cards = document.querySelectorAll('.card');
-                    
-                    cards.forEach(card => {
-                        const title = card.querySelector('.card-title')?.textContent.toLowerCase() || '';
-                        const description = card.querySelector('.card-description')?.textContent.toLowerCase() || '';
-                        const tags = Array.from(card.querySelectorAll('.tag')).map(tag => tag.textContent.toLowerCase()).join(' ');
-                        
-                        if (title.includes(query) || description.includes(query) || tags.includes(query)) {
-                            card.style.display = 'block';
-                            card.classList.add('animate-fade-in');
-                        } else {
-                            card.style.display = 'none';
-                        }
-                    });
-                });
-            }
         }
 
-        // Filter functionality
-        function initFilters() {
-            const filterBtns = document.querySelectorAll('.filter-btn');
-            const cards = document.querySelectorAll('.card');
+        // Mobile menu functionality
+        function initMobileMenu() {
+            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
             
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    // Remove active class from all buttons
-                    filterBtns.forEach(b => b.classList.remove('active'));
-                    // Add active class to clicked button
-                    this.classList.add('active');
-                    
-                    const filter = this.getAttribute('data-filter');
-                    
-                    cards.forEach(card => {
-                        if (filter === 'all') {
-                            card.style.display = 'block';
-                            card.classList.add('animate-fade-in');
-                        } else {
-                            const cardTags = Array.from(card.querySelectorAll('.tag')).map(tag => tag.textContent.toLowerCase());
-                            if (cardTags.includes(filter.toLowerCase())) {
-                                card.style.display = 'block';
-                                card.classList.add('animate-fade-in');
-                            } else {
-                                card.style.display = 'none';
-                            }
-                        }
-                    });
-                });
+            mobileMenuToggle.addEventListener('click', function() {
+                navMenu.style.display = navMenu.style.display === 'flex' ? 'none' : 'flex';
             });
         }
 
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            initTheme(); // Initialize theme first
-            initSearch();
-            initFilters();
-            
-            // Add animation classes to elements on scroll
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate-fade-in-up');
+        // Smooth scrolling for anchor links
+        function initSmoothScrolling() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
                     }
                 });
             });
-            
-            document.querySelectorAll('.card, .stat-item').forEach(el => {
-                observer.observe(el);
-            });
+        }
+
+        // Initialize all functionality when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initTheme();
+            initScrollToTop();
+            initMobileMenu();
+            initSmoothScrolling();
         });
     </script>
 </body>

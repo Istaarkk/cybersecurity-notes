@@ -1,297 +1,757 @@
 {{ define "main" }}
 
-<div class="container">
-    <!-- Header Section -->
-    <header class="section">
-        <div class="card">
-            <div class="card-body text-center">
-                <h1 class="section-title" style="margin-bottom: var(--spacing-md);">
-                    <i class="fas fa-file-code" style="color: var(--primary-color);"></i>
-                    {{ .Title }}
-                </h1>
-                <p class="section-subtitle">{{ .Description }}</p>
-                
-                <!-- Statistics -->
-                <div style="display: flex; justify-content: center; gap: var(--spacing-xl); margin-top: var(--spacing-lg);">
-                    <div class="stat-item" style="background: none; box-shadow: none; padding: var(--spacing-md);">
-                        <span class="stat-number" style="font-size: var(--font-size-2xl);">{{ len (where .Site.RegularPages "Section" "writeups") }}</span>
-                        <span class="stat-label">WriteUps</span>
-                    </div>
-                    <div class="stat-item" style="background: none; box-shadow: none; padding: var(--spacing-md);">
-                        <span class="stat-number" style="font-size: var(--font-size-2xl);">{{ len .Site.Taxonomies.categories }}</span>
-                        <span class="stat-label">Catégories</span>
-                    </div>
-                    <div class="stat-item" style="background: none; box-shadow: none; padding: var(--spacing-md);">
-                        <span class="stat-number" style="font-size: var(--font-size-2xl);">{{ len .Site.Taxonomies.ctfs }}</span>
-                        <span class="stat-label">CTFs</span>
-                    </div>
-                </div>
+<style>
+    /* Variables globales */
+    :root {
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        --dark-gradient: linear-gradient(135deg, #232526 0%, #414345 100%);
+        --glass-bg: rgba(255, 255, 255, 0.1);
+        --glass-border: rgba(255, 255, 255, 0.2);
+        --shadow-glow: 0 0 50px rgba(102, 126, 234, 0.3);
+        --transform-speed: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .writeups-container {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Particules flottantes */
+    .particles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .particle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.6);
+        border-radius: 50%;
+        animation: float 6s infinite ease-in-out;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 1; }
+        50% { transform: translateY(-20px) rotate(180deg); opacity: 0.5; }
+    }
+
+    /* Hero Section avec animations */
+    .hero-section {
+        position: relative;
+        z-index: 2;
+        padding: 8rem 2rem 4rem;
+        text-align: center;
+        background: linear-gradient(135deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.3) 100%);
+        backdrop-filter: blur(20px);
+        margin-bottom: 2rem;
+    }
+
+    .hero-title {
+        font-size: clamp(3rem, 8vw, 8rem);
+        font-weight: 900;
+        background: linear-gradient(45deg, #fff, #f0f8ff, #e6f3ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 2rem;
+        animation: titleGlow 3s ease-in-out infinite alternate;
+        text-shadow: 0 0 50px rgba(255, 255, 255, 0.5);
+    }
+
+    @keyframes titleGlow {
+        0% { filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3)); }
+        100% { filter: drop-shadow(0 0 40px rgba(255, 255, 255, 0.8)); }
+    }
+
+    .hero-subtitle {
+        font-size: 1.5rem;
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 3rem;
+        animation: slideUp 1s ease-out 0.5s both;
+    }
+
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Stats animées */
+    .stats-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+        margin-bottom: 4rem;
+        animation: slideUp 1s ease-out 0.8s both;
+    }
+
+    .stat-card {
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: 20px;
+        padding: 2rem;
+        backdrop-filter: blur(20px);
+        transition: all var(--transform-speed);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: conic-gradient(from 0deg, transparent, rgba(255,255,255,0.1), transparent);
+        animation: rotate 4s linear infinite;
+        opacity: 0;
+        transition: opacity var(--transform-speed);
+    }
+
+    .stat-card:hover::before {
+        opacity: 1;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-10px) scale(1.05);
+        box-shadow: var(--shadow-glow);
+    }
+
+    @keyframes rotate {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .stat-number {
+        font-size: 3rem;
+        font-weight: 800;
+        color: #fff;
+        display: block;
+        margin-bottom: 0.5rem;
+        animation: countUp 2s ease-out 1s both;
+    }
+
+    .stat-label {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    @keyframes countUp {
+        from { opacity: 0; transform: scale(0.5); }
+        to { opacity: 1; transform: scale(1); }
+    }
+
+    /* Contrôles flottants */
+    .controls-section {
+        position: sticky;
+        top: 4rem;
+        z-index: 100;
+        background: var(--glass-bg);
+        backdrop-filter: blur(30px);
+        border-radius: 25px;
+        padding: 2rem;
+        margin: 2rem auto;
+        max-width: 1200px;
+        border: 1px solid var(--glass-border);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+
+    .search-container {
+        position: relative;
+        max-width: 600px;
+        margin: 0 auto 2rem;
+    }
+
+    .search-input {
+        width: 100%;
+        padding: 1.5rem 4rem 1.5rem 2rem;
+        border: none;
+        border-radius: 50px;
+        background: rgba(255, 255, 255, 0.9);
+        font-size: 1.1rem;
+        color: #333;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        transition: all var(--transform-speed);
+    }
+
+    .search-input:focus {
+        outline: none;
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    }
+
+    .search-icon {
+        position: absolute;
+        right: 1.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #667eea;
+        font-size: 1.2rem;
+        pointer-events: none;
+    }
+
+    /* Filtres morphing */
+    .filter-tabs {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .filter-tab {
+        padding: 1rem 2rem;
+        border: none;
+        border-radius: 50px;
+        background: rgba(255, 255, 255, 0.2);
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all var(--transform-speed);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .filter-tab::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: left 0.6s ease;
+    }
+
+    .filter-tab:hover::before {
+        left: 100%;
+    }
+
+    .filter-tab.active {
+        background: linear-gradient(135deg, #fff, #f0f8ff);
+        color: #667eea;
+        transform: scale(1.1);
+        box-shadow: 0 10px 30px rgba(255,255,255,0.3);
+    }
+
+    /* Grille d'articles 3D */
+    .articles-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 2rem;
+        padding: 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+        perspective: 1000px;
+    }
+
+    .article-card {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 25px;
+        padding: 0;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(20px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        transition: all var(--transform-speed);
+        position: relative;
+        overflow: hidden;
+        transform-style: preserve-3d;
+    }
+
+    .article-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #667eea);
+        background-size: 200% 100%;
+        animation: gradientFlow 3s ease infinite;
+    }
+
+    @keyframes gradientFlow {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+    }
+
+    .article-card:hover {
+        transform: translateY(-15px) rotateX(5deg);
+        box-shadow: 0 40px 80px rgba(0,0,0,0.2);
+    }
+
+    .article-header {
+        padding: 2rem;
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+    }
+
+    .article-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        font-size: 0.9rem;
+        color: #6b7280;
+    }
+
+    .article-meta span {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: rgba(102, 126, 234, 0.1);
+        border-radius: 20px;
+    }
+
+    .article-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #1f2937;
+        margin-bottom: 1rem;
+        transition: all var(--transform-speed);
+    }
+
+    .article-title a {
+        text-decoration: none;
+        color: inherit;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        transition: all var(--transform-speed);
+    }
+
+    .article-title a:hover {
+        transform: translateX(5px);
+        text-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+    }
+
+    .article-summary {
+        color: #6b7280;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+
+    .article-body {
+        padding: 0 2rem 2rem;
+    }
+
+    .tags-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .tag {
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        transition: all var(--transform-speed);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .tag::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: left 0.5s ease;
+    }
+
+    .tag:hover::before {
+        left: 100%;
+    }
+
+    .tag:hover {
+        transform: translateY(-2px) scale(1.05);
+    }
+
+    .tag.tag-pwn { background: linear-gradient(135deg, #ef4444, #dc2626); color: white; }
+    .tag.tag-web { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; }
+    .tag.tag-reverse { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+    .tag.tag-network { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; }
+    .tag.tag-crypto { background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: white; }
+    .tag.tag-misc { background: linear-gradient(135deg, #6b7280, #4b5563); color: white; }
+
+    .article-footer {
+        padding: 2rem;
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+        border-top: 1px solid rgba(102, 126, 234, 0.1);
+    }
+
+    .read-more-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 1rem 2rem;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: all var(--transform-speed);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .read-more-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.6s ease;
+    }
+
+    .read-more-btn:hover::before {
+        left: 100%;
+    }
+
+    .read-more-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        color: white;
+    }
+
+    /* Animation d'apparition */
+    .animate-fade-in {
+        animation: fadeInUp 0.8s ease-out both;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    /* Sidebar flottante */
+    .floating-sidebar {
+        position: fixed;
+        right: 2rem;
+        top: 50%;
+        transform: translateY(-50%);
+        background: var(--glass-bg);
+        backdrop-filter: blur(30px);
+        border-radius: 20px;
+        padding: 1.5rem;
+        border: 1px solid var(--glass-border);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        z-index: 999;
+        transition: all var(--transform-speed);
+    }
+
+    .floating-sidebar:hover {
+        transform: translateY(-50%) scale(1.05);
+    }
+
+    .sidebar-stats {
+        text-align: center;
+        color: white;
+    }
+
+    .sidebar-stats .stat-number {
+        font-size: 2rem;
+        font-weight: 800;
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+
+    .sidebar-stats .stat-label {
+        font-size: 0.8rem;
+        opacity: 0.8;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 3rem;
+        }
+        
+        .articles-grid {
+            grid-template-columns: 1fr;
+            padding: 1rem;
+        }
+        
+        .floating-sidebar {
+            display: none;
+        }
+        
+        .controls-section {
+            margin: 1rem;
+            padding: 1rem;
+        }
+    }
+
+    /* Mode sombre */
+    [data-theme="dark"] .article-card {
+        background: rgba(31, 41, 55, 0.95);
+        color: #f9fafb;
+    }
+
+    [data-theme="dark"] .article-title a {
+        color: #f9fafb;
+    }
+
+    [data-theme="dark"] .article-summary {
+        color: #d1d5db;
+    }
+
+    [data-theme="dark"] .search-input {
+        background: rgba(31, 41, 55, 0.9);
+        color: #f9fafb;
+    }
+</style>
+
+<div class="writeups-container">
+    <!-- Particules flottantes -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <h1 class="hero-title">
+            <i class="fas fa-terminal"></i>
+            WriteUps
+        </h1>
+        <p class="hero-subtitle">
+            Explorez mes analyses détaillées de challenges CTF et vulnérabilités
+        </p>
+        
+        <div class="stats-container">
+            <div class="stat-card">
+                <span class="stat-number">{{ len (where .Site.RegularPages "Section" "writeups") }}</span>
+                <span class="stat-label">WriteUps</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">{{ len .Site.Taxonomies.categories }}</span>
+                <span class="stat-label">Catégories</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">{{ len .Site.Taxonomies.ctfs }}</span>
+                <span class="stat-label">CTFs</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">{{ now.Format "2006" }}</span>
+                <span class="stat-label">Année</span>
             </div>
         </div>
-    </header>
+    </section>
 
-    <!-- Search and Filters Section -->
-    <section class="mb-xl">
-        <!-- Search Bar -->
+    <!-- Contrôles -->
+    <section class="controls-section">
         <div class="search-container">
-            <input type="text" id="search-input" class="search-input" placeholder="Rechercher dans {{ .Title | lower }}...">
+            <input type="text" id="search-input" class="search-input" placeholder="Rechercher dans les writeups...">
             <i class="fas fa-search search-icon"></i>
         </div>
 
-        <!-- Filters -->
-        <div class="filters">
-            <button class="filter-btn active" data-filter="all">Tous</button>
-            <button class="filter-btn" data-filter="pwn">Pwn</button>
-            <button class="filter-btn" data-filter="web">Web</button>
-            <button class="filter-btn" data-filter="reverse">Reverse</button>
-            <button class="filter-btn" data-filter="network">Network</button>
-            <button class="filter-btn" data-filter="crypto">Crypto</button>
-        </div>
-
-        <!-- Sort Options -->
-        <div style="text-align: center; margin-bottom: var(--spacing-xl);">
-            <select id="sort-select" style="padding: var(--spacing-sm) var(--spacing-md); border: 2px solid var(--border-color); border-radius: var(--border-radius-sm); background: var(--bg-card); color: var(--text-primary);">
-                <option value="date-desc">Plus récent en premier</option>
-                <option value="date-asc">Plus ancien en premier</option>
-                <option value="title-asc">Titre A-Z</option>
-                <option value="title-desc">Titre Z-A</option>
-            </select>
+        <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all">Tous</button>
+            <button class="filter-tab" data-filter="pwn">Pwn</button>
+            <button class="filter-tab" data-filter="web">Web</button>
+            <button class="filter-tab" data-filter="reverse">Reverse</button>
+            <button class="filter-tab" data-filter="network">Network</button>
+            <button class="filter-tab" data-filter="crypto">Crypto</button>
+            <button class="filter-tab" data-filter="misc">Misc</button>
         </div>
     </section>
 
-    <!-- Articles Grid -->
-    <section class="mb-xl">
-        <div class="grid grid-2" id="articles-grid">
-            {{ $writeupPages := where .Site.RegularPages "Section" "writeups" }}
-            {{ range $writeupPages.ByDate.Reverse }}
-                <article class="card" data-title="{{ .Title | lower }}" data-date="{{ .Date.Format "2006-01-02" }}" data-tags="{{ if .Params.tags }}{{ delimit .Params.tags "," | lower }}{{ end }}" data-categories="{{ if .Params.categories }}{{ delimit .Params.categories "," | lower }}{{ end }}">
-                    <div class="card-body">
-                        <!-- Meta Information -->
-                        <div class="card-meta">
-                            <span><i class="fas fa-calendar"></i> {{ .Date.Format "2 January 2006" }}</span>
-                            <span><i class="fas fa-clock"></i> {{ .ReadingTime }} min</span>
-                            {{ if .Params.ctfs }}
-                            <span><i class="fas fa-trophy"></i> {{ index .Params.ctfs 0 | title }}</span>
-                            {{ end }}
-                        </div>
-
-                        <!-- Title -->
-                        <h3 class="card-title">
-                            <a href="{{ .RelPermalink }}" style="text-decoration: none; color: inherit;">
-                                {{ .Title }}
-                            </a>
-                        </h3>
-
-                        <!-- Summary -->
-                        <p class="card-description">
-                            {{ .Summary | truncate 200 }}
-                        </p>
-
-                        <!-- Tags -->
-                        {{ if .Params.tags }}
-                        <div class="card-tags">
-                            {{ range first 4 .Params.tags }}
-                            <span class="tag {{ if eq . "pwn" }}tag-error{{ else if eq . "web" }}tag-primary{{ else if eq . "reverse" }}tag-success{{ else if eq . "network" }}tag-warning{{ else if eq . "crypto" }}tag-primary{{ else if eq . "shellcode" }}tag-error{{ else if eq . "exploitation" }}tag-error{{ else if eq . "forensics" }}tag-success{{ else if eq . "steganography" }}tag-warning{{ else if eq . "osint" }}tag-primary{{ else if eq . "misc" }}tag-secondary{{ else if eq . "hardware" }}tag-warning{{ else if eq . "mobile" }}tag-success{{ end }}">
-                                <i class="fas fa-hashtag" style="font-size: 0.7em; opacity: 0.8; margin-right: 0.2em;"></i>
-                                {{ . }}
-                            </span>
-                            {{ end }}
-                            {{ if gt (len .Params.tags) 4 }}
-                            <span class="tag" style="background: var(--text-muted); color: var(--text-inverse); font-size: 0.7em;">
-                                +{{ sub (len .Params.tags) 4 }}
-                            </span>
-                            {{ end }}
-                        </div>
-                        {{ end }}
-
-                        <!-- Categories -->
-                        {{ if .Params.categories }}
-                        <div style="margin-top: var(--spacing-sm);">
-                            {{ range .Params.categories }}
-                            <span class="tag tag-primary" style="text-transform: uppercase; font-weight: 600;">
-                                <i class="fas fa-folder" style="font-size: 0.7em; opacity: 0.8; margin-right: 0.2em;"></i>
-                                {{ . | title }}
-                            </span>
-                            {{ end }}
-                        </div>
-                        {{ end }}
-                    </div>
-
-                    <div class="card-footer">
-                        <a href="{{ .RelPermalink }}" class="btn btn-primary">
-                            Lire le WriteUp
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </article>
-            {{ end }}
-        </div>
-
-        <!-- No Results Message -->
-        <div id="no-results" class="text-center" style="display: none; padding: var(--spacing-2xl);">
-            <div class="card">
-                <div class="card-body">
-                    <i class="fas fa-search" style="font-size: var(--font-size-4xl); color: var(--text-muted); margin-bottom: var(--spacing-lg);"></i>
-                    <h3 style="color: var(--text-muted); margin-bottom: var(--spacing-md);">Aucun résultat trouvé</h3>
-                    <p style="color: var(--text-muted);">Essayez de modifier vos critères de recherche ou filtres.</p>
+    <!-- Grille d'articles -->
+    <section class="articles-grid" id="articles-grid">
+        {{ $writeupPages := where .Site.RegularPages "Section" "writeups" }}
+        {{ range $writeupPages.ByDate.Reverse }}
+        <article class="article-card animate-fade-in" data-title="{{ .Title | lower }}" data-date="{{ .Date.Format "2006-01-02" }}" data-tags="{{ if .Params.tags }}{{ delimit .Params.tags "," | lower }}{{ end }}" data-categories="{{ if .Params.categories }}{{ delimit .Params.categories "," | lower }}{{ end }}">
+            <div class="article-header">
+                <div class="article-meta">
+                    <span><i class="fas fa-calendar"></i> {{ .Date.Format "2 Jan 2006" }}</span>
+                    <span><i class="fas fa-clock"></i> {{ .ReadingTime }} min</span>
+                    {{ if .Params.ctfs }}
+                    <span><i class="fas fa-trophy"></i> {{ index .Params.ctfs 0 | title }}</span>
+                    {{ end }}
                 </div>
+
+                <h3 class="article-title">
+                    <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                </h3>
+
+                <p class="article-summary">{{ .Summary | truncate 200 }}</p>
             </div>
-        </div>
+
+            <div class="article-body">
+                {{ if .Params.tags }}
+                <div class="tags-container">
+                    {{ range first 6 .Params.tags }}
+                    <span class="tag tag-{{ . | lower }}">
+                        <i class="fas fa-hashtag"></i>
+                        {{ . }}
+                    </span>
+                    {{ end }}
+                    {{ if gt (len .Params.tags) 6 }}
+                    <span class="tag">+{{ sub (len .Params.tags) 6 }}</span>
+                    {{ end }}
+                </div>
+                {{ end }}
+            </div>
+
+            <div class="article-footer">
+                <a href="{{ .RelPermalink }}" class="read-more-btn">
+                    <i class="fas fa-code"></i>
+                    Lire le WriteUp
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </article>
+        {{ end }}
     </section>
 
-    <!-- Categories/Tags Section -->
-    {{ if .Site.Taxonomies.ctfs }}
-    <section class="section" style="background: var(--bg-secondary); border-radius: var(--border-radius); padding: var(--spacing-2xl); margin-bottom: var(--spacing-xl);">
-        <h2 class="section-title">CTFs Couverts</h2>
-        <div class="grid grid-4">
-            {{ range $name, $taxonomy := .Site.Taxonomies.ctfs }}
-            <div class="card">
-                <div class="card-body text-center">
-                    <i class="fas fa-trophy" style="font-size: var(--font-size-2xl); color: var(--warning-color); margin-bottom: var(--spacing-md);"></i>
-                    <h4 class="card-title">{{ $name | title }}</h4>
-                    <p style="color: var(--text-muted);">{{ len $taxonomy }} writeups</p>
-                    <a href="{{ "/writeups/" | relURL }}{{ $name }}" class="btn btn-sm btn-outline">
-                        Voir les writeups
-                    </a>
-                </div>
-            </div>
-            {{ end }}
+    <!-- Sidebar flottante -->
+    <div class="floating-sidebar">
+        <div class="sidebar-stats">
+            <span class="stat-number" id="visible-count">{{ len (where .Site.RegularPages "Section" "writeups") }}</span>
+            <span class="stat-label">Visibles</span>
         </div>
-    </section>
-    {{ end }}
+    </div>
 </div>
 
-<!-- Enhanced JavaScript for search, filter, and sort -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('search-input');
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const sortSelect = document.getElementById('sort-select');
-    const articlesGrid = document.getElementById('articles-grid');
-    const noResults = document.getElementById('no-results');
-    let articles = Array.from(document.querySelectorAll('.card[data-title]'));
-
-    let currentFilter = 'all';
-    let currentSort = 'date-desc';
-    let currentSearch = '';
-
-    function filterAndSort() {
-        let filteredArticles = articles.filter(article => {
-            // Search filter
-            const title = article.getAttribute('data-title') || '';
-            const tags = article.getAttribute('data-tags') || '';
-            const categories = article.getAttribute('data-categories') || '';
-            
-            const searchMatch = currentSearch === '' || 
-                                title.includes(currentSearch) || 
-                                tags.includes(currentSearch) ||
-                                categories.includes(currentSearch);
-
-            // Category filter
-            let categoryMatch = false;
-            if (currentFilter === 'all') {
-                categoryMatch = true;
-            } else {
-                // Parse tags and categories
-                const tagsList = tags ? tags.split(',').map(t => t.trim().toLowerCase()) : [];
-                const categoriesList = categories ? categories.split(',').map(c => c.trim().toLowerCase()) : [];
-                
-                // Priority 1: Check exact match in categories (most reliable)
-                categoryMatch = categoriesList.includes(currentFilter.toLowerCase());
-                
-                // Priority 2: If not found in categories, check in tags
-                if (!categoryMatch) {
-                    // Check for exact match in tags
-                    categoryMatch = tagsList.includes(currentFilter.toLowerCase());
-                    
-                    // Priority 3: Check for partial matches in tags (for complex tags)
-                    if (!categoryMatch) {
-                        categoryMatch = tagsList.some(tag => 
-                            tag.includes(currentFilter.toLowerCase()) || 
-                            currentFilter.toLowerCase().includes(tag)
-                        );
-                    }
-                }
-            }
-
-            return searchMatch && categoryMatch;
-        });
-
-        // Sort articles
-        filteredArticles.sort((a, b) => {
-            const aTitle = a.getAttribute('data-title');
-            const bTitle = b.getAttribute('data-title');
-            const aDate = a.getAttribute('data-date');
-            const bDate = b.getAttribute('data-date');
-
-            switch(currentSort) {
-                case 'date-asc':
-                    return aDate.localeCompare(bDate);
-                case 'date-desc':
-                    return bDate.localeCompare(aDate);
-                case 'title-asc':
-                    return aTitle.localeCompare(bTitle);
-                case 'title-desc':
-                    return bTitle.localeCompare(aTitle);
-                default:
-                    return bDate.localeCompare(aDate);
-            }
-        });
-
-        // Hide all articles first
-        articles.forEach(article => {
-            article.style.display = 'none';
-            article.classList.remove('animate-fade-in');
-        });
-
-        // Show filtered articles with animation
-        filteredArticles.forEach((article, index) => {
-            setTimeout(() => {
-                article.style.display = 'block';
-                article.classList.add('animate-fade-in');
-            }, index * 50); // Stagger animation
-        });
-
-        // Show/hide no results message
-        if (filteredArticles.length === 0) {
-            noResults.style.display = 'block';
-        } else {
-            noResults.style.display = 'none';
-        }
+    // Créer les particules
+    function createParticles() {
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 50;
         
-        // Log results for debugging
-        console.log(`Filter: ${currentFilter}, Found: ${filteredArticles.length} articles`);
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 6 + 's';
+            particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            particlesContainer.appendChild(particle);
+        }
     }
 
-    // Search functionality
-    if (searchInput) {
+    // Fonction de recherche et filtrage
+    function initSearchAndFilter() {
+        const searchInput = document.getElementById('search-input');
+        const filterBtns = document.querySelectorAll('.filter-tab');
+        const articles = Array.from(document.querySelectorAll('.article-card'));
+        const visibleCount = document.getElementById('visible-count');
+        
+        let currentFilter = 'all';
+        let currentSearch = '';
+
+        function filterArticles() {
+            let visibleArticles = 0;
+            
+            articles.forEach((article, index) => {
+                const title = article.getAttribute('data-title') || '';
+                const tags = article.getAttribute('data-tags') || '';
+                const categories = article.getAttribute('data-categories') || '';
+                
+                const searchMatch = currentSearch === '' || 
+                                  title.includes(currentSearch) || 
+                                  tags.includes(currentSearch) ||
+                                  categories.includes(currentSearch);
+
+                let categoryMatch = currentFilter === 'all' || 
+                                  tags.split(',').some(tag => tag.trim().toLowerCase().includes(currentFilter.toLowerCase())) ||
+                                  categories.split(',').some(cat => cat.trim().toLowerCase().includes(currentFilter.toLowerCase()));
+
+                if (searchMatch && categoryMatch) {
+                    article.style.display = 'block';
+                    article.style.animationDelay = (index * 0.1) + 's';
+                    visibleArticles++;
+                } else {
+                    article.style.display = 'none';
+                }
+            });
+            
+            visibleCount.textContent = visibleArticles;
+        }
+
+        // Recherche
         searchInput.addEventListener('input', function(e) {
             currentSearch = e.target.value.toLowerCase();
-            filterAndSort();
+            filterArticles();
+        });
+
+        // Filtres
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentFilter = this.getAttribute('data-filter');
+                filterArticles();
+            });
+        });
+
+        filterArticles();
+    }
+
+    // Parallax sur le scroll
+    function initParallax() {
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const particles = document.querySelectorAll('.particle');
+            
+            particles.forEach((particle, index) => {
+                const speed = 0.5 + (index % 3) * 0.2;
+                particle.style.transform = `translateY(${scrolled * speed}px)`;
+            });
         });
     }
 
-    // Filter functionality
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            filterBtns.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            currentFilter = this.getAttribute('data-filter');
-            console.log(`Selected filter: ${currentFilter}`);
-            filterAndSort();
-        });
-    });
-
-    // Sort functionality
-    if (sortSelect) {
-        sortSelect.addEventListener('change', function() {
-            currentSort = this.value;
-            filterAndSort();
+    // Animation des chiffres
+    function animateNumbers() {
+        const numbers = document.querySelectorAll('.stat-number');
+        
+        numbers.forEach(number => {
+            const target = parseInt(number.textContent);
+            let current = 0;
+            const increment = target / 100;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                number.textContent = Math.floor(current);
+            }, 20);
         });
     }
 
-    // Initial load
-    filterAndSort();
+    // Initialisation
+    createParticles();
+    initSearchAndFilter();
+    initParallax();
+    
+    // Animer les nombres après 1 seconde
+    setTimeout(animateNumbers, 1000);
 });
 </script>
 

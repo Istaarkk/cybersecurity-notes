@@ -1,283 +1,956 @@
 {{ define "main" }}
 
-<!-- Hero Section -->
-<section class="hero">
-    <div class="hero-content">
-        <h1>{{ .Site.Title }}</h1>
-        <p>Explorez mes WriteUps détaillés de challenges CTF, recherches en sécurité informatique et ressources pour les professionnels et passionnés de cybersécurité.</p>
-        <div class="hero-badges">
-            <span class="badge">Pwn</span>
-            <span class="badge">Web</span>
-            <span class="badge">Reverse</span>
-            <span class="badge">Network</span>
-            <span class="badge">CTF</span>
-        </div>
-    </div>
-</section>
+<style>
+    /* Variables révolutionnaires */
+    :root {
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        --warning-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --glass-bg: rgba(255, 255, 255, 0.1);
+        --glass-border: rgba(255, 255, 255, 0.2);
+        --shadow-glow: 0 0 50px rgba(102, 126, 234, 0.3);
+        --transform-speed: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        --text-glow: 0 0 20px rgba(255, 255, 255, 0.5);
+    }
 
-<!-- Stats Section -->
-<section class="stats">
-    <div class="stats-container">
-        <div class="stat-item">
-            <span class="stat-number">{{ len (where .Site.RegularPages "Section" "writeups") }}+</span>
-            <span class="stat-label">WriteUps</span>
-        </div>
-        <div class="stat-item">
-            <span class="stat-number">{{ len .Site.Taxonomies.categories }}+</span>
-            <span class="stat-label">Catégories</span>
-        </div>
-        <div class="stat-item">
-            <span class="stat-number">{{ len .Site.Taxonomies.ctfs }}+</span>
-            <span class="stat-label">CTFs</span>
-        </div>
-        <div class="stat-item">
-            <span class="stat-number">{{ now.Format "2006" }}</span>
-            <span class="stat-label">Dernière MAJ</span>
-        </div>
-    </div>
-</section>
+    .homepage-container {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 30%, #f093fb 60%, #4facfe 100%);
+        min-height: 100vh;
+        position: relative;
+        overflow: hidden;
+    }
 
-<!-- Categories Section -->
-<section class="section">
-    <div class="container">
-        <h2 class="section-title">Catégories Principales</h2>
-        <p class="section-subtitle">Découvrez mes analyses détaillées et writeups organisés par domaine d'expertise</p>
+    /* Particules interactives */
+    .interactive-particles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .particle {
+        position: absolute;
+        width: 3px;
+        height: 3px;
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: 50%;
+        animation: particleFloat 8s infinite ease-in-out;
+    }
+
+    .particle:nth-child(even) {
+        animation-direction: reverse;
+    }
+
+    @keyframes particleFloat {
+        0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); opacity: 0.7; }
+        25% { transform: translateY(-25px) rotate(90deg) scale(1.2); opacity: 1; }
+        50% { transform: translateY(-50px) rotate(180deg) scale(0.8); opacity: 0.5; }
+        75% { transform: translateY(-25px) rotate(270deg) scale(1.1); opacity: 0.9; }
+    }
+
+    /* Hero Section 3D */
+    .hero-section {
+        position: relative;
+        z-index: 2;
+        padding: 10rem 2rem 6rem;
+        text-align: center;
+        background: linear-gradient(135deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.3) 100%);
+        backdrop-filter: blur(30px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        transform-style: preserve-3d;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        transform-style: preserve-3d;
+    }
+
+    .hero-title {
+        font-size: clamp(3rem, 10vw, 10rem);
+        font-weight: 900;
+        background: linear-gradient(45deg, #fff, #f0f8ff, #e6f3ff, #fff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 2rem;
+        text-shadow: var(--text-glow);
+        animation: titlePulse 4s ease-in-out infinite alternate;
+        letter-spacing: -0.02em;
+        transform: translateZ(50px);
+    }
+
+    @keyframes titlePulse {
+        0% { 
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3)); 
+            transform: translateZ(50px) scale(1);
+        }
+        100% { 
+            filter: drop-shadow(0 0 60px rgba(255, 255, 255, 0.9)); 
+            transform: translateZ(50px) scale(1.02);
+        }
+    }
+
+    .hero-subtitle {
+        font-size: 1.6rem;
+        color: rgba(255, 255, 255, 0.95);
+        margin-bottom: 3rem;
+        animation: slideUp 1s ease-out 0.5s both;
+        line-height: 1.6;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        transform: translateZ(30px);
+    }
+
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(40px) translateZ(30px); }
+        to { opacity: 1; transform: translateY(0) translateZ(30px); }
+    }
+
+    .hero-badges {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        margin-bottom: 4rem;
+        animation: slideUp 1s ease-out 0.8s both;
+    }
+
+    .hero-badge {
+        padding: 1rem 2rem;
+        background: var(--glass-bg);
+        border: 2px solid var(--glass-border);
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        backdrop-filter: blur(20px);
+        transition: all var(--transform-speed);
+        position: relative;
+        overflow: hidden;
+        transform: translateZ(20px);
+    }
+
+    .hero-badge::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: conic-gradient(from 0deg, transparent, rgba(255,255,255,0.2), transparent);
+        animation: rotate 3s linear infinite;
+        opacity: 0;
+        transition: opacity var(--transform-speed);
+    }
+
+    .hero-badge:hover::before {
+        opacity: 1;
+    }
+
+    .hero-badge:hover {
+        transform: translateY(-5px) translateZ(20px) scale(1.05);
+        box-shadow: 0 15px 40px rgba(255, 255, 255, 0.3);
+    }
+
+    @keyframes rotate {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    /* Stats Section améliorée */
+    .stats-section {
+        position: relative;
+        z-index: 2;
+        padding: 4rem 2rem;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.1));
+        backdrop-filter: blur(30px);
+        border-radius: 30px;
+        margin: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .stat-card {
+        background: var(--glass-bg);
+        border: 2px solid var(--glass-border);
+        border-radius: 25px;
+        padding: 2.5rem;
+        text-align: center;
+        backdrop-filter: blur(20px);
+        transition: all var(--transform-speed);
+        position: relative;
+        overflow: hidden;
+        transform-style: preserve-3d;
+    }
+
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: conic-gradient(from 0deg, transparent, rgba(255,255,255,0.1), transparent);
+        animation: rotate 6s linear infinite;
+        opacity: 0;
+        transition: opacity var(--transform-speed);
+    }
+
+    .stat-card:hover::before {
+        opacity: 1;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-15px) rotateX(5deg);
+        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.2);
+    }
+
+    .stat-number {
+        font-size: 4rem;
+        font-weight: 900;
+        color: #fff;
+        display: block;
+        margin-bottom: 1rem;
+        text-shadow: var(--text-glow);
+        animation: countUp 2s ease-out 1.2s both;
+    }
+
+    .stat-label {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.2rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 600;
+    }
+
+    @keyframes countUp {
+        from { opacity: 0; transform: scale(0.5) translateZ(0); }
+        to { opacity: 1; transform: scale(1) translateZ(0); }
+    }
+
+    /* Catégories Section révolutionnaire */
+    .categories-section {
+        position: relative;
+        z-index: 2;
+        padding: 6rem 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 4rem;
+        animation: slideUp 1s ease-out 1.5s both;
+    }
+
+    .section-title {
+        font-size: 4rem;
+        font-weight: 900;
+        color: #fff;
+        margin-bottom: 1.5rem;
+        text-shadow: var(--text-glow);
+        background: linear-gradient(45deg, #fff, #f0f8ff, #e6f3ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .section-subtitle {
+        font-size: 1.4rem;
+        color: rgba(255, 255, 255, 0.9);
+        max-width: 700px;
+        margin: 0 auto;
+        line-height: 1.8;
+    }
+
+    .categories-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 3rem;
+        margin-bottom: 4rem;
+    }
+
+    .category-card {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 30px;
+        overflow: hidden;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
+        transition: all var(--transform-speed);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        position: relative;
+        transform-style: preserve-3d;
+        animation: slideUp 1s ease-out calc(1.8s + var(--stagger-delay, 0s)) both;
+    }
+
+    .category-card:nth-child(1) { --stagger-delay: 0s; }
+    .category-card:nth-child(2) { --stagger-delay: 0.2s; }
+    .category-card:nth-child(3) { --stagger-delay: 0.4s; }
+    .category-card:nth-child(4) { --stagger-delay: 0.6s; }
+    .category-card:nth-child(5) { --stagger-delay: 0.8s; }
+    .category-card:nth-child(6) { --stagger-delay: 1s; }
+
+    .category-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #4facfe, #667eea);
+        background-size: 300% 100%;
+        animation: gradientFlow 4s ease infinite;
+    }
+
+    @keyframes gradientFlow {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+    }
+
+    .category-card:hover {
+        transform: translateY(-20px) rotateX(10deg);
+        box-shadow: 0 50px 100px rgba(0, 0, 0, 0.2);
+    }
+
+    .category-header {
+        padding: 2.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+    }
+
+    .category-icon {
+        font-size: 3.5rem;
+        width: 80px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 20px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        transition: all var(--transform-speed);
+    }
+
+    .category-icon:hover {
+        transform: scale(1.1) rotate(5deg);
+    }
+
+    .category-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #1f2937;
+        margin: 0;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .category-body {
+        padding: 0 2.5rem 2.5rem;
+    }
+
+    .category-description {
+        color: #6b7280;
+        line-height: 1.8;
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+    }
+
+    .category-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+        margin-bottom: 2rem;
+    }
+
+    .category-tag {
+        padding: 0.6rem 1.2rem;
+        border-radius: 25px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        transition: all var(--transform-speed);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .category-tag::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: left 0.6s ease;
+    }
+
+    .category-tag:hover::before {
+        left: 100%;
+    }
+
+    .category-tag:hover {
+        transform: translateY(-3px) scale(1.05);
+    }
+
+    .category-tag.tag-web { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; }
+    .category-tag.tag-pwn { background: linear-gradient(135deg, #ef4444, #dc2626); color: white; }
+    .category-tag.tag-reverse { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+    .category-tag.tag-network { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; }
+    .category-tag.tag-crypto { background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: white; }
+    .category-tag.tag-misc { background: linear-gradient(135deg, #6b7280, #4b5563); color: white; }
+
+    .category-stats {
+        color: #6b7280;
+        font-size: 1rem;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        font-weight: 500;
+    }
+
+    .category-footer {
+        padding: 0 2.5rem 2.5rem;
+    }
+
+    .category-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+        padding: 1rem 2rem;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: all var(--transform-speed);
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .category-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.6s ease;
+    }
+
+    .category-btn:hover::before {
+        left: 100%;
+    }
+
+    .category-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 20px 40px rgba(102, 126, 234, 0.4);
+        color: white;
+    }
+
+    /* Floating elements */
+    .floating-shapes {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .floating-shape {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        animation: floatShape 20s infinite ease-in-out;
+    }
+
+    .floating-shape:nth-child(1) {
+        width: 60px;
+        height: 60px;
+        top: 20%;
+        left: 10%;
+        animation-delay: 0s;
+    }
+
+    .floating-shape:nth-child(2) {
+        width: 80px;
+        height: 80px;
+        top: 60%;
+        right: 15%;
+        animation-delay: 7s;
+    }
+
+    .floating-shape:nth-child(3) {
+        width: 40px;
+        height: 40px;
+        bottom: 30%;
+        left: 20%;
+        animation-delay: 14s;
+    }
+
+    @keyframes floatShape {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        33% { transform: translateY(-30px) rotate(120deg); }
+        66% { transform: translateY(-60px) rotate(240deg); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .homepage-container {
+            padding: 0;
+        }
         
-        <div class="grid grid-3">
+        .hero-title {
+            font-size: 3rem;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+        }
+        
+        .categories-grid {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        .stats-grid {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+        }
+        
+        .category-card {
+            margin: 0 1rem;
+        }
+        
+        .hero-badges {
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .hero-badge {
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+        }
+    }
+
+    /* Animations d'entrée */
+    .fade-in-up {
+        animation: fadeInUp 1s ease-out both;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<div class="homepage-container">
+    <!-- Particules interactives -->
+    <div class="interactive-particles" id="interactive-particles"></div>
+
+    <!-- Formes flottantes -->
+    <div class="floating-shapes">
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">{{ .Site.Title }}</h1>
+            <p class="hero-subtitle">
+                Explorez mes WriteUps détaillés de challenges CTF, recherches en sécurité informatique et ressources pour les professionnels et passionnés de cybersécurité.
+            </p>
+            <div class="hero-badges">
+                <span class="hero-badge">🚀 Pwn</span>
+                <span class="hero-badge">🌐 Web</span>
+                <span class="hero-badge">🔍 Reverse</span>
+                <span class="hero-badge">📡 Network</span>
+                <span class="hero-badge">🏆 CTF</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-number">{{ len (where .Site.RegularPages "Section" "writeups") }}+</span>
+                <span class="stat-label">WriteUps</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">{{ len .Site.Taxonomies.categories }}+</span>
+                <span class="stat-label">Catégories</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">{{ len .Site.Taxonomies.ctfs }}+</span>
+                <span class="stat-label">CTFs</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">{{ now.Format "2006" }}</span>
+                <span class="stat-label">Dernière MAJ</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories-section">
+        <div class="section-header">
+            <h2 class="section-title">Catégories Principales</h2>
+            <p class="section-subtitle">Découvrez mes analyses détaillées et writeups organisés par domaine d'expertise</p>
+        </div>
+        
+        <div class="categories-grid">
             <!-- Web Hacking -->
-            <div class="card">
-                <div class="card-header">
-                    <div style="display: flex; align-items: center; gap: 1rem;">
-                        <i class="fas fa-globe" style="font-size: 2rem; color: var(--primary-color);"></i>
-                        <h3 class="card-title">Web Hacking</h3>
+            <div class="category-card">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-globe"></i>
                     </div>
+                    <h3 class="category-title">Web Hacking</h3>
                 </div>
-                <div class="card-body">
-                    <p class="card-description">XSS, CSRF, SQLi, et autres vulnérabilités web. Méthodologies d'exploitation et de protection.</p>
-                    <div class="card-tags">
-                        <span class="tag tag-primary">XSS</span>
-                        <span class="tag tag-warning">SQLi</span>
-                        <span class="tag tag-error">CSRF</span>
+                <div class="category-body">
+                    <p class="category-description">XSS, CSRF, SQLi, et autres vulnérabilités web. Méthodologies d'exploitation et de protection.</p>
+                    <div class="category-tags">
+                        <span class="category-tag tag-web">XSS</span>
+                        <span class="category-tag tag-network">SQLi</span>
+                        <span class="category-tag tag-pwn">CSRF</span>
                     </div>
-                    <p style="color: var(--text-muted); font-size: var(--font-size-sm);">
+                    <div class="category-stats">
                         <i class="fas fa-file-code"></i>
                         {{ len (where (where .Site.RegularPages "Section" "writeups") ".Params.categories" "intersect" (slice "web")) }} writeups
-                    </p>
+                    </div>
                 </div>
-                <div class="card-footer">
-                    <a href="{{ "writeups/web" | relURL }}" class="btn btn-primary">
+                <div class="category-footer">
+                    <a href="{{ "writeups" | relURL }}" class="category-btn">
                         Voir les WriteUps <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
             </div>
 
             <!-- Pwn & Exploitation -->
-            <div class="card">
-                <div class="card-header">
-                    <div style="display: flex; align-items: center; gap: 1rem;">
-                        <i class="fas fa-microchip" style="font-size: 2rem; color: var(--error-color);"></i>
-                        <h3 class="card-title">Pwn & Exploitation</h3>
+            <div class="category-card">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-microchip"></i>
                     </div>
+                    <h3 class="category-title">Pwn & Exploitation</h3>
                 </div>
-                <div class="card-body">
-                    <p class="card-description">Buffer overflow, ROP, format string et exploitation de binaires avec des scripts pwntools.</p>
-                    <div class="card-tags">
-                        <span class="tag tag-error">Buffer Overflow</span>
-                        <span class="tag tag-warning">ROP</span>
-                        <span class="tag tag-primary">Pwntools</span>
+                <div class="category-body">
+                    <p class="category-description">Buffer overflow, ROP, format string et exploitation de binaires avec des scripts pwntools.</p>
+                    <div class="category-tags">
+                        <span class="category-tag tag-pwn">Buffer Overflow</span>
+                        <span class="category-tag tag-network">ROP</span>
+                        <span class="category-tag tag-web">Pwntools</span>
                     </div>
-                    <p style="color: var(--text-muted); font-size: var(--font-size-sm);">
+                    <div class="category-stats">
                         <i class="fas fa-file-code"></i>
                         {{ len (where (where .Site.RegularPages "Section" "writeups") ".Params.categories" "intersect" (slice "pwn")) }} writeups
-                    </p>
+                    </div>
                 </div>
-                <div class="card-footer">
-                    <a href="{{ "writeups/pwn" | relURL }}" class="btn btn-primary">
+                <div class="category-footer">
+                    <a href="{{ "writeups" | relURL }}" class="category-btn">
                         Voir les WriteUps <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
             </div>
 
             <!-- Reverse Engineering -->
-            <div class="card">
-                <div class="card-header">
-                    <div style="display: flex; align-items: center; gap: 1rem;">
-                        <i class="fas fa-code" style="font-size: 2rem; color: var(--success-color);"></i>
-                        <h3 class="card-title">Reverse Engineering</h3>
+            <div class="category-card">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-code"></i>
                     </div>
+                    <h3 class="category-title">Reverse Engineering</h3>
                 </div>
-                <div class="card-body">
-                    <p class="card-description">Analyse statique/dynamique avec Ghidra, IDA Pro et radare2. Décompilation et déobfuscation.</p>
-                    <div class="card-tags">
-                        <span class="tag tag-success">Ghidra</span>
-                        <span class="tag tag-primary">IDA Pro</span>
-                        <span class="tag tag-warning">Radare2</span>
+                <div class="category-body">
+                    <p class="category-description">Analyse statique/dynamique avec Ghidra, IDA Pro et radare2. Décompilation et déobfuscation.</p>
+                    <div class="category-tags">
+                        <span class="category-tag tag-reverse">Ghidra</span>
+                        <span class="category-tag tag-web">IDA Pro</span>
+                        <span class="category-tag tag-network">Radare2</span>
                     </div>
-                    <p style="color: var(--text-muted); font-size: var(--font-size-sm);">
+                    <div class="category-stats">
                         <i class="fas fa-file-code"></i>
                         {{ len (where (where .Site.RegularPages "Section" "writeups") ".Params.categories" "intersect" (slice "reverse")) }} writeups
-                    </p>
+                    </div>
                 </div>
-                <div class="card-footer">
-                    <a href="{{ "writeups/reverse" | relURL }}" class="btn btn-primary">
+                <div class="category-footer">
+                    <a href="{{ "writeups" | relURL }}" class="category-btn">
                         Voir les WriteUps <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
             </div>
 
             <!-- Network Security -->
-            <div class="card">
-                <div class="card-header">
-                    <div style="display: flex; align-items: center; gap: 1rem;">
-                        <i class="fas fa-network-wired" style="font-size: 2rem; color: var(--warning-color);"></i>
-                        <h3 class="card-title">Network Security</h3>
+            <div class="category-card">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-network-wired"></i>
                     </div>
+                    <h3 class="category-title">Network Security</h3>
                 </div>
-                <div class="card-body">
-                    <p class="card-description">Exploitation de services réseau, scan et énumération, analyse de protocoles et pentesting.</p>
-                    <div class="card-tags">
-                        <span class="tag tag-warning">Nmap</span>
-                        <span class="tag tag-error">Metasploit</span>
-                        <span class="tag tag-primary">Wireshark</span>
+                <div class="category-body">
+                    <p class="category-description">Exploitation de services réseau, scan et énumération, analyse de protocoles et pentesting.</p>
+                    <div class="category-tags">
+                        <span class="category-tag tag-network">Nmap</span>
+                        <span class="category-tag tag-pwn">Metasploit</span>
+                        <span class="category-tag tag-web">Wireshark</span>
                     </div>
-                    <p style="color: var(--text-muted); font-size: var(--font-size-sm);">
+                    <div class="category-stats">
                         <i class="fas fa-file-code"></i>
                         {{ len (where (where .Site.RegularPages "Section" "writeups") ".Params.categories" "intersect" (slice "network")) }} writeups
-                    </p>
+                    </div>
                 </div>
-                <div class="card-footer">
-                    <a href="{{ "writeups/network" | relURL }}" class="btn btn-primary">
+                <div class="category-footer">
+                    <a href="{{ "writeups" | relURL }}" class="category-btn">
                         Voir les WriteUps <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
             </div>
 
             <!-- Veille Technologique -->
-            <div class="card">
-                <div class="card-header">
-                    <div style="display: flex; align-items: center; gap: 1rem;">
-                        <i class="fas fa-newspaper" style="font-size: 2rem; color: var(--accent-color);"></i>
-                        <h3 class="card-title">Veille Technologique</h3>
+            <div class="category-card">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-newspaper"></i>
                     </div>
+                    <h3 class="category-title">Veille Technologique</h3>
                 </div>
-                <div class="card-body">
-                    <p class="card-description">Actualités, analyses de vulnérabilités récentes et suivi des dernières menaces de sécurité.</p>
-                    <div class="card-tags">
-                        <span class="tag">CVE</span>
-                        <span class="tag tag-warning">0-day</span>
-                        <span class="tag tag-error">APT</span>
+                <div class="category-body">
+                    <p class="category-description">Actualités, analyses de vulnérabilités récentes et suivi des dernières menaces de sécurité.</p>
+                    <div class="category-tags">
+                        <span class="category-tag tag-misc">CVE</span>
+                        <span class="category-tag tag-network">0-day</span>
+                        <span class="category-tag tag-pwn">APT</span>
                     </div>
-                    <p style="color: var(--text-muted); font-size: var(--font-size-sm);">
+                    <div class="category-stats">
                         <i class="fas fa-file-alt"></i>
                         {{ len (where .Site.RegularPages "Section" "veille") }} articles
-                    </p>
+                    </div>
                 </div>
-                <div class="card-footer">
-                    <a href="{{ "veille" | relURL }}" class="btn btn-primary">
+                <div class="category-footer">
+                    <a href="{{ "veille" | relURL }}" class="category-btn">
                         Voir les Articles <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
             </div>
 
             <!-- Outils -->
-            <div class="card">
-                <div class="card-header">
-                    <div style="display: flex; align-items: center; gap: 1rem;">
-                        <i class="fas fa-tools" style="font-size: 2rem; color: var(--secondary-color);"></i>
-                        <h3 class="card-title">Outils & Scripts</h3>
+            <div class="category-card">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-tools"></i>
                     </div>
+                    <h3 class="category-title">Outils & Scripts</h3>
                 </div>
-                <div class="card-body">
-                    <p class="card-description">Collection d'outils personnalisés, scripts Python et ressources utiles pour la cybersécurité.</p>
-                    <div class="card-tags">
-                        <span class="tag tag-primary">Python</span>
-                        <span class="tag tag-success">Bash</span>
-                        <span class="tag">PowerShell</span>
+                <div class="category-body">
+                    <p class="category-description">Collection d'outils personnalisés, scripts Python et ressources utiles pour la cybersécurité.</p>
+                    <div class="category-tags">
+                        <span class="category-tag tag-web">Python</span>
+                        <span class="category-tag tag-reverse">Bash</span>
+                        <span class="category-tag tag-misc">PowerShell</span>
                     </div>
-                    <p style="color: var(--text-muted); font-size: var(--font-size-sm);">
+                    <div class="category-stats">
                         <i class="fas fa-file-code"></i>
                         {{ len (where .Site.RegularPages "Section" "outils") }} outils
-                    </p>
+                    </div>
                 </div>
-                <div class="card-footer">
-                    <a href="{{ "outils" | relURL }}" class="btn btn-primary">
+                <div class="category-footer">
+                    <a href="{{ "outils" | relURL }}" class="category-btn">
                         Voir les Outils <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+</div>
 
-<!-- Recent Posts Section -->
-<section class="section" style="background: var(--bg-secondary);">
-    <div class="container">
-        <h2 class="section-title">Dernières Publications</h2>
-        <p class="section-subtitle">Découvrez mes derniers writeups et analyses</p>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Créer les particules interactives
+    function createInteractiveParticles() {
+        const particlesContainer = document.getElementById('interactive-particles');
+        const particleCount = 80;
         
-        <!-- Search Bar -->
-        <div class="search-container">
-            <input type="text" id="search-input" class="search-input" placeholder="Rechercher un writeup, tag, ou CTF...">
-            <i class="fas fa-search search-icon"></i>
-        </div>
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 8 + 's';
+            particle.style.animationDuration = (Math.random() * 5 + 3) + 's';
+            particlesContainer.appendChild(particle);
+        }
+    }
 
-        <!-- Filters -->
-        <div class="filters">
-            <button class="filter-btn active" data-filter="all">Tous</button>
-            <button class="filter-btn" data-filter="pwn">Pwn</button>
-            <button class="filter-btn" data-filter="web">Web</button>
-            <button class="filter-btn" data-filter="reverse">Reverse</button>
-            <button class="filter-btn" data-filter="network">Network</button>
-        </div>
+    // Effet parallax avancé
+    function initAdvancedParallax() {
+        let ticking = false;
+        
+        function updateParallax() {
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * -0.5;
+            
+            // Parallax sur les particules
+            const particles = document.querySelectorAll('.particle');
+            particles.forEach((particle, index) => {
+                const speed = 0.2 + (index % 5) * 0.1;
+                particle.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+            
+            // Parallax sur les formes flottantes
+            const shapes = document.querySelectorAll('.floating-shape');
+            shapes.forEach((shape, index) => {
+                const speed = 0.3 + (index % 3) * 0.15;
+                shape.style.transform = `translateY(${scrolled * speed}px) rotate(${scrolled * 0.1}deg)`;
+            });
+            
+            // Parallax sur le hero
+            const heroContent = document.querySelector('.hero-content');
+            if (heroContent) {
+                heroContent.style.transform = `translateY(${scrolled * 0.3}px)`;
+            }
+            
+            ticking = false;
+        }
+        
+        function requestTick() {
+            if (!ticking) {
+                requestAnimationFrame(updateParallax);
+                ticking = true;
+            }
+        }
+        
+        window.addEventListener('scroll', requestTick);
+    }
 
-        <!-- Recent Posts Grid -->
-        <div class="grid grid-2">
-            {{ range first 6 (where .Site.RegularPages "Section" "in" (slice "writeups" "veille")) }}
-            <article class="card">
-                <div class="card-body">
-                    <div class="card-meta">
-                        <span><i class="fas fa-calendar"></i> {{ .Date.Format "2 January 2006" }}</span>
-                        <span><i class="fas fa-folder"></i> {{ .Section | title }}</span>
-                        {{ if .Params.ctfs }}
-                        <span><i class="fas fa-trophy"></i> {{ index .Params.ctfs 0 | title }}</span>
-                        {{ end }}
-                    </div>
-                    
-                    <h3 class="card-title">
-                        <a href="{{ .RelPermalink }}" style="text-decoration: none; color: inherit;">
-                            {{ .Title }}
-                        </a>
-                    </h3>
-                    
-                    <p class="card-description">
-                        {{ .Summary | truncate 150 }}
-                    </p>
-                    
-                    {{ if .Params.tags }}
-                    <div class="card-tags">
-                        {{ range first 3 .Params.tags }}
-                        <span class="tag {{ if eq . "pwn" }}tag-error{{ else if eq . "web" }}tag-primary{{ else if eq . "reverse" }}tag-success{{ else if eq . "network" }}tag-warning{{ end }}">
-                            {{ . }}
-                        </span>
-                        {{ end }}
-                    </div>
-                    {{ end }}
-                </div>
-                <div class="card-footer">
-                    <a href="{{ .RelPermalink }}" class="btn btn-outline">
-                        Lire l'article <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-            </article>
-            {{ end }}
-        </div>
+    // Animation des chiffres avec effet typewriter
+    function animateNumbers() {
+        const numbers = document.querySelectorAll('.stat-number');
+        
+        numbers.forEach((number, index) => {
+            const target = parseInt(number.textContent.replace(/\D/g, ''));
+            let current = 0;
+            const increment = target / 50;
+            const suffix = number.textContent.replace(/\d/g, '');
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                number.textContent = Math.floor(current) + suffix;
+            }, 40 + (index * 10));
+        });
+    }
 
-        <div class="text-center mt-xl">
-            <a href="{{ "writeups" | relURL }}" class="btn btn-lg btn-primary">
-                Voir tous les WriteUps <i class="fas fa-arrow-right"></i>
-            </a>
-        </div>
-    </div>
-</section>
+    // Interaction avec la souris
+    function initMouseInteraction() {
+        const cards = document.querySelectorAll('.category-card');
+        
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+    }
+
+    // Effet de typing sur le titre
+    function initTypingEffect() {
+        const title = document.querySelector('.hero-title');
+        if (title) {
+            const text = title.textContent;
+            title.textContent = '';
+            
+            let i = 0;
+            const typeWriter = () => {
+                if (i < text.length) {
+                    title.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 150);
+                }
+            };
+            
+            setTimeout(typeWriter, 1000);
+        }
+    }
+
+    // Initialisation
+    createInteractiveParticles();
+    initAdvancedParallax();
+    initMouseInteraction();
+    
+    // Démarrer les animations après un délai
+    setTimeout(animateNumbers, 2000);
+    setTimeout(initTypingEffect, 500);
+    
+    // Ajouter des classes d'animation aux éléments
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('fade-in-up');
+            }
+        });
+    }, observerOptions);
+    
+    document.querySelectorAll('.category-card').forEach(card => {
+        observer.observe(card);
+    });
+});
+</script>
 
 {{ end }} 

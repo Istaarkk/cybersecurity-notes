@@ -1,338 +1,742 @@
 {{ define "main" }}
 
-<article class="container" style="max-width: 900px; margin-top: 2rem;">
-    <!-- Article Header -->
-    <header class="mb-xl">
-        <div class="card">
-            <div class="card-body">
-                <!-- Breadcrumb -->
-                <nav style="margin-bottom: var(--spacing-lg);">
-                    <ol style="display: flex; align-items: center; gap: var(--spacing-sm); list-style: none; color: var(--text-muted); font-size: var(--font-size-sm);">
-                        <li><a href="{{ .Site.BaseURL }}" style="color: var(--primary-color); text-decoration: none;">Accueil</a></li>
-                        <li><i class="fas fa-chevron-right"></i></li>
-                        <li><a href="{{ .Section | relURL }}" style="color: var(--primary-color); text-decoration: none;">{{ .Section | title }}</a></li>
-                        <li><i class="fas fa-chevron-right"></i></li>
-                        <li>{{ .Title }}</li>
-                    </ol>
-                </nav>
+<style>
+    /* Variables pour le design révolutionnaire */
+    :root {
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        --glass-bg: rgba(255, 255, 255, 0.1);
+        --glass-border: rgba(255, 255, 255, 0.2);
+        --shadow-glow: 0 0 50px rgba(102, 126, 234, 0.3);
+        --transform-speed: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        --text-glow: 0 0 20px rgba(255, 255, 255, 0.5);
+    }
 
-                <!-- Title -->
-                <h1 style="font-size: var(--font-size-4xl); font-weight: 800; margin-bottom: var(--spacing-lg); line-height: 1.2;">
-                    {{ .Title }}
-                </h1>
+    .article-container {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        min-height: 100vh;
+        position: relative;
+        overflow: hidden;
+    }
 
-                <!-- Meta Information -->
-                <div class="card-meta" style="margin-bottom: var(--spacing-lg);">
-                    <span><i class="fas fa-calendar" style="color: var(--primary-color);"></i> {{ .Date.Format "2 January 2006" }}</span>
-                    <span><i class="fas fa-clock" style="color: var(--primary-color);"></i> {{ .ReadingTime }} min de lecture</span>
-                    {{ if .Params.ctfs }}
-                    <span><i class="fas fa-trophy" style="color: var(--warning-color);"></i> {{ index .Params.ctfs 0 | title }}</span>
-                    {{ end }}
-                    <span><i class="fas fa-folder" style="color: var(--primary-color);"></i> {{ .Section | title }}</span>
-                </div>
+    /* Particules de fond */
+    .bg-particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+    }
 
-                <!-- Tags et Catégories -->
-                {{ if or .Params.tags .Params.categories }}
-                <div style="margin-top: var(--spacing-lg); padding-top: var(--spacing-lg); border-top: 1px solid var(--border-color);">
-                    {{ if .Params.tags }}
-                    <div style="margin-bottom: var(--spacing-md);">
-                        <h4 style="color: var(--text-secondary); font-size: var(--font-size-sm); margin-bottom: var(--spacing-sm); font-weight: 600; display: flex; align-items: center; gap: var(--spacing-sm);">
-                            <i class="fas fa-tags"></i> Tags
-                        </h4>
-                        <div class="card-tags">
-                            {{ range .Params.tags }}
-                            <span class="tag {{ if eq . "pwn" }}tag-error{{ else if eq . "web" }}tag-primary{{ else if eq . "reverse" }}tag-success{{ else if eq . "network" }}tag-warning{{ else if eq . "crypto" }}tag-primary{{ else if eq . "shellcode" }}tag-error{{ else if eq . "exploitation" }}tag-error{{ else if eq . "forensics" }}tag-success{{ else if eq . "steganography" }}tag-warning{{ else if eq . "osint" }}tag-primary{{ end }}">
-                                <i class="fas fa-hashtag" style="font-size: 0.7em; opacity: 0.8;"></i>
-                                {{ . }}
-                            </span>
-                            {{ end }}
-                        </div>
-                    </div>
-                    {{ end }}
+    .bg-particle {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 50%;
+        animation: floatParticle 8s infinite ease-in-out;
+    }
 
-                    {{ if .Params.categories }}
-                    <div>
-                        <h4 style="color: var(--text-secondary); font-size: var(--font-size-sm); margin-bottom: var(--spacing-sm); font-weight: 600; display: flex; align-items: center; gap: var(--spacing-sm);">
-                            <i class="fas fa-folder"></i> Catégories
-                        </h4>
-                        <div class="card-tags">
-                            {{ range .Params.categories }}
-                            <span class="tag tag-primary" style="text-transform: uppercase; font-weight: 600;">
-                                {{ . | title }}
-                            </span>
-                            {{ end }}
-                        </div>
-                    </div>
-                    {{ end }}
-                </div>
-                {{ end }}
-            </div>
+    @keyframes floatParticle {
+        0%, 100% { transform: translateY(0px) scale(1); opacity: 0.4; }
+        50% { transform: translateY(-30px) scale(1.2); opacity: 0.8; }
+    }
+
+    /* Header futuriste */
+    .article-header {
+        position: relative;
+        z-index: 2;
+        padding: 6rem 2rem 4rem;
+        text-align: center;
+        background: linear-gradient(135deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.4) 100%);
+        backdrop-filter: blur(30px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .breadcrumb {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .breadcrumb a {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: all var(--transform-speed);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+    }
+
+    .breadcrumb a:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+    }
+
+    .article-title {
+        font-size: clamp(2rem, 6vw, 5rem);
+        font-weight: 900;
+        background: linear-gradient(45deg, #fff, #f0f8ff, #e6f3ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 2rem;
+        text-shadow: var(--text-glow);
+        animation: titlePulse 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes titlePulse {
+        0% { filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3)); }
+        100% { filter: drop-shadow(0 0 40px rgba(255, 255, 255, 0.8)); }
+    }
+
+    .article-meta {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .article-meta span {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: 25px;
+        backdrop-filter: blur(20px);
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 0.9rem;
+        transition: all var(--transform-speed);
+    }
+
+    .article-meta span:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .tags-section {
+        margin-top: 2rem;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .tag {
+        padding: 0.5rem 1.2rem;
+        border-radius: 25px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        transition: all var(--transform-speed);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .tag::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: left 0.6s ease;
+    }
+
+    .tag:hover::before {
+        left: 100%;
+    }
+
+    .tag:hover {
+        transform: translateY(-2px) scale(1.05);
+    }
+
+    .tag.tag-pwn { background: linear-gradient(135deg, #ef4444, #dc2626); color: white; }
+    .tag.tag-web { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; }
+    .tag.tag-reverse { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+    .tag.tag-network { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; }
+    .tag.tag-crypto { background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: white; }
+    .tag.tag-misc { background: linear-gradient(135deg, #6b7280, #4b5563); color: white; }
+
+    /* Contenu principal */
+    .article-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+        position: relative;
+        z-index: 2;
+    }
+
+    .content-wrapper {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 30px;
+        padding: 0;
+        box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        overflow: hidden;
+    }
+
+    /* Table des matières flottante */
+    .toc-section {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+        padding: 2rem;
+        border-bottom: 1px solid rgba(102, 126, 234, 0.2);
+    }
+
+    .toc-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #1f2937;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .toc-content {
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: 15px;
+        padding: 1.5rem;
+        backdrop-filter: blur(10px);
+    }
+
+    .toc-content ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .toc-content li {
+        margin-bottom: 0.5rem;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+    }
+
+    .toc-content a {
+        color: #667eea;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all var(--transform-speed);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .toc-content a:hover {
+        color: #4f46e5;
+        transform: translateX(5px);
+    }
+
+    /* Contenu formaté */
+    .content {
+        padding: 3rem;
+        line-height: 1.8;
+        color: #374151;
+    }
+
+    .content h1, .content h2, .content h3, .content h4 {
+        margin-top: 3rem;
+        margin-bottom: 1.5rem;
+        color: #1f2937;
+        font-weight: 700;
+        position: relative;
+    }
+
+    .content h1::before, .content h2::before {
+        content: '';
+        position: absolute;
+        left: -1rem;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 2px;
+    }
+
+    .content h1 { font-size: 2.5rem; }
+    .content h2 { font-size: 2rem; }
+    .content h3 { font-size: 1.5rem; }
+    .content h4 { font-size: 1.25rem; }
+
+    .content p {
+        margin-bottom: 1.5rem;
+        color: #6b7280;
+    }
+
+    .content code {
+        background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+        padding: 0.3rem 0.6rem;
+        border-radius: 6px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.9em;
+        color: #dc2626;
+        border: 1px solid #d1d5db;
+    }
+
+    .content pre {
+        background: linear-gradient(135deg, #1f2937, #111827);
+        color: #f9fafb;
+        padding: 2rem;
+        border-radius: 15px;
+        overflow-x: auto;
+        margin: 2rem 0;
+        font-family: 'JetBrains Mono', monospace;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        position: relative;
+    }
+
+    .content pre::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+    }
+
+    .content pre code {
+        background: none;
+        color: inherit;
+        padding: 0;
+        border: none;
+    }
+
+    .content blockquote {
+        border-left: 4px solid #667eea;
+        margin: 2rem 0;
+        padding: 1.5rem 2rem;
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+        border-radius: 0 15px 15px 0;
+        font-style: italic;
+        position: relative;
+    }
+
+    .content blockquote::before {
+        content: '"';
+        position: absolute;
+        top: -10px;
+        left: 15px;
+        font-size: 3rem;
+        color: #667eea;
+        opacity: 0.3;
+    }
+
+    .content img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 15px;
+        margin: 2rem 0;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        transition: all var(--transform-speed);
+    }
+
+    .content img:hover {
+        transform: scale(1.02);
+        box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+    }
+
+    .content table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 2rem 0;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        background: white;
+    }
+
+    .content th, .content td {
+        padding: 1.2rem;
+        text-align: left;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .content th {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        font-weight: 600;
+    }
+
+    .content tr:nth-child(even) {
+        background: #f9fafb;
+    }
+
+    .content tr:hover {
+        background: rgba(102, 126, 234, 0.05);
+    }
+
+    /* Navigation flottante */
+    .floating-nav {
+        position: fixed;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 1rem;
+        z-index: 1000;
+        background: var(--glass-bg);
+        backdrop-filter: blur(30px);
+        border-radius: 50px;
+        padding: 1rem;
+        border: 1px solid var(--glass-border);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+
+    .nav-btn {
+        padding: 0.75rem 1.5rem;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        text-decoration: none;
+        border-radius: 25px;
+        font-weight: 600;
+        transition: all var(--transform-speed);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .nav-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        color: white;
+    }
+
+    /* Articles similaires */
+    .related-section {
+        margin-top: 3rem;
+        padding: 2rem;
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+        border-radius: 20px;
+        border: 1px solid rgba(102, 126, 234, 0.1);
+    }
+
+    .related-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #1f2937;
+        margin-bottom: 2rem;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .related-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+
+    .related-card {
+        background: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        transition: all var(--transform-speed);
+        border: 1px solid rgba(102, 126, 234, 0.1);
+    }
+
+    .related-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+
+    .related-card-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: #1f2937;
+    }
+
+    .related-card-title a {
+        color: inherit;
+        text-decoration: none;
+        transition: all var(--transform-speed);
+    }
+
+    .related-card-title a:hover {
+        color: #667eea;
+    }
+
+    .related-card-meta {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+        color: #6b7280;
+    }
+
+    .related-card-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.6rem 1.2rem;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        text-decoration: none;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: all var(--transform-speed);
+    }
+
+    .related-card-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        color: white;
+    }
+
+    /* Animations d'entrée */
+    .fade-in {
+        animation: fadeIn 1s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .article-title {
+            font-size: 2.5rem;
+        }
+        
+        .article-meta {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .content {
+            padding: 2rem 1rem;
+        }
+        
+        .floating-nav {
+            bottom: 1rem;
+            left: 1rem;
+            right: 1rem;
+            transform: none;
+        }
+        
+        .related-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<!-- Particules de fond -->
+<div class="bg-particles" id="bg-particles"></div>
+
+<article class="article-container">
+    <!-- Header -->
+    <header class="article-header fade-in">
+        <!-- Breadcrumb -->
+        <nav>
+            <ol class="breadcrumb">
+                <li><a href="{{ .Site.BaseURL }}">🏠 Accueil</a></li>
+                <li><i class="fas fa-chevron-right"></i></li>
+                <li><a href="{{ .Section | relURL }}">{{ .Section | title }}</a></li>
+                <li><i class="fas fa-chevron-right"></i></li>
+                <li>{{ .Title }}</li>
+            </ol>
+        </nav>
+
+        <!-- Titre -->
+        <h1 class="article-title">{{ .Title }}</h1>
+
+        <!-- Métadonnées -->
+        <div class="article-meta">
+            <span><i class="fas fa-calendar-alt"></i> {{ .Date.Format "2 January 2006" }}</span>
+            <span><i class="fas fa-clock"></i> {{ .ReadingTime }} min de lecture</span>
+            {{ if .Params.ctfs }}
+            <span><i class="fas fa-trophy"></i> {{ index .Params.ctfs 0 | title }}</span>
+            {{ end }}
+            <span><i class="fas fa-folder-open"></i> {{ .Section | title }}</span>
         </div>
+
+        <!-- Tags -->
+        {{ if or .Params.tags .Params.categories }}
+        <div class="tags-section">
+            {{ range .Params.tags }}
+            <span class="tag tag-{{ . | lower }}">
+                <i class="fas fa-hashtag"></i>
+                {{ . }}
+            </span>
+            {{ end }}
+            {{ range .Params.categories }}
+            <span class="tag tag-{{ . | lower }}">
+                <i class="fas fa-folder"></i>
+                {{ . | title }}
+            </span>
+            {{ end }}
+        </div>
+        {{ end }}
     </header>
 
-    <!-- Article Content -->
-    <div class="card mb-xl">
-        <div class="card-body">
-            <!-- Table of Contents -->
+    <!-- Contenu -->
+    <div class="article-content fade-in">
+        <div class="content-wrapper">
+            <!-- Table des matières -->
             {{ if .TableOfContents }}
-            <div style="background: var(--bg-secondary); padding: var(--spacing-lg); border-radius: var(--border-radius); margin-bottom: var(--spacing-xl);">
-                <h3 style="margin-bottom: var(--spacing-md); color: var(--text-primary); display: flex; align-items: center; gap: var(--spacing-sm);">
-                    <i class="fas fa-list"></i> Table des matières
+            <div class="toc-section">
+                <h3 class="toc-title">
+                    <i class="fas fa-list-ul"></i> Table des matières
                 </h3>
-                <div style="color: var(--text-secondary);">
+                <div class="toc-content">
                     {{ .TableOfContents }}
                 </div>
             </div>
             {{ end }}
 
-            <!-- Content -->
+            <!-- Contenu principal -->
             <div class="content">
                 {{ .Content }}
             </div>
-        </div>
-    </div>
 
-    <!-- Navigation -->
-    <nav class="card mb-xl">
-        <div class="card-body">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-xl);">
-                <!-- Previous Post -->
-                {{ if .PrevInSection }}
-                <div>
-                    <h4 style="color: var(--text-secondary); font-size: var(--font-size-sm); margin-bottom: var(--spacing-sm);">
-                        <i class="fas fa-chevron-left"></i> Article précédent
-                    </h4>
-                    <a href="{{ .PrevInSection.RelPermalink }}" style="text-decoration: none; color: var(--primary-color); font-weight: 500;">
-                        {{ .PrevInSection.Title }}
-                    </a>
-                </div>
-                {{ else }}
-                <div></div>
-                {{ end }}
-
-                <!-- Next Post -->
-                {{ if .NextInSection }}
-                <div style="text-align: right;">
-                    <h4 style="color: var(--text-secondary); font-size: var(--font-size-sm); margin-bottom: var(--spacing-sm);">
-                        Article suivant <i class="fas fa-chevron-right"></i>
-                    </h4>
-                    <a href="{{ .NextInSection.RelPermalink }}" style="text-decoration: none; color: var(--primary-color); font-weight: 500;">
-                        {{ .NextInSection.Title }}
-                    </a>
-                </div>
-                {{ end }}
-            </div>
-        </div>
-    </nav>
-
-    <!-- Related Posts -->
-    {{ $related := .Site.RegularPages.Related . | first 3 }}
-    {{ if $related }}
-    <section class="card">
-        <div class="card-header">
-            <h3 class="card-title">
-                <i class="fas fa-lightbulb"></i> Articles similaires
-            </h3>
-        </div>
-        <div class="card-body">
-            <div class="grid grid-3">
-                {{ range $related }}
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title" style="font-size: var(--font-size-lg);">
-                            <a href="{{ .RelPermalink }}" style="text-decoration: none; color: inherit;">
-                                {{ .Title }}
-                            </a>
+            <!-- Articles similaires -->
+            {{ $related := .Site.RegularPages.Related . | first 3 }}
+            {{ if $related }}
+            <section class="related-section">
+                <h3 class="related-title">
+                    <i class="fas fa-lightbulb"></i> Articles similaires
+                </h3>
+                <div class="related-grid">
+                    {{ range $related }}
+                    <div class="related-card">
+                        <h4 class="related-card-title">
+                            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
                         </h4>
-                        <div class="card-meta">
+                        <div class="related-card-meta">
                             <span><i class="fas fa-calendar"></i> {{ .Date.Format "2 Jan 2006" }}</span>
                             <span><i class="fas fa-folder"></i> {{ .Section | title }}</span>
                         </div>
-                        {{ if .Params.tags }}
-                        <div class="card-tags">
-                            {{ range first 2 .Params.tags }}
-                            <span class="tag">{{ . }}</span>
-                            {{ end }}
-                        </div>
-                        {{ end }}
-                    </div>
-                    <div class="card-footer">
-                        <a href="{{ .RelPermalink }}" class="btn btn-sm btn-outline">
-                            Lire <i class="fas fa-arrow-right"></i>
+                        <a href="{{ .RelPermalink }}" class="related-card-btn">
+                            <i class="fas fa-arrow-right"></i> Lire
                         </a>
                     </div>
+                    {{ end }}
                 </div>
-                {{ end }}
-            </div>
+            </section>
+            {{ end }}
         </div>
-    </section>
-    {{ end }}
+    </div>
+
+    <!-- Navigation flottante -->
+    <div class="floating-nav">
+        {{ if .PrevInSection }}
+        <a href="{{ .PrevInSection.RelPermalink }}" class="nav-btn">
+            <i class="fas fa-chevron-left"></i> Précédent
+        </a>
+        {{ end }}
+        
+        <a href="{{ .Section | relURL }}" class="nav-btn">
+            <i class="fas fa-th-large"></i> Tous les {{ .Section | title }}
+        </a>
+        
+        {{ if .NextInSection }}
+        <a href="{{ .NextInSection.RelPermalink }}" class="nav-btn">
+            Suivant <i class="fas fa-chevron-right"></i>
+        </a>
+        {{ end }}
+    </div>
 </article>
 
-<!-- Custom CSS for article content -->
-<style>
-.content {
-    line-height: 1.8;
-    color: var(--text-primary);
-}
-
-.content h1,
-.content h2,
-.content h3,
-.content h4,
-.content h5,
-.content h6 {
-    margin-top: var(--spacing-xl);
-    margin-bottom: var(--spacing-lg);
-    color: var(--text-primary);
-    font-weight: 600;
-}
-
-.content h1 { font-size: var(--font-size-3xl); }
-.content h2 { font-size: var(--font-size-2xl); }
-.content h3 { font-size: var(--font-size-xl); }
-.content h4 { font-size: var(--font-size-lg); }
-
-.content p {
-    margin-bottom: var(--spacing-lg);
-    color: var(--text-secondary);
-}
-
-.content ul,
-.content ol {
-    margin-bottom: var(--spacing-lg);
-    padding-left: var(--spacing-xl);
-}
-
-.content li {
-    margin-bottom: var(--spacing-sm);
-    color: var(--text-secondary);
-}
-
-.content blockquote {
-    background: var(--bg-secondary);
-    border-left: 4px solid var(--primary-color);
-    padding: var(--spacing-lg);
-    margin: var(--spacing-xl) 0;
-    border-radius: var(--border-radius);
-}
-
-.content blockquote p {
-    margin-bottom: 0;
-    font-style: italic;
-}
-
-.content pre {
-    background: #1a1a1a;
-    color: #f8f8f2;
-    padding: var(--spacing-lg);
-    border-radius: var(--border-radius);
-    overflow-x: auto;
-    margin: var(--spacing-xl) 0;
-    font-family: var(--font-family-mono);
-    font-size: var(--font-size-sm);
-    line-height: 1.5;
-}
-
-.content code {
-    background: var(--bg-tertiary);
-    color: var(--primary-color);
-    padding: var(--spacing-xs) var(--spacing-sm);
-    border-radius: var(--border-radius-sm);
-    font-family: var(--font-family-mono);
-    font-size: 0.9em;
-}
-
-.content pre code {
-    background: transparent;
-    color: inherit;
-    padding: 0;
-}
-
-.content img {
-    max-width: 100%;
-    height: auto;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-md);
-    margin: var(--spacing-xl) 0;
-}
-
-.content table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: var(--spacing-xl) 0;
-    background: var(--bg-card);
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    box-shadow: var(--shadow-sm);
-}
-
-.content th,
-.content td {
-    padding: var(--spacing-md);
-    text-align: left;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.content th {
-    background: var(--bg-secondary);
-    font-weight: 600;
-    color: var(--text-primary);
-}
-
-.content td {
-    color: var(--text-secondary);
-}
-
-.content a {
-    color: var(--primary-color);
-    text-decoration: none;
-    border-bottom: 1px solid transparent;
-    transition: var(--transition-fast);
-}
-
-.content a:hover {
-    border-bottom-color: var(--primary-color);
-}
-
-/* Table of Contents Styling */
-.content .toc ul {
-    list-style: none;
-    padding-left: var(--spacing-lg);
-}
-
-.content .toc > ul {
-    padding-left: 0;
-}
-
-.content .toc a {
-    color: var(--text-secondary);
-    text-decoration: none;
-    display: block;
-    padding: var(--spacing-xs) 0;
-    transition: var(--transition-fast);
-}
-
-.content .toc a:hover {
-    color: var(--primary-color);
-    border-bottom: none;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .content h1 { font-size: var(--font-size-2xl); }
-    .content h2 { font-size: var(--font-size-xl); }
-    .content h3 { font-size: var(--font-size-lg); }
-    
-    .content pre {
-        padding: var(--spacing-md);
-        font-size: var(--font-size-xs);
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Créer les particules de fond
+    function createBackgroundParticles() {
+        const particlesContainer = document.getElementById('bg-particles');
+        const particleCount = 30;
+        
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'bg-particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 8 + 's';
+            particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+            particlesContainer.appendChild(particle);
+        }
     }
-    
-    .content table {
-        font-size: var(--font-size-sm);
+
+    // Smooth scrolling pour les liens TOC
+    function initSmoothScrolling() {
+        const tocLinks = document.querySelectorAll('.toc-content a');
+        
+        tocLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
     }
-}
-</style>
+
+    // Parallax sur les images
+    function initImageParallax() {
+        const images = document.querySelectorAll('.content img');
+        
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            
+            images.forEach(img => {
+                const rect = img.getBoundingClientRect();
+                const speed = 0.1;
+                
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    const yPos = -(scrolled * speed);
+                    img.style.transform = `translateY(${yPos}px)`;
+                }
+            });
+        });
+    }
+
+    // Highlight du code avec animation
+    function initCodeHighlight() {
+        const codeBlocks = document.querySelectorAll('pre');
+        
+        codeBlocks.forEach(block => {
+            block.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.02)';
+                this.style.boxShadow = '0 20px 40px rgba(0,0,0,0.3)';
+            });
+            
+            block.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+                this.style.boxShadow = '0 10px 30px rgba(0,0,0,0.2)';
+            });
+        });
+    }
+
+    // Initialisation
+    createBackgroundParticles();
+    initSmoothScrolling();
+    initImageParallax();
+    initCodeHighlight();
+});
+</script>
 
 {{ end }} 
