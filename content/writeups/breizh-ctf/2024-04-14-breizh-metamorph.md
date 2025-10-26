@@ -1,7 +1,7 @@
 ---
 title: "Breizh CTF 2025 - Metamorph"
 date: 2025-04-14
-tags: ["shellcode", "exploitation"]
+tags: ["pwn", "shellcode", "exploitation"]
 categories: ["pwn"]
 ctfs: ["breizh-ctf"]
 ---

@@ -1,675 +1,113 @@
 {{ define "main" }}
+<h1>{{ .Title }}</h1>
+{{ if .Content }}
+<div class="intro-text">
+    {{ .Content }}
+</div>
+{{ end }}
 
-<style>
-    .list-container {
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 2rem;
-    }
-    
-    .hero-section {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-radius: 20px;
-        color: white;
-        padding: 4rem 2rem;
-        margin-bottom: 3rem;
-        position: relative;
-        overflow: hidden;
-    }
-    
-    {{ if eq .Section "veille" }}
-    .hero-section {
-        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    }
-    {{ else if eq .Section "outils" }}
-    .hero-section {
-        background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
-    }
-    {{ end }}
-    
-    .hero-section::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
-        opacity: 0.3;
-    }
-    
-    .hero-content {
-        position: relative;
-        z-index: 1;
-        text-align: center;
-    }
-    
-    .hero-title {
-        font-size: 3.5rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        background: linear-gradient(45deg, #fff, #e0e7ff);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-    
-    .hero-subtitle {
-        font-size: 1.2rem;
-        opacity: 0.9;
-        margin-bottom: 2rem;
-    }
-    
-    .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 2rem;
-        margin-top: 2rem;
-    }
-    
-    .stat-card {
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 15px;
-        padding: 1.5rem;
-        text-align: center;
-        backdrop-filter: blur(10px);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    
-    .stat-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-    }
-    
-    .stat-number {
-        font-size: 2.5rem;
-        font-weight: 700;
-        display: block;
-        margin-bottom: 0.5rem;
-    }
-    
-    .stat-label {
-        font-size: 0.9rem;
-        opacity: 0.8;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-    
-    .controls-section {
-        display: flex;
-        flex-direction: column;
-        gap: 2rem;
-        margin-bottom: 3rem;
-    }
-    
-    .search-box {
-        position: relative;
-        max-width: 600px;
-        margin: 0 auto;
-        width: 100%;
-    }
-    
-    .search-input {
-        width: 100%;
-        padding: 1rem 1.5rem 1rem 3rem;
-        border: 2px solid #e5e7eb;
-        border-radius: 50px;
-        font-size: 1.1rem;
-        transition: all 0.3s ease;
-        background: #fff;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    }
-    
-    .search-input:focus {
-        outline: none;
-        border-color: #667eea;
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        transform: translateY(-2px);
-    }
-    
-    .search-icon {
-        position: absolute;
-        left: 1rem;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #9ca3af;
-        font-size: 1.2rem;
-    }
-    
-    .filter-tabs {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        margin-bottom: 1rem;
-    }
-    
-    .filter-tab {
-        padding: 0.75rem 1.5rem;
-        border: none;
-        border-radius: 25px;
-        background: #f3f4f6;
-        color: #6b7280;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .filter-tab::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-        transition: left 0.5s ease;
-    }
-    
-    .filter-tab:hover::before {
-        left: 100%;
-    }
-    
-    .filter-tab.active {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: white;
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-    }
-    
-    .sort-dropdown {
-        text-align: center;
-    }
-    
-    .sort-select {
-        padding: 0.75rem 1.5rem;
-        border: 2px solid #e5e7eb;
-        border-radius: 15px;
-        background: #fff;
-        font-size: 1rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    
-    .sort-select:focus {
-        outline: none;
-        border-color: #667eea;
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-    }
-    
-    .articles-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-        gap: 2rem;
-        margin-bottom: 3rem;
-    }
-    
-    .article-card {
-        background: #fff;
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-        position: relative;
-        border: 1px solid #f3f4f6;
-    }
-    
-    .article-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    }
-    
-    .article-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 4px;
-        background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #667eea);
-        background-size: 200% 100%;
-        animation: gradientShift 3s ease infinite;
-    }
-    
-    @keyframes gradientShift {
-        0%, 100% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-    }
-    
-    .article-header {
-        padding: 1.5rem;
-        border-bottom: 1px solid #f3f4f6;
-    }
-    
-    .article-meta {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        margin-bottom: 1rem;
-        font-size: 0.9rem;
-        color: #6b7280;
-    }
-    
-    .article-meta span {
-        display: flex;
-        align-items: center;
-        gap: 0.3rem;
-    }
-    
-    .article-title {
-        font-size: 1.3rem;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-        color: #1f2937;
-    }
-    
-    .article-title a {
-        text-decoration: none;
-        color: inherit;
-        transition: color 0.3s ease;
-    }
-    
-    .article-title a:hover {
-        color: #667eea;
-    }
-    
-    .article-summary {
-        color: #6b7280;
-        line-height: 1.6;
-        margin-bottom: 1rem;
-    }
-    
-    .article-body {
-        padding: 0 1.5rem 1.5rem;
-    }
-    
-    .tags-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        margin-bottom: 1rem;
-    }
-    
-    .tag {
-        padding: 0.25rem 0.75rem;
-        border-radius: 20px;
-        font-size: 0.8rem;
-        font-weight: 500;
-        background: #f3f4f6;
-        color: #6b7280;
-        transition: all 0.3s ease;
-    }
-    
-    .tag:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-    
-    .tag.tag-pwn { background: linear-gradient(135deg, #ef4444, #dc2626); color: white; }
-    .tag.tag-web { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; }
-    .tag.tag-reverse { background: linear-gradient(135deg, #10b981, #059669); color: white; }
-    .tag.tag-network { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; }
-    .tag.tag-crypto { background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: white; }
-    .tag.tag-forensics { background: linear-gradient(135deg, #06b6d4, #0891b2); color: white; }
-    .tag.tag-misc { background: linear-gradient(135deg, #6b7280, #4b5563); color: white; }
-    
-    .categories-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        margin-bottom: 1rem;
-    }
-    
-    .category {
-        padding: 0.4rem 1rem;
-        border-radius: 15px;
-        font-size: 0.75rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: white;
-        transition: all 0.3s ease;
-    }
-    
-    .category:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-    }
-    
-    .article-footer {
-        padding: 1.5rem;
-        background: #f9fafb;
-        border-top: 1px solid #f3f4f6;
-    }
-    
-    .read-more-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.75rem 1.5rem;
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: white;
-        text-decoration: none;
-        border-radius: 25px;
-        font-weight: 500;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-    }
-    
-    .read-more-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-        color: white;
-    }
-    
-    .no-results {
-        text-align: center;
-        padding: 4rem 2rem;
-        color: #6b7280;
-    }
-    
-    .no-results-icon {
-        font-size: 4rem;
-        margin-bottom: 1rem;
-        opacity: 0.5;
-    }
-    
-    .no-results-title {
-        font-size: 1.5rem;
-        font-weight: 600;
-        margin-bottom: 1rem;
-    }
-    
-    .animate-fade-in {
-        animation: fadeIn 0.5s ease forwards;
-    }
-    
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    
-    @media (max-width: 768px) {
-        .list-container {
-            padding: 1rem;
-        }
-        
-        .hero-title {
-            font-size: 2.5rem;
-        }
-        
-        .articles-grid {
-            grid-template-columns: 1fr;
-        }
-        
-        .filter-tabs {
-            justify-content: stretch;
-        }
-        
-        .filter-tab {
-            flex: 1;
-            text-align: center;
-        }
-        
-        .stats-grid {
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 1rem;
-        }
-    }
-</style>
-
-<div class="list-container">
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="hero-content">
-            <h1 class="hero-title">
-                {{ if eq .Section "writeups" }}
-                    <i class="fas fa-file-code"></i>
-                {{ else if eq .Section "veille" }}
-                    <i class="fas fa-newspaper"></i>
-                {{ else if eq .Section "outils" }}
-                    <i class="fas fa-tools"></i>
-                {{ else }}
-                    <i class="fas fa-folder"></i>
-                {{ end }}
-                {{ .Title }}
-            </h1>
-            {{ if .Description }}
-            <p class="hero-subtitle">{{ .Description }}</p>
-            {{ else if eq .Section "writeups" }}
-            <p class="hero-subtitle">Découvrez mes analyses détaillées de challenges CTF et vulnérabilités</p>
-            {{ else if eq .Section "veille" }}
-            <p class="hero-subtitle">Actualités et analyses des dernières menaces en cybersécurité</p>
-            {{ else if eq .Section "outils" }}
-            <p class="hero-subtitle">Scripts et outils personnalisés pour la cybersécurité</p>
-            {{ end }}
-            
-            <div class="stats-grid">
-                <div class="stat-card">
-                    {{ if eq .Section "writeups" }}
-                    <span class="stat-number">{{ len (where .Site.RegularPages "Section" "writeups") }}</span>
-                    {{ else }}
-                    <span class="stat-number">{{ len .Pages }}</span>
-                    {{ end }}
-                    <span class="stat-label">{{ if eq .Section "writeups" }}WriteUps{{ else if eq .Section "veille" }}Articles{{ else if eq .Section "outils" }}Outils{{ else }}Articles{{ end }}</span>
-                </div>
-                {{ if .Site.Taxonomies.categories }}
-                <div class="stat-card">
-                    <span class="stat-number">{{ len .Site.Taxonomies.categories }}</span>
-                    <span class="stat-label">Catégories</span>
-                </div>
-                {{ end }}
-                {{ if and (eq .Section "writeups") .Site.Taxonomies.ctfs }}
-                <div class="stat-card">
-                    <span class="stat-number">{{ len .Site.Taxonomies.ctfs }}</span>
-                    <span class="stat-label">CTFs</span>
-                </div>
-                {{ end }}
-            </div>
-        </div>
-    </section>
-
-    <!-- Controls Section -->
-    <section class="controls-section">
-        <div class="search-box">
-            <input type="text" id="search-input" class="search-input" placeholder="Rechercher dans {{ .Title | lower }}...">
-            <i class="fas fa-search search-icon"></i>
-        </div>
-
-        <div class="filter-tabs">
-            <button class="filter-tab active" data-filter="all">Tous</button>
-            {{ if eq .Section "writeups" }}
-                <button class="filter-tab" data-filter="pwn">Pwn</button>
-                <button class="filter-tab" data-filter="web">Web</button>
-                <button class="filter-tab" data-filter="reverse">Reverse</button>
-                <button class="filter-tab" data-filter="network">Network</button>
-                <button class="filter-tab" data-filter="crypto">Crypto</button>
-            {{ else }}
-                {{ range $name, $taxonomy := .Site.Taxonomies.categories }}
-                <button class="filter-tab" data-filter="{{ $name }}">{{ $name | title }}</button>
-                {{ end }}
-            {{ end }}
-        </div>
-
-        <div class="sort-dropdown">
-            <select id="sort-select" class="sort-select">
-                <option value="date-desc">Plus récent en premier</option>
-                <option value="date-asc">Plus ancien en premier</option>
-                <option value="title-asc">Titre A-Z</option>
-                <option value="title-desc">Titre Z-A</option>
-            </select>
-        </div>
-    </section>
-
-    <!-- Articles Grid -->
-    <section class="articles-grid" id="articles-grid">
-        {{ range .Pages }}
-        <article class="article-card" data-title="{{ .Title | lower }}" data-date="{{ .Date.Format "2006-01-02" }}" data-tags="{{ if .Params.tags }}{{ delimit .Params.tags "," | lower }}{{ end }}" data-categories="{{ if .Params.categories }}{{ delimit .Params.categories "," | lower }}{{ end }}">
-            <div class="article-header">
-                <div class="article-meta">
-                    <span><i class="fas fa-calendar"></i> {{ .Date.Format "2 Jan 2006" }}</span>
-                    <span><i class="fas fa-clock"></i> {{ .ReadingTime }} min</span>
-                    {{ if .Params.ctfs }}
-                    <span><i class="fas fa-trophy"></i> {{ index .Params.ctfs 0 | title }}</span>
-                    {{ end }}
-                </div>
-
-                <h3 class="article-title">
-                    <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-                </h3>
-
-                <p class="article-summary">{{ .Summary | truncate 150 }}</p>
-            </div>
-
-            <div class="article-body">
-                {{ if .Params.tags }}
-                <div class="tags-container">
-                    {{ range first 4 .Params.tags }}
-                    <span class="tag tag-{{ . | lower }}">
-                        <i class="fas fa-hashtag"></i>
-                        {{ . }}
-                    </span>
-                    {{ end }}
-                    {{ if gt (len .Params.tags) 4 }}
-                    <span class="tag">+{{ sub (len .Params.tags) 4 }}</span>
-                    {{ end }}
-                </div>
-                {{ end }}
-
-                {{ if .Params.categories }}
-                <div class="categories-container">
-                    {{ range .Params.categories }}
-                    <span class="category">
-                        <i class="fas fa-folder"></i>
-                        {{ . | title }}
-                    </span>
-                    {{ end }}
-                </div>
-                {{ end }}
-            </div>
-
-            <div class="article-footer">
-                <a href="{{ .RelPermalink }}" class="read-more-btn">
-                    {{ if eq .Section "writeups" }}Lire le WriteUp{{ else if eq .Section "outils" }}Voir l'Outil{{ else }}Lire l'Article{{ end }}
-                    <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-        </article>
+<!-- Tag Filter -->
+{{ if gt (len .Pages) 0 }}
+<div class="tag-filters">
+    <button class="filter-tag active" data-tag="all">All</button>
+    {{ $ctfCategories := slice "pwn" "web" "reverse" "crypto" "forensics" "misc" "network" "steganography" "osint" }}
+    {{ $tags := slice }}
+    {{ range .Pages }}
+        {{ with .Params.tags }}
+            {{ $tags = $tags | append . }}
         {{ end }}
-    </section>
+    {{ end }}
+    {{ range ($tags | uniq) }}
+        {{ $lowerTag := lower . }}
+        {{ if in $ctfCategories $lowerTag }}
+    <button class="filter-tag" data-tag="{{ . }}">{{ . }}</button>
+        {{ end }}
+    {{ end }}
+</div>
+{{ end }}
 
-    <!-- No Results -->
-    <div id="no-results" class="no-results" style="display: none;">
-        <div class="no-results-icon">
-            <i class="fas fa-search"></i>
+<div class="writeups-list">
+    {{ range .Pages }}
+    <div class="writeup-card" data-tags="{{ if .Params.tags }}{{ delimit .Params.tags "," }}{{ end }}">
+        <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+        <div class="writeup-meta">
+            <span>{{ .Date.Format "Jan 2, 2006" }}</span>
+            {{ if .Params.tags }}
+            <span>•</span>
+            <div class="tags">
+                {{ range .Params.tags }}
+                <span class="tag" data-tag="{{ . }}">{{ . }}</span>
+                {{ end }}
+            </div>
+            {{ end }}
         </div>
-        <h3 class="no-results-title">Aucun résultat trouvé</h3>
-        <p>Essayez de modifier vos critères de recherche ou filtres.</p>
     </div>
+    {{ end }}
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('search-input');
-    const filterBtns = document.querySelectorAll('.filter-tab');
-    const sortSelect = document.getElementById('sort-select');
-    const articlesGrid = document.getElementById('articles-grid');
-    const noResults = document.getElementById('no-results');
-    let articles = Array.from(document.querySelectorAll('.article-card[data-title]'));
+// Tag filtering
+const filterTags = document.querySelectorAll('.filter-tag');
+const writeupCards = document.querySelectorAll('.writeup-card');
+const cardTags = document.querySelectorAll('.tag');
 
-    let currentFilter = 'all';
-    let currentSort = 'date-desc';
-    let currentSearch = '';
+function filterWriteups(selectedTag) {
+    writeupCards.forEach(card => {
+        const cardTagsAttr = card.getAttribute('data-tags');
+        const tags = cardTagsAttr ? cardTagsAttr.split(',') : [];
 
-    function filterAndSort() {
-        let filteredArticles = articles.filter(article => {
-            const title = article.getAttribute('data-title') || '';
-            const tags = article.getAttribute('data-tags') || '';
-            const categories = article.getAttribute('data-categories') || '';
-            
-            const searchMatch = currentSearch === '' || 
-                                title.includes(currentSearch) || 
-                                tags.includes(currentSearch) ||
-                                categories.includes(currentSearch);
-
-            let categoryMatch = false;
-            if (currentFilter === 'all') {
-                categoryMatch = true;
-            } else {
-                const tagsList = tags ? tags.split(',').map(t => t.trim().toLowerCase()) : [];
-                const categoriesList = categories ? categories.split(',').map(c => c.trim().toLowerCase()) : [];
-                
-                categoryMatch = categoriesList.includes(currentFilter.toLowerCase()) ||
-                               tagsList.includes(currentFilter.toLowerCase()) ||
-                               tagsList.some(tag => 
-                                   tag.includes(currentFilter.toLowerCase()) || 
-                                   currentFilter.toLowerCase().includes(tag)
-                               );
-            }
-
-            return searchMatch && categoryMatch;
-        });
-
-        filteredArticles.sort((a, b) => {
-            const aTitle = a.getAttribute('data-title');
-            const bTitle = b.getAttribute('data-title');
-            const aDate = a.getAttribute('data-date');
-            const bDate = b.getAttribute('data-date');
-
-            switch(currentSort) {
-                case 'date-asc': return aDate.localeCompare(bDate);
-                case 'date-desc': return bDate.localeCompare(aDate);
-                case 'title-asc': return aTitle.localeCompare(bTitle);
-                case 'title-desc': return bTitle.localeCompare(aTitle);
-                default: return bDate.localeCompare(aDate);
-            }
-        });
-
-        articles.forEach(article => {
-            article.style.display = 'none';
-            article.classList.remove('animate-fade-in');
-        });
-
-        filteredArticles.forEach((article, index) => {
+        if (selectedTag === 'all' || tags.includes(selectedTag)) {
+            card.style.display = 'flex';
             setTimeout(() => {
-                article.style.display = 'block';
-                article.classList.add('animate-fade-in');
-            }, index * 50);
-        });
-
-        noResults.style.display = filteredArticles.length === 0 ? 'block' : 'none';
-    }
-
-    if (searchInput) {
-        searchInput.addEventListener('input', function(e) {
-            currentSearch = e.target.value.toLowerCase();
-            filterAndSort();
-        });
-    }
-
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            filterBtns.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            currentFilter = this.getAttribute('data-filter');
-            filterAndSort();
-        });
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 10);
+        } else {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(10px)';
+            setTimeout(() => {
+                card.style.display = 'none';
+            }, 200);
+        }
     });
+}
 
-    if (sortSelect) {
-        sortSelect.addEventListener('change', function() {
-            currentSort = this.value;
-            filterAndSort();
+// Filter buttons
+filterTags.forEach(button => {
+    button.addEventListener('click', () => {
+        const tag = button.getAttribute('data-tag');
+
+        // Update active state
+        filterTags.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        // Filter cards
+        filterWriteups(tag);
+    });
+});
+
+// Clickable tags in cards
+cardTags.forEach(tag => {
+    tag.style.cursor = 'pointer';
+    tag.addEventListener('click', (e) => {
+        e.preventDefault();
+        const tagName = tag.getAttribute('data-tag');
+
+        // Update filter buttons
+        filterTags.forEach(btn => {
+            if (btn.getAttribute('data-tag') === tagName) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
         });
-    }
 
-    filterAndSort();
+        // Filter cards
+        filterWriteups(tagName);
+
+        // Scroll to top of list
+        document.querySelector('.tag-filters').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
 });
 </script>
-
-{{ end }} 
+{{ end }}

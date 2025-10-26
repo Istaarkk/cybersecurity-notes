@@ -1,7 +1,7 @@
 ---
 title: "PwnMe Junior 2025 - Overflowme"
 date: 2024-04-14
-tags: ["buffer-overflow", "exploitation"]
+tags: ["pwn", "buffer-overflow", "exploitation"]
 categories: ["pwn"]
 ctfs: ["pwnme-junior"]
 ---

@@ -1,7 +1,7 @@
 ---
 title: "FCSC 2024 - Challenge de Reverse Engineering"
 date: 2024-04-27
-tags: ["reverse-engineering", "assembly", "cryptography"]
+tags: ["reverse", "reverse-engineering", "assembly", "cryptography"]
 categories: ["reverse"]
 ctfs: ["fcsc"]
 ---

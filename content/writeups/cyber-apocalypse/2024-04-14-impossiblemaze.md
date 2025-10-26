@@ -1,7 +1,7 @@
 ---
 title: "Cyber Apocalypse 2024 - ImpossibleMaze"
 date: 2024-04-14
-tags: ["binary-patching", "terminal-size"]
+tags: ["reverse", "binary-patching", "terminal-size"]
 categories: ["reverse"]
 ctfs: ["cyber-apocalypse"]
 ---

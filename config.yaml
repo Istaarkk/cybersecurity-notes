@@ -1,113 +1,26 @@
-baseURL: "https://Istaarkk.github.io/cybersecurity-notes/"
-languageCode: "fr-fr"
-title: "WriteUps & Recherches Cybersécurité"
+baseURL: "/"
+languageCode: "en-us"
+title: "Cybersecurity Notes"
 
-# Configuration des URLs
-relativeURLs: true
-canonifyURLs: true
+params:
+  description: "Security research and CTF writeups"
+  author: "istark"
 
-# Paramètres Hugo
-paginate: 10
-summaryLength: 150
-enableRobotsTXT: true
-enableGitInfo: true
-
-# Markdown configuration
 markup:
   goldmark:
     renderer:
       unsafe: true
   highlight:
-    style: github-dark
-    lineNos: true
-    codeFences: true
-    guessSyntax: true
-  tableOfContents:
-    endLevel: 4
-    ordered: false
-    startLevel: 2
+    style: monokai
 
-# Configuration des taxonomies
-taxonomies:
-  tag: "tags"
-  category: "categories"
-  ctf: "ctfs"
-
-# Paramètres du site
-params:
-  # Description du site
-  description: "Blog de cybersécurité avec writeups CTF, analyses de vulnérabilités et outils de sécurité"
-  author: "Istaarkk"
-  
-  # Configuration sociale
-  social:
-    github: "Istaarkk"
-
-# Menu de navigation
 menu:
   main:
-    - identifier: accueil
-      name: Accueil
+    - name: Home
       url: /
-      weight: 5
-      pre: <i class="fas fa-home"></i>
-    - identifier: blog
-      name: Blog
-      url: /blog/
-      weight: 8
-      pre: <i class="fas fa-blog"></i>
-    - identifier: writeups
-      name: WriteUps
+      weight: 1
+    - name: Writeups
       url: /writeups/
-      weight: 10
-      pre: <i class="fas fa-file-code"></i>
-    - identifier: veille
-      name: Veille
-      url: /veille/
-      weight: 20
-      pre: <i class="fas fa-newspaper"></i>
-    - identifier: outils
-      name: Outils
-      url: /outils/
-      weight: 30
-      pre: <i class="fas fa-tools"></i>
-    - identifier: about
-      name: À propos
+      weight: 2
+    - name: About
       url: /about/
-      weight: 40
-      pre: <i class="fas fa-user"></i>
-
-# Configuration des formats de sortie
-outputs:
-  home: ["HTML", "RSS", "JSON"]
-  page: ["HTML"]
-  section: ["HTML", "RSS"]
-
-# Configuration RSS
-rss:
-  limit: 20
-
-# Configuration des permaliens
-permalinks:
-  blog: "/blog/:year/:month/:slug/"
-  writeups: "/writeups/:year/:month/:slug/"
-  veille: "/veille/:year/:month/:slug/"
-  outils: "/outils/:slug/"
-  
-# Configuration de la sécurité
-security:
-  enableInlineShortcodes: false
-  funcs:
-    getenv:
-      - "^HUGO_"
-      - "^WC_"
-    
-# Configuration de la minification
-minify:
-  disableCSS: false
-  disableHTML: false
-  disableJS: false
-  disableJSON: false
-  disableSVG: false
-  disableXML: false
-  minifyOutput: true
+      weight: 3

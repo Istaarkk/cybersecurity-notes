@@ -1,7 +1,7 @@
 ---
 title: "PwnMe Junior 2025 - Evil Hackers"
 date: 2024-04-14
-tags: ["use-after-free", "exploitation"]
+tags: ["pwn", "use-after-free", "exploitation"]
 categories: ["pwn"]
 ctfs: ["pwnme-junior"]
 ---

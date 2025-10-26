@@ -1,7 +1,7 @@
 ---
 title: "Cyber Apocalypse 2024 - EndlessCycle"
 date: 2024-04-14
-tags: ["binary-analysis", "xor-decryption"]
+tags: ["reverse", "binary-analysis", "xor-decryption"]
 categories: ["reverse"]
 ctfs: ["cyber-apocalypse"]
 ---
