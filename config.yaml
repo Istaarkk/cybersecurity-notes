@@ -51,6 +51,11 @@ menu:
       url: /
       weight: 5
       pre: <i class="fas fa-home"></i>
+    - identifier: blog
+      name: Blog
+      url: /blog/
+      weight: 8
+      pre: <i class="fas fa-blog"></i>
     - identifier: writeups
       name: WriteUps
       url: /writeups/
@@ -84,6 +89,7 @@ rss:
 
 # Configuration des permaliens
 permalinks:
+  blog: "/blog/:year/:month/:slug/"
   writeups: "/writeups/:year/:month/:slug/"
   veille: "/veille/:year/:month/:slug/"
   outils: "/outils/:slug/"

@@ -814,6 +814,83 @@
             </div>
         </div>
     </section>
+
+    <!-- Recent Blog Posts Section -->
+    {{ $blogPosts := where .Site.RegularPages "Section" "blog" | first 3 }}
+    {{ if $blogPosts }}
+    <section class="categories-section" style="padding-top: 2rem;">
+        <div class="section-header">
+            <h2 class="section-title">
+                <i class="fas fa-blog"></i>
+                Derniers Articles de Blog
+            </h2>
+            <p class="section-subtitle">Découvrez mes dernières réflexions et analyses sur la cybersécurité</p>
+        </div>
+
+        <div class="categories-grid">
+            {{ range $blogPosts }}
+            <div class="category-card">
+                <div class="category-header" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.08), rgba(118, 75, 162, 0.05));">
+                    <div class="category-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                        <i class="fas fa-newspaper"></i>
+                    </div>
+                    <div>
+                        <h3 class="category-title" style="background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                            {{ .Title | truncate 50 }}
+                        </h3>
+                        <div style="font-size: 0.85rem; color: #6b7280; margin-top: 0.3rem;">
+                            <i class="fas fa-calendar-alt"></i>
+                            {{ .Date.Format "2 January 2006" }}
+                        </div>
+                    </div>
+                </div>
+                <div class="category-body">
+                    <p class="category-description">
+                        {{ if .Description }}
+                            {{ .Description | truncate 120 }}
+                        {{ else }}
+                            {{ .Summary | truncate 120 }}
+                        {{ end }}
+                    </p>
+                    {{ if .Params.tags }}
+                    <div class="category-tags">
+                        {{ range first 3 .Params.tags }}
+                        <span class="category-tag tag-web">
+                            <i class="fas fa-tag"></i>
+                            {{ . }}
+                        </span>
+                        {{ end }}
+                    </div>
+                    {{ end }}
+                    <div class="category-stats">
+                        <i class="fas fa-clock"></i>
+                        {{ .ReadingTime }} min de lecture
+                        {{ if .Params.author }}
+                        <span style="margin-left: 1rem;">
+                            <i class="fas fa-user"></i>
+                            {{ .Params.author }}
+                        </span>
+                        {{ end }}
+                    </div>
+                </div>
+                <div class="category-footer">
+                    <a href="{{ .RelPermalink }}" class="category-btn" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                        Lire l'Article <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            {{ end }}
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="{{ "blog" | relURL }}" class="category-btn" style="background: linear-gradient(135deg, #667eea, #764ba2); display: inline-flex; font-size: 1.1rem; padding: 1rem 2rem;">
+                <i class="fas fa-blog"></i>
+                Voir Tous les Articles
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </section>
+    {{ end }}
 </div>
 
 <script>
