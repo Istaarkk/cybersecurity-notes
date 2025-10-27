@@ -22,6 +22,9 @@ menu:
     - name: Writeups
       url: /writeups/
       weight: 2
+    - name: Maldev
+      url: /maldev/
+      weight: 3
     - name: About
       url: /about/
-      weight: 3
+      weight: 4
