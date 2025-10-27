@@ -271,6 +271,7 @@ pre {
   border-radius: 0.5rem;
   overflow-x: auto;
   margin-bottom: 1.5rem;
+  border: 1px solid var(--color-border);
 }
 
 pre code {
@@ -278,6 +279,118 @@ pre code {
   padding: 0;
   font-size: 0.875rem;
   line-height: 1.6;
+  color: var(--color-text);
+}
+
+/* Syntax highlighting - Light mode */
+.highlight .c,    /* Comment */
+.highlight .cm,   /* Comment.Multiline */
+.highlight .c1,   /* Comment.Single */
+.highlight .cs {  /* Comment.Special */
+  color: #6a737d;
+  font-style: italic;
+}
+
+.highlight .k,    /* Keyword */
+.highlight .kd,   /* Keyword.Declaration */
+.highlight .kn,   /* Keyword.Namespace */
+.highlight .kp,   /* Keyword.Pseudo */
+.highlight .kr,   /* Keyword.Reserved */
+.highlight .kt {  /* Keyword.Type */
+  color: #d73a49;
+}
+
+.highlight .s,    /* String */
+.highlight .s1,   /* String.Single */
+.highlight .s2,   /* String.Double */
+.highlight .sb,   /* String.Backtick */
+.highlight .sc,   /* String.Char */
+.highlight .sd,   /* String.Doc */
+.highlight .se,   /* String.Escape */
+.highlight .sh {  /* String.Heredoc */
+  color: #22863a;
+}
+
+.highlight .n,    /* Name */
+.highlight .na,   /* Name.Attribute */
+.highlight .nb,   /* Name.Builtin */
+.highlight .nc,   /* Name.Class */
+.highlight .nf,   /* Name.Function */
+.highlight .nn {  /* Name.Namespace */
+  color: #6f42c1;
+}
+
+.highlight .m,    /* Number */
+.highlight .mf,   /* Number.Float */
+.highlight .mh,   /* Number.Hex */
+.highlight .mi,   /* Number.Integer */
+.highlight .mo {  /* Number.Oct */
+  color: #005cc5;
+}
+
+.highlight .o,    /* Operator */
+.highlight .ow {  /* Operator.Word */
+  color: #d73a49;
+}
+
+.highlight .p {   /* Punctuation */
+  color: #24292e;
+}
+
+/* Syntax highlighting - Dark mode */
+@media (prefers-color-scheme: dark) {
+  .highlight .c,
+  .highlight .cm,
+  .highlight .c1,
+  .highlight .cs {
+    color: #8b949e;
+  }
+
+  .highlight .k,
+  .highlight .kd,
+  .highlight .kn,
+  .highlight .kp,
+  .highlight .kr,
+  .highlight .kt {
+    color: #ff7b72;
+  }
+
+  .highlight .s,
+  .highlight .s1,
+  .highlight .s2,
+  .highlight .sb,
+  .highlight .sc,
+  .highlight .sd,
+  .highlight .se,
+  .highlight .sh {
+    color: #a5d6ff;
+  }
+
+  .highlight .n,
+  .highlight .na,
+  .highlight .nb,
+  .highlight .nc,
+  .highlight .nf,
+  .highlight .nn {
+    color: #d2a8ff;
+  }
+
+  .highlight .m,
+  .highlight .mf,
+  .highlight .mh,
+  .highlight .mi,
+  .highlight .mo {
+    color: #79c0ff;
+  }
+
+  .highlight .o,
+  .highlight .ow {
+    color: #ff7b72;
+  }
+
+  .highlight .p {
+    color: #c9d1d9;
+  }
 }
 
 /* Writeups list */

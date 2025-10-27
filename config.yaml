@@ -11,7 +11,8 @@ markup:
     renderer:
       unsafe: true
   highlight:
-    style: monokai
+    noClasses: false
+    lineNos: false
 
 menu:
   main:
