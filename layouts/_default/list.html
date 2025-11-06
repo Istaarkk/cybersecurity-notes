@@ -28,8 +28,8 @@
 
 <div class="writeups-list">
     {{ range .Pages }}
-    <div class="writeup-card" data-tags="{{ if .Params.tags }}{{ delimit .Params.tags "," }}{{ end }}">
-        <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+    <a class="writeup-card" href="{{ .RelPermalink }}" data-tags="{{ if .Params.tags }}{{ delimit .Params.tags "," }}{{ end }}">
+        <h3><{{ .Title }}</h3>
         <div class="writeup-meta">
             <span>{{ .Date.Format "Jan 2, 2006" }}</span>
             {{ if .Params.tags }}
@@ -41,7 +41,7 @@
             </div>
             {{ end }}
         </div>
-    </div>
+    </a>
     {{ end }}
 </div>
 
