@@ -411,6 +411,7 @@ pre code {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  text-decoration: none;
   height: 100%;
   opacity: 1;
   transform: translateY(0);
@@ -451,13 +452,8 @@ pre code {
   font-weight: 600;
   letter-spacing: -0.015em;
   line-height: 1.4;
-}
-
-.writeup-card h3 a {
   color: var(--color-text);
-  text-decoration: none;
   transition: color 0.2s;
-  display: block;
 }
 
 .writeup-card h3 a:hover {
