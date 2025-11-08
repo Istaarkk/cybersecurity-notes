@@ -456,7 +456,7 @@ pre code {
   transition: color 0.2s;
 }
 
-.writeup-card h3 a:hover {
+.writeup-card:hover h3 {
   color: var(--color-accent);
 }
 
