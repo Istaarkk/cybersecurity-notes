@@ -453,10 +453,7 @@ pre code {
   letter-spacing: -0.015em;
   line-height: 1.4;
   color: var(--color-text);
-<<<<<<< HEAD
-=======
   text-decoration: none !important;
->>>>>>> b38ef49 (Layout fixed)
   transition: color 0.2s;
 }
 
