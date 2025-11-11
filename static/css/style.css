@@ -14,7 +14,7 @@
   --color-accent-hover: #1d4ed8;
   --color-border: #e5e5e5;
   --color-code-bg: #f5f5f5;
-  --color-card-bg: #ffffff;
+  --color-card-bg: #fffffff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -453,6 +453,10 @@ pre code {
   letter-spacing: -0.015em;
   line-height: 1.4;
   color: var(--color-text);
+<<<<<<< HEAD
+=======
+  text-decoration: none !important;
+>>>>>>> b38ef49 (Layout fixed)
   transition: color 0.2s;
 }
 
