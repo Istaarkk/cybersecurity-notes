@@ -25,6 +25,9 @@ menu:
     - name: Maldev
       url: /maldev/
       weight: 3
+    - name: Research
+      url: /research/
+      weight: 4
     - name: About
       url: /about/
-      weight: 4
+      weight: 5
